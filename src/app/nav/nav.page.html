@@ -1,0 +1,34 @@
+<ion-tabs>
+
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="inicio">
+      <ion-icon name="home"></ion-icon>
+      <ion-label>Início</ion-label>
+     </ion-tab-button>
+
+    <ion-tab-button tab="noticias">
+      <ion-icon name="newspaper"></ion-icon>
+      <ion-label>Notícias</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="meus-produtos">
+      <ion-icon name="basket"></ion-icon>
+      <ion-label>Meus produtos</ion-label>
+    </ion-tab-button>
+
+  <span *ngIf="auth;else Auth">
+    <ion-tab-button tab="usuario">
+      <ion-icon name="person"></ion-icon>
+      <ion-label>Usuário</ion-label>
+    </ion-tab-button>
+  </span>
+
+  <ng-template #Auth>
+    <ion-tab-button tab="login">
+      <ion-icon name="log-in"></ion-icon>
+      <ion-label>Login</ion-label>
+    </ion-tab-button>
+  </ng-template>
+  </ion-tab-bar>
+
+</ion-tabs>

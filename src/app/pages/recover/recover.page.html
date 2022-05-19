@@ -1,0 +1,16 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+
+    <app-form
+     (formData)="onSubmit($event)"
+     [inputConfig]="config"
+     [router]="'cadastrar'"
+     [labelButton]="'Recuperar senha'"
+     [iconButton]="'arrow-up-circle'"></app-form>
+
+
+  </ion-grid>
+</ion-content>
+

@@ -1,0 +1,16 @@
+.ion-icon {
+    display: inline;
+    cursor: pointer;   
+    display: flex;
+    justify-content: flex-end; 
+    padding: 5px;
+}
+
+ion-toolbar > div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.margin-bottom {
+    margin-bottom: 6px;
+}

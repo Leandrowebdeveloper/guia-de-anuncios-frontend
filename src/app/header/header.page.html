@@ -1,0 +1,14 @@
+<ion-header class="margin-bottom" [translucent]="true">
+  <ion-toolbar>
+    <div>
+    <ion-title slot="start" [title]="title">
+      {{ title }}
+    </ion-title>
+    <span class="ion-icon" (click)="routerlink()" title="Painel de controle" data-message="Botão painel de controle">
+      <ion-icon  size="large" slot="end" name="options" color="medium"></ion-icon>
+    </span>
+  </div>
+  </ion-toolbar>
+</ion-header>
+
+<app-breadcrumps></app-breadcrumps>

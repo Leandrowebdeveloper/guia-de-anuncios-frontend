@@ -3,17 +3,49 @@
     <div *ngIf="input?.type !== 'checkbox'">
       <ion-item>
         <ion-label position="floating">{{ input?.label }}</ion-label>
-        <ion-input [type]="input?.type" [formControlName]="input?.name" [inputmode]="input?.type"></ion-input>
+        <ion-input
+          [type]="visiblePassword ? 'text' : input?.type"
+          [formControlName]="input?.name"
+          [inputmode]="input?.type"
+          [placeholder]="input?.placeholder"
+        ></ion-input>
+
+        <ion-button
+          *ngIf="
+            input?.name === 'passwordConfirmation' ||
+            (input?.name === 'password' && router === 'login')
+          "
+          slot="end"
+          fill="clear"
+          (click)="showPassword()"
+          class="ion-margin-top"
+          [title]="visiblePassword ? 'Ocultar senha' : 'Ver senha'"
+        >
+          <ion-icon
+            [name]="visiblePassword ? 'eye-off-outline' : 'eye-outline'"
+            color="medium"
+          ></ion-icon>
+        </ion-button>
       </ion-item>
 
       <ion-text color="danger" *ngIf="submitted && f[input?.name].errors">
-        <small *ngIf="f[input?.name].errors.pattern">{{ input.msg?.invalid }}</small>
-        <small *ngIf="f[input?.name].errors.required">{{ input.msg?.empty }}</small>
-        <small *ngIf="f[input?.name].errors.minlength || f[input?.name].errors.maxlength">{{ input?.msg?.min }}
-        </small>
+        <small *ngIf="f[input?.name].errors.email">{{
+          input.msg?.invalid
+        }}</small>
+        <small *ngIf="f[input?.name].errors.pattern">{{
+          input.msg?.invalid
+        }}</small>
+        <small *ngIf="f[input?.name].errors.required">{{
+          input.msg?.empty
+        }}</small>
+        <small *ngIf="f[input?.name].errors.maxlength">{{
+          input?.msg?.max
+        }}</small>
+        <small *ngIf="f[input?.name].errors.minlength">{{
+          input?.msg?.min
+        }}</small>
       </ion-text>
     </div>
-
 
     <!-- terms -->
     <div *ngIf="input?.name === 'terms'">
@@ -29,15 +61,23 @@
         </ion-text>
       </div>
 
-      <ion-text class="cursor" color="secondary" title="Ver termos de uso do jussara.app.">
+      <ion-text
+        class="cursor"
+        color="secondary"
+        title="Ver termos de uso do jussara.app."
+      >
         <small> Ver termos de uso? </small>
       </ion-text>
     </div>
-
   </div>
 
-  <ion-button *ngIf="buildInputs.length > 0" type="submit" expand="block" class="ion-margin-vertical">
-    <ion-icon class="ion-margin-end" [name]="iconButton"></ion-icon> {{ labelButton }}
+  <ion-button
+    *ngIf="buildInputs.length > 0"
+    type="submit"
+    expand="block"
+    class="ion-margin-vertical"
+  >
+    <ion-icon class="ion-margin-end" [name]="iconButton"></ion-icon>
+    {{ labelButton }}
   </ion-button>
-
 </form>

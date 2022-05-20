@@ -11,6 +11,7 @@ export interface InputName {
 export interface Attributes {
   name: string;
   label: string;
+  placeholder: string;
   type: string;
   msg: Message;
 }

@@ -35,10 +35,10 @@ export class FormServices {
       ],
     ],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(8)]],
+    password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(32)]],
     passwordConfirmation: [
       null,
-      [Validators.required, Validators.minLength(8), Validators.maxLength(12)],
+      [Validators.required, Validators.minLength(8), Validators.maxLength(32)],
     ],
     terms: ['true', [Validators.required, Validators.pattern('true')]],
     _csrf: ['', [Validators.required]],

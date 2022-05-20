@@ -21,6 +21,7 @@ export class FormComponent implements OnInit {
   public form: FormGroup; // Construtor do formulário
   public buildInputs: Attributes[]; // Construtor dos campos do formulário
   public submitted = false;
+  public visiblePassword: boolean;
 
   constructor(
     private configForm: ConfigForm,
@@ -47,7 +48,11 @@ export class FormComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    return this.formData.emit(this.form)
+    return this.formData.emit(this.form);
+  }
+
+  public showPassword() {
+    return (this.visiblePassword = !this.visiblePassword);
   }
 
   /**

@@ -8,9 +8,11 @@
           [formControlName]="input?.name"
           [inputmode]="input?.type"
           [placeholder]="input?.placeholder"
+          [attr.aria-label]="input?.ActionLabel"
         ></ion-input>
 
         <ion-button
+          aria-label="Visualizar e ocultar senha."
           *ngIf="
             input?.name === 'passwordConfirmation' ||
             (input?.name === 'password' && router === 'login')
@@ -29,44 +31,53 @@
       </ion-item>
 
       <ion-text color="danger" *ngIf="submitted && f[input?.name].errors">
-        <small *ngIf="f[input?.name].errors.email">{{
-          input.msg?.invalid
-        }}</small>
-        <small *ngIf="f[input?.name].errors.pattern">{{
-          input.msg?.invalid
-        }}</small>
-        <small *ngIf="f[input?.name].errors.required">{{
-          input.msg?.empty
-        }}</small>
-        <small *ngIf="f[input?.name].errors.maxlength">{{
-          input?.msg?.max
-        }}</small>
-        <small *ngIf="f[input?.name].errors.minlength">{{
-          input?.msg?.min
-        }}</small>
+        <small
+          *ngIf="f[input?.name].errors.email"
+          [attr.aria-label]="input.msg?.invalid"
+          >{{ input.msg?.invalid }}</small
+        >
+        <small
+          *ngIf="f[input?.name].errors.pattern"
+          [attr.aria-label]="input.msg?.invalid"
+          >{{ input.msg?.invalid }}</small
+        >
+        <small
+          *ngIf="f[input?.name].errors.required"
+          [attr.aria-label]="input.msg?.empty"
+          >{{ input.msg?.empty }}</small
+        >
+        <small
+          *ngIf="f[input?.name].errors.maxlength"
+          [attr.aria-label]="input?.msg?.max"
+          >{{ input?.msg?.max }}</small
+        >
+        <small
+          *ngIf="f[input?.name].errors.minlength"
+          [attr.aria-label]="input?.msg?.min"
+          >{{ input?.msg?.min }}</small
+        >
       </ion-text>
     </div>
 
     <!-- terms -->
     <div *ngIf="input?.name === 'terms'">
       <ion-item lines="none">
-        <ion-checkbox color="success" [formControlName]="input?.name">
+        <ion-checkbox color="success" [formControlName]="input?.name" [attr.aria-label]="input?.label">
         </ion-checkbox>
         <ion-text class="ion-margin-start">{{ input?.label }}</ion-text>
       </ion-item>
 
       <div class="ion-text-start" *ngIf="submitted && f[input?.name].errors">
         <ion-text color="danger" *ngIf="!form.controls['terms'].valid">
-          <small>{{ input?.msg?.invalid }}</small>
+          <small [attr.aria-label]="input?.msg?.invalid">{{ input?.msg?.invalid }}</small>
         </ion-text>
       </div>
 
       <ion-text
         class="cursor"
         color="secondary"
-        title="Ver termos de uso do jussara.app."
       >
-        <small> Ver termos de uso? </small>
+        <small class="cursor-pointer" title="Ver termos de uso do jussara.app." routerLink="/termos-de-uso" data-label="Ver termos de uso?"> Ver termos de uso? </small>
       </ion-text>
     </div>
   </div>

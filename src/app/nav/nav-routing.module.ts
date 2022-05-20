@@ -75,6 +75,14 @@ const routes: Routes = [
         data: { breadcrumb: 'Administração' },
       },
       {
+        path: 'termos-de-uso',
+        loadChildren: () =>
+          import('../pages/terms-of-use/terms-of-use.module').then(
+            (m) => m.TermsOfUsePageModule
+          ),
+        data: { breadcrumb: 'Termos de uso' },
+      },
+      {
         path: '',
         redirectTo: '/inicio',
         pathMatch: 'full',

@@ -10,7 +10,7 @@ const routes: Routes = [
       init: AuthGuard,
     },
     canLoad: [AuthGuard],
-  },
+  }
 ];
 @NgModule({
   imports: [

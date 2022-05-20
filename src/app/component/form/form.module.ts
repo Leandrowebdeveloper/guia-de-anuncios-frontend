@@ -5,10 +5,11 @@ import { FormComponent } from './form.component';
 import { FormServices } from './services/form.service';
 import { IonicModule } from '@ionic/angular';
 import { ConfigForm } from './config/index';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [FormComponent],
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule],
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, IonicModule],
   exports: [FormComponent],
   providers: [FormServices, ConfigForm],
 })

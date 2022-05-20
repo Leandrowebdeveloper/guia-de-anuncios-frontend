@@ -12,6 +12,7 @@ export interface Attributes {
   name: string;
   label: string;
   placeholder: string;
+  ActionLabel: string;
   type: string;
   msg: Message;
 }

@@ -1,6 +1,6 @@
 import { Input } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { SystemAccessButtons } from './interface';
+import { AttrButton } from './interface';
 
 @Component({
   selector: 'app-system-access-page-buttons',
@@ -11,7 +11,7 @@ import { SystemAccessButtons } from './interface';
  * @class SystemAccessPageButtons
  */
 export class SystemAccessPageButtons implements OnInit {
-  @Input() dataButtons: SystemAccessButtons[]; //
+  @Input() dataButtons: AttrButton[]; //
   constructor() {}
 
   ngOnInit() {
@@ -20,12 +20,16 @@ export class SystemAccessPageButtons implements OnInit {
         route: '/recuperar-senha',
         icon: 'key',
         label: 'Esqueceu a senha?',
+        aria: 'Página recuperar senha.',
+        title: 'Página recuperar senha.',
         fill: true,
       },
       {
         route: '/cadastrar',
         icon: 'create',
         label: 'criar conta',
+        aria: 'Página criar conta.',
+        title: 'Página criar conta.',
         fill: false,
       },
     ];

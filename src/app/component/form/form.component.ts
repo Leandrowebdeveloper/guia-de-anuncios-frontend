@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { FormServices } from './services/form.service';
 import { ConfigForm } from './config';
 import { Attributes } from './interface';
+import { AttrButton } from '../buttons/system-access-page-buttons/interface';
 
 @Component({
   selector: 'app-form',
@@ -15,8 +16,7 @@ import { Attributes } from './interface';
 export class FormComponent implements OnInit {
   @Input() inputConfig: object; // variavel de solicitação dos inputs
   @Input() router: string; // rota da pagina
-  @Input() labelButton: string; // rotulo do botão
-  @Input() iconButton: string; // icon do botão
+  @Input() attrButton: AttrButton; // botão submit
   @Output() formData = new EventEmitter<FormGroup>(undefined);
   public form: FormGroup; // Construtor do formulário
   public buildInputs: Attributes[]; // Construtor dos campos do formulário

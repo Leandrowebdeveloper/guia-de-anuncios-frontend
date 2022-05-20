@@ -1,6 +1,8 @@
-export interface SystemAccessButtons {
+export interface AttrButton {
   route: string;
   icon: string;
   label: string;
-  fill: boolean;
+  fill: boolean|null;
+  title: string;
+  aria: string;
 }

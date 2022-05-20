@@ -1,6 +1,11 @@
-
-
-  <ion-button *ngFor="let data of dataButtons" [routerLink]="[data.route]" expand="block" [fill]="data.fill ? 'outline': 'solid'">
-    <ion-icon slot="start" [name]="data.icon"></ion-icon>
-    {{ data.label }}
-  </ion-button>
+<ion-button
+  *ngFor="let data of dataButtons"
+  [routerLink]="[data?.route]"
+  expand="block"
+  [fill]="data?.fill ? 'outline': 'solid'"
+  [attr.aria-message]="data?.aria"
+  [title]="data?.title"
+>
+  <ion-icon slot="start" [name]="data?.icon"></ion-icon>
+  {{ data?.label }}
+</ion-button>

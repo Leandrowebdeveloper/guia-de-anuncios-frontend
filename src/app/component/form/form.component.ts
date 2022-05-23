@@ -11,17 +11,19 @@ import { AttrButton } from '../buttons/system-access-page-buttons/interface';
   styleUrls: ['./form.component.scss'],
 })
 /**
+ * @file src/app/component/form/form.component.ts
  * @class FormComponent
+ * @implements OnInit
  */
 export class FormComponent implements OnInit {
-  @Input() inputConfig: object; // variavel de solicitação dos inputs
-  @Input() router: string; // rota da pagina
-  @Input() attrButton: AttrButton; // botão submit
-  @Output() formData = new EventEmitter<FormGroup>(undefined);
+  @Input() inputConfig: object; // Os campos de inputs a ser carregado
+  @Input() attrButton: AttrButton; // Os atributos do botão submit
+  @Output() submitDataForm = new EventEmitter<FormGroup>(undefined); // Submete os dados do formulário
+  @Output() exportForm = new EventEmitter<FormGroup>(undefined); // Ao carregar a pagina adiciona o formulário
   public form: FormGroup; // Construtor do formulário
   public buildInputs: Attributes[]; // Construtor dos campos do formulário
-  public submitted = false;
-  public visiblePassword: boolean;
+  public submitted = false; // Gatilio das menssagens de erro
+  public visiblePassword: boolean; // Senha vizivel
 
   constructor(
     private configForm: ConfigForm,
@@ -31,7 +33,8 @@ export class FormComponent implements OnInit {
 
   ngOnInit() {
     this.formBuild();
-    this.init();
+    this.inputFilter();
+    this.importForm();
   }
 
   /**
@@ -43,26 +46,51 @@ export class FormComponent implements OnInit {
     return this.form.controls;
   }
 
-  public onSubmit() {
+  /**
+   * @class FormComponent
+   * @function onSubmit
+   * @readonly Dispara o envio do formulário
+   * @type void
+   * @returns void
+   */
+  public onSubmit(): void {
     this.submitted = true;
     if (this.form.invalid) {
       return;
     }
-    return this.formData.emit(this.form);
+    return this.submitDataForm.emit(this.form);
   }
 
-  public showPassword() {
+  /**
+   * @class FormComponent
+   * @function showPassword
+   * @readonly Alterna entre ocultar senha e visualizar senha
+   * @type void
+   * @returns boolena
+   */
+  public showPassword(): boolean {
     return (this.visiblePassword = !this.visiblePassword);
   }
 
   /**
    * @class FormComponent
-   * @function init
-   * @readonly Inicializa os campos do formulário
+   * @function inputFilter
+   * @readonly Filtra os campos dos formulários
    * @type void
    * @returns void
    */
-  private init(): void {
+  private importForm(): void {
+    return this.exportForm.emit(this.form);
+  }
+
+  /**
+   * @class FormComponent
+   * @function inputFilter
+   * @readonly Filtra quais campos dos formulários serão aplicados na página
+   * @type void
+   * @returns void
+   */
+  private inputFilter(): void {
     this.buildInputs = this.formServices.buildInput(
       this.inputConfig,
       this.configForm.input
@@ -72,7 +100,7 @@ export class FormComponent implements OnInit {
   /**
    * @class FormComponent
    * @function formBuild
-   * @readonly Inicializa o formulário
+   * @readonly Contrutor do formulário
    * @type FormGroup
    * @returns
    */

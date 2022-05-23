@@ -16,6 +16,7 @@ export interface Attributes {
   type: string;
   msg: Message;
 }
+
 export interface Message {
   invalid: string;
   empty: string;

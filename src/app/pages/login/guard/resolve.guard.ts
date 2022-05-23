@@ -5,10 +5,20 @@ import { Observable } from 'rxjs';
 import { User } from 'src/app/interface';
 
 @Injectable()
+/**
+ * @class LoginResolver
+ * @implements Resolve<User>
+ */
 export class LoginResolver implements Resolve<User> {
 
   constructor(private loginService: LoginService){}
-  resolve(route: ActivatedRouteSnapshot): Observable<User> | User {
+  /**
+   * @class LoginResolver
+   * @function resolve
+   * @param route ActivatedRouteSnapshot
+   * @returns Observable<User>
+   */
+  resolve(route: ActivatedRouteSnapshot): Observable<User> {
     return this.loginService.requirement();
   }
 }

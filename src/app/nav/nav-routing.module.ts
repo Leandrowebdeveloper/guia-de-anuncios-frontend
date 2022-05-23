@@ -75,6 +75,15 @@ const routes: Routes = [
         data: { breadcrumb: 'Administração' },
       },
       {
+        path: 'ativar-conta/:token',
+        loadChildren: () =>
+          import('../pages/activate-account/activate-account.module').then(
+            (m) => m.ActivateAccountPageModule
+          ),
+        data: { breadcrumb: 'Ativar conta' },
+      },
+
+      {
         path: 'termos-de-uso',
         loadChildren: () =>
           import('../pages/terms-of-use/terms-of-use.module').then(

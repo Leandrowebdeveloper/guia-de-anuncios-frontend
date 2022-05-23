@@ -19,13 +19,24 @@ export interface User {
   key: string;
   passwordConfirmation: string;
   image: Image;
+  activateAccount: ActivateAccount;
   association: {
     readonly id: number;
   };
   _csrf: string;
+  message: string;
+}
+
+
+export interface ActivateAccount {
+  user_id: number;
+  hash: string;
+  activation: boolean;
+  message: string;
 }
 
 export interface Image {
+  user_id: number;
   filename: string;
   url: string;
 }
@@ -52,3 +63,5 @@ export interface LocalStorage {
   find: (key: string) => Promise<any>;
   destroy: (key: string) => Promise<any>;
 }
+
+

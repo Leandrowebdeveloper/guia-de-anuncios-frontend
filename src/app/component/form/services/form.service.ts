@@ -16,7 +16,7 @@ export class FormServices {
   private regexNameUpperCase =
     /^(?![ ])(?!.*(?:\d|[ ]{2}|[!$%^&*()_+|~=\{\}\[\]:";<>?,\/]))(?:(?:e|da|do|das|dos|de|d'|D'|la|las|el|los|l')\s*?|(?:[A-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð'][^\s]*\s*?)(?!.*[ ]$))+$/;
 
-  /** Objeto construtor de formularios */
+  /** Objeto controle do formularios */
   private controls = {
     firstName: [
       '',
@@ -109,7 +109,7 @@ export class FormServices {
    * @function isPasswordConfirmation
    * @readonly Valida os campos password e passwordConfirmation
    * @param controlName atributo name do input
-   * @param matchingControlName
+   * @param matchingControlName Nome do formulario
    * @returns
    */
   private mustMatch(controlName: string, matchingControlName: string) {

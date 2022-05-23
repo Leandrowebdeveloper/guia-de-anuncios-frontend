@@ -4,7 +4,8 @@
   <ion-grid fixed>
 
     <app-form
-    (formData)="onSubmit($event)"
+    (submitDataForm)="onSubmit($event)"
+    (exportForm)="importForm($event)"
     [inputConfig]="config"
     [attrButton]="attrButton"></app-form>
 

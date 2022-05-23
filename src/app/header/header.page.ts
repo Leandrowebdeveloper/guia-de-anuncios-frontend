@@ -44,14 +44,4 @@ export class HeaderPage implements OnInit {
   public get title() {
     return this._title;
   }
-
-  /**
-   * @class HeaderPage
-   * @function routerlink
-   * @type Promise<boolean>
-   * @readonly
-   */
-  public routerlink(): Promise<boolean> {
-    return this.navCtrl.navigateForward('administracao');
-  }
 }

@@ -5,10 +5,20 @@ import { Observable } from 'rxjs';
 import { User } from 'src/app/interface';
 
 @Injectable()
+/**
+ * @class RecoverResolver
+ * @implements Resolve<User>
+ */
 export class RecoverResolver implements Resolve<User> {
 
   constructor(private recoverService: RecoverService){}
-  resolve(route: ActivatedRouteSnapshot): Observable<User> | User {
+    /**
+   * @class RecoverResolver
+   * @function resolve
+   * @param route ActivatedRouteSnapshot
+   * @returns Observable<User>
+   */
+  resolve(route: ActivatedRouteSnapshot): Observable<User> {
     return this.recoverService.requirement();
   }
 }

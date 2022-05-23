@@ -15,7 +15,7 @@
           aria-message="Visualizar e ocultar senha."
           *ngIf="
             input?.name === 'passwordConfirmation' ||
-            (input?.name === 'password' && router === 'login')
+            (input?.name === 'password' && attrButton?.route === 'login')
           "
           slot="end"
           fill="clear"

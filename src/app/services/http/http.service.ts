@@ -60,7 +60,7 @@ export class HttpService<T> implements Http<T> {
    * @function requirement
    * @type Observable<T>
    * @readonly Carrega a interface e o CSRF
-   * @returns [] | {}
+   * @returns Observable<T>
    */
   public requirement(): Observable<T> {
     return this.http
@@ -74,7 +74,7 @@ export class HttpService<T> implements Http<T> {
    * @type Observable<T[] | T>
    * @readonly Seleciona todos os dados da tabela
    * @param url ex: user/id
-   * @returns [] | {}
+   * @returns Observable<T>
    */
   public findAll(url?: string): Observable<T> {
     return this.http
@@ -89,7 +89,7 @@ export class HttpService<T> implements Http<T> {
    * @readonly Insere dados em uma tabela
    * @param data object {}
    * @param url string
-   * @returns object {}
+   * @returns Observable<T>
    */
   public create(data: T, url?: string): Observable<T> {
     return this.http
@@ -103,7 +103,7 @@ export class HttpService<T> implements Http<T> {
    * @type Observable<T>
    * @readonly Seleciona uma linha da tabela
    * @param id string ou number
-   * @returns object {}
+   * @returns Observable<T>
    */
   public find(id: string | number): Observable<T> {
     return this.http
@@ -117,7 +117,7 @@ export class HttpService<T> implements Http<T> {
    * @type Observable<T | number[]>
    * @readonly Atualiza linhas da tabela
    * @param data object {}
-   * @returns {} | []
+   * @returns Observable<T | number[]>
    */
   public update(data: T): Observable<T | number[]> {
     return this.http
@@ -132,7 +132,7 @@ export class HttpService<T> implements Http<T> {
    * @readonly Atualiza parcialmente campos de uma tabela
    * @param data {}
    * @param url string
-   * @returns {} | []
+   * @returns Observable<T | number[]>
    */
   public patch(data: T, url?: string): Observable<T | number[]> {
     return this.http
@@ -146,7 +146,7 @@ export class HttpService<T> implements Http<T> {
    * @type Observable<T>
    * @readonly  Exclui linhas da tabela
    * @param data {}
-   * @returns number
+   * @returns Observable<T | number>
    */
   public destroy(data: T): Observable<T | number> {
     return this.http.delete<T | number>(`${this.api}`, {
@@ -163,7 +163,7 @@ export class HttpService<T> implements Http<T> {
    * @param url rota
    * @param data {}
    * @param file arquivo jpg, jpeg, png
-   * @returns
+   * @returns Observable<any>
    */
   public upload(url: string, data: any, file: File): Observable<any> {
     const formData = new FormData();

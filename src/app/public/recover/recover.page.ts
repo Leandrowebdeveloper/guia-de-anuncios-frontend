@@ -40,7 +40,7 @@ export class RecoverPage implements OnInit, OnComponentDeactivate {
   }
 
   private canAuthorizeTheRoute(): boolean {
-    return this.helpsService.authorizeTheRoute(this.form);
+    return this.helpsService.isAuthorizeTheRoute(this.form);
   }
 
   public importForm(event: FormGroup) {

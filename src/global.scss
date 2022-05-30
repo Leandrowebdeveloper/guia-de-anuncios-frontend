@@ -28,3 +28,7 @@
 .cursor-pointer {
   cursor: pointer;
 }
+
+ion-icon {
+  pointer-events: none !important;
+}

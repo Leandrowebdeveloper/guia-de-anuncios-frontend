@@ -33,7 +33,12 @@ export class LoginPage implements OnInit, OnComponentDeactivate {
   }
 
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean | UrlTree {
-    return this.authorizeRoute() || this.canAuthorizeTheRoute() || true;
+    if (this.authorizeRoute()) {
+      return this.authorizeRoute();
+    } else if (this.canAuthorizeTheRoute()) {
+      return this.canDeactivatedConfirmAlert();
+    }
+    return true;
   }
 
   public onSubmit(event: FormGroup): Subscription {
@@ -67,7 +72,11 @@ export class LoginPage implements OnInit, OnComponentDeactivate {
   }
 
   private canAuthorizeTheRoute(): boolean {
-    return this.helpsService.authorizeTheRoute(this.form);
+    return this.helpsService.isAuthorizeTheRoute(this.form);
+  }
+
+  private canDeactivatedConfirmAlert() {
+    return this.helpsService.messageAuthorizeTheRoute();
   }
 
   public importForm(event: FormGroup): FormGroup {

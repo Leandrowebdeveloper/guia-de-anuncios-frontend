@@ -30,11 +30,11 @@ export class HelpsService {
     return form;
   }
 
-  public authorizeTheRoute(form: FormGroup): boolean {
-    return form.dirty && this.messageAuthorizeTheRoute();
+  public isAuthorizeTheRoute(form: FormGroup): boolean {
+    return form.dirty;
   }
 
-  private messageAuthorizeTheRoute(): boolean {
+  public messageAuthorizeTheRoute(): boolean {
     return confirm(
       'As alterações no formulário não foram salvas e serão descartadas, deseja prosseguir?'
     );

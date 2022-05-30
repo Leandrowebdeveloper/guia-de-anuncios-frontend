@@ -5,9 +5,6 @@ import { InputName } from '../interface';
  * @readonly Configuração dos atributos de formulários
  */
 export class ConfigForm {
-  /**
-   * @readonly Variavel de atributos
-   */
   public readonly input: InputName = {
     firstName: {
       name: 'firstName',
@@ -16,7 +13,7 @@ export class ConfigForm {
       type: 'text',
       ActionLabel: 'Entre com seu nome',
       msg: {
-        invalid: 'Nome inválido! Ex: Maria, José, Sthefanni',
+        invalid: 'Digite nome próprio ou todas letras em maiuscúlo.',
         empty: 'Nome obrigatório!',
         min: null,
         max: null,
@@ -29,7 +26,7 @@ export class ConfigForm {
       type: 'text',
       ActionLabel: 'Entre com seu sobrenome',
       msg: {
-        invalid: 'Nome inválido! Ex: Maria, José, Sthefanni',
+        invalid: 'Digite nome próprio ou todas letras em maiuscúlo.',
         empty: 'Nome obrigatório!',
         min: null,
         max: null,
@@ -58,7 +55,7 @@ export class ConfigForm {
         invalid: 'Senha inválida!',
         empty: 'Senha obrigatório!',
         min: 'Senha mínimo 8.',
-        max: 'Senha maxímo 32.',
+        max: 'Senha maxímo 20.',
       },
     },
     passwordConfirmation: {
@@ -68,10 +65,23 @@ export class ConfigForm {
       type: 'password',
       ActionLabel: 'Repita sua senha',
       msg: {
-        invalid: 'Confirmação de senha não e válida!',
+        invalid: 'Confirmação de senha inválida!',
         empty: 'Confirmação de senha obrigatório!',
         min: 'Senha mínimo 8.',
-        max: 'Senha maxímo 32.',
+        max: 'Senha maxímo 20.',
+      },
+    },
+    stayConnected: {
+      name: 'stayConnected',
+      label: 'Permanecer conectado?',
+      placeholder: 'Permanecer conectado?',
+      type: 'checkbox',
+      ActionLabel: null,
+      msg: {
+        invalid: null,
+        empty: null,
+        min: null,
+        max: null,
       },
     },
     terms: {

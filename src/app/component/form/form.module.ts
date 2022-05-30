@@ -6,9 +6,10 @@ import { FormServices } from './services/form.service';
 import { IonicModule } from '@ionic/angular';
 import { ConfigForm } from './config/index';
 import { RouterModule } from '@angular/router';
+import { PasswordStrengthComponent } from './password-strength/password-strength.component';
 
 @NgModule({
-  declarations: [FormComponent],
+  declarations: [FormComponent, PasswordStrengthComponent],
   imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, IonicModule],
   exports: [FormComponent],
   providers: [FormServices, ConfigForm],

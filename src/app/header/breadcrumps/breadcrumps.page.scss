@@ -2,3 +2,8 @@
 ion-breadcrumb {
     font-size: small;
 }
+
+ion-toolbar{
+  --min-height: 0px!important;
+  --opacity: 0.6!important;
+}

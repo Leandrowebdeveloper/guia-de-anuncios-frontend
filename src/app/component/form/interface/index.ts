@@ -4,6 +4,7 @@ export interface InputName {
   email: Attributes;
   password: Attributes;
   passwordConfirmation: Attributes;
+  stayConnected: Attributes;
   terms: Attributes;
   _csrf: string;
 }

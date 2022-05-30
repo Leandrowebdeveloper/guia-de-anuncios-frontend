@@ -1,13 +1,8 @@
 import { Observable } from 'rxjs';
 
-export interface Init {
-  token: string;
-  auth: boolean;
-  user: User;
-}
-
 export interface User {
   readonly id: number;
+  auth: boolean;
   firstName: string;
   lastName: string;
   email: string;
@@ -18,6 +13,7 @@ export interface User {
   token: string;
   key: string;
   passwordConfirmation: string;
+  stayConnected: boolean;
   image: Image;
   activateAccount: ActivateAccount;
   association: {
@@ -48,6 +44,7 @@ export interface Breadcrumb {
 
 // Interface de funções
 export interface Http<T> {
+  index: () => Observable<T>;
   findAll: (url?: string) => Observable<T>;
   create: (data: T, url?: string) => Observable<T>;
   update: (data: T) => Observable<T | number[]>;

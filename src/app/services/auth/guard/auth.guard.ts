@@ -1,3 +1,4 @@
+import { StorageService } from 'src/app/services/storage/storage.service';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -11,7 +12,7 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { Init } from 'src/app/interface';
+import { User } from 'src/app/interface';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { InitService } from 'src/app/services/init/init.service';
 
@@ -22,16 +23,19 @@ import { InitService } from 'src/app/services/init/init.service';
  * @class AuthGuard
  */
 export class AuthGuard
-  implements CanLoad, CanActivate, CanActivateChild, Resolve<Init[]>
+  implements CanLoad, CanActivate, CanActivateChild, Resolve<User>
 {
-  constructor(private authService: AuthService, private init: InitService) {}
+  constructor(
+    private storageService: StorageService,
+    private authService: AuthService,
+    private init: InitService
+  ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean | UrlTree {
     const url: string = state.url;
-    // this.authService.login().then();
     return this.authService.checkLogin(url);
   }
 
@@ -46,15 +50,15 @@ export class AuthGuard
     return this.canActivate(route, state);
   }
 
-  resolve(): Observable<Init[]>  {
-      this.init.setToken = this.authService.storageService.getToken;
-      return this.init.boot();
+  resolve(): Observable<User> {
+    return this.init.boot();
   }
 
-  canLoad(route: Route): true | UrlTree {
+  async canLoad(route: Route) {
+    await this.storageService.init();
+    const token = await this.storageService.isToken();
+    this.init.setToken = token;
+    this.authService.isLoggedIn = !!token;
     return this.authService.canLoadResult(route);
   }
-
-
-
 }

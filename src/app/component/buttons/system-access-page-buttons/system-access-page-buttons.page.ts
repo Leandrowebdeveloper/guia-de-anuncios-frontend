@@ -11,7 +11,7 @@ import { AttrButton } from './interface';
  * @class SystemAccessPageButtons
  */
 export class SystemAccessPageButtons implements OnInit {
-  @Input() dataButtons: AttrButton[]; //
+  @Input() dataButtons: AttrButton[];
   constructor() {}
 
   ngOnInit() {

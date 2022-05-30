@@ -1,29 +1,28 @@
 import { Attributes, InputName } from './../interface';
 import { Injectable } from '@angular/core';
-import { FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormGroup, Validators } from '@angular/forms';
 
 @Injectable()
 /**
  * @class FormServices
  */
 export class FormServices {
-  /** Objeto contrutor de validação de senha */
+  private _configs: object;
+
   private passwordConfirmation = {
     validator: this.mustMatch('password', 'passwordConfirmation'),
   };
 
-  /** Expressão regular para nomes próprios */
-  private regexNameUpperCase =
+  private regexName =
     /^(?![ ])(?!.*(?:\d|[ ]{2}|[!$%^&*()_+|~=\{\}\[\]:";<>?,\/]))(?:(?:e|da|do|das|dos|de|d'|D'|la|las|el|los|l')\s*?|(?:[A-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð'][^\s]*\s*?)(?!.*[ ]$))+$/;
 
-  /** Objeto controle do formularios */
   private controls = {
     firstName: [
       '',
       [
         Validators.required,
         Validators.minLength(3),
-        Validators.pattern(this.regexNameUpperCase),
+        Validators.pattern(this.regexName),
       ],
     ],
     lastName: [
@@ -31,59 +30,89 @@ export class FormServices {
       [
         Validators.required,
         Validators.minLength(3),
-        Validators.pattern(this.regexNameUpperCase),
+        Validators.pattern(this.regexName),
       ],
     ],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(32)]],
+    password: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(20),
+        Validators.pattern(
+          /^(?=.*\d)(?=.*[!@#$%^&:~*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
+        ),
+      ],
+    ],
     passwordConfirmation: [
       null,
-      [Validators.required, Validators.minLength(8), Validators.maxLength(32)],
+      [Validators.required, Validators.minLength(8), Validators.maxLength(20)],
     ],
+    stayConnected: ['', [Validators.required]],
     terms: ['true', [Validators.required, Validators.pattern('true')]],
     _csrf: ['', [Validators.required]],
   };
 
-  /**
-   * @class FormServices
-   * @function controlsConfig
-   * @readonly Filtra o objeto construtor de formulários
-   * @type Object
-   * @param configs Objeto filds do formulario
-   * @returns
-   */
+  private set configs(configs: object) {
+    this._configs = configs;
+  }
+
+  private get configs() {
+    return this._configs;
+  }
+
   public controlsConfig(configs: object): Object {
-    const KEY = Object.keys(this.controls);
-    const VALUES = Object.values(configs);
+    this.configs = configs;
+    return this.buildTheControllers();
+  }
+
+  private buildTheControllers() {
     let controls = {};
     let count = 0;
-    for (const key in configs) {
-      if (
-        Object.prototype.hasOwnProperty.call(configs, key) &&
-        KEY.includes(key) &&
-        VALUES.includes(configs[key])
-      ) {
-        controls[key] = this.controls[key];
-        controls[key][0] = VALUES[count];
+    for (const key in this.configs) {
+      if (this.makeSureTheSettingsMatchTheControls(key)) {
+        controls[key] = this.getKeyControls(key);
+        controls[key][0] = this.getValuesConfiguration(count);
       }
       count++;
     }
     return controls;
   }
 
-  /**
-   * @class FormServices
-   * @function buildInput
-   * @readonly Filtra o objeto construtor de formulários e adiciona os valores para os campos
-   * @param configs Objeto filds do formulario
-   * @param inputName Variavel input da class ConfigForm
-   * @returns Attributes[]
-   */
+  private getValuesConfiguration(count: number): any {
+    return this.getObjectValues(this.configs)[count];
+  }
+
+  private getKeyControls(key: string): any {
+    return this.controls[key];
+  }
+
+  private makeSureTheSettingsMatchTheControls(key: string) {
+    return (
+      this.validObject(key) &&
+      this.theKeyMustMatchTheController(key) &&
+      this.theValueMustMatchTheControllerValue(key)
+    );
+  }
+
+  private validObject(key: string): boolean {
+    return Object.prototype.hasOwnProperty.call(this.configs, key);
+  }
+
+  private theKeyMustMatchTheController(key: string): boolean {
+    return this.getObjectKeys(this.controls).includes(key);
+  }
+
+  private theValueMustMatchTheControllerValue(key: string): boolean {
+    return this.getObjectValues(this.configs).includes(this.configs[key]);
+  }
+
   public buildInput(configs: object, inputName: InputName): Attributes[] {
-    const KEY = Object.keys(configs);
+    const KEYS = this.getObjectKeys(configs);
     const result = [];
     for (const key in inputName) {
-      if (KEY.includes(key)) {
+      if (KEYS.includes(key)) {
         result.push(inputName[key]);
       }
     }
@@ -91,40 +120,42 @@ export class FormServices {
     return result;
   }
 
-  /**
-   * @class FormServices
-   * @function isPasswordConfirmation
-   * @readonly Caso exista o confirmação de senha 'passwordConfirmation' adiciona
-   * @param configs Objeto filds do formulario
-   * @returns Object
-   */
+  private getObjectKeys(object: object): string[] {
+    return Object.keys(object);
+  }
+
+  private getObjectValues(object: object): string[] {
+    return Object.values(object);
+  }
+
   public isPasswordConfirmation(configs: object): Object {
-    return Object.keys(configs).includes('passwordConfirmation')
+    return this.getObjectKeys(configs).includes('passwordConfirmation')
       ? this.passwordConfirmation
       : {};
   }
 
-  /**
-   * @class FormServices
-   * @function isPasswordConfirmation
-   * @readonly Valida os campos password e passwordConfirmation
-   * @param controlName atributo name do input
-   * @param matchingControlName Nome do formulario
-   * @returns
-   */
-  private mustMatch(controlName: string, matchingControlName: string) {
+  private mustMatch(
+    controlName: string,
+    matchingControlName: string
+  ): (formGroup: FormGroup) => void {
     return (formGroup: FormGroup) => {
       const control = formGroup.controls[controlName];
       const matchingControl = formGroup.controls[matchingControlName];
-
-      if (matchingControl.errors && !matchingControl.errors.mustMatch) {
-        return;
-      }
-      if (control.value !== matchingControl.value) {
-        matchingControl.setErrors({ mustMatch: true });
-      } else {
-        matchingControl.setErrors(null);
-      }
+      return this.resultOfTheCombination(control, matchingControl);
     };
+  }
+
+  private resultOfTheCombination(
+    control: AbstractControl,
+    matchingControl: AbstractControl
+  ): void {
+    if (matchingControl.errors && !matchingControl.errors.mustMatch) {
+      return;
+    }
+    if (control.value !== matchingControl.value) {
+      matchingControl.setErrors({ mustMatch: true });
+    } else {
+      matchingControl.setErrors(null);
+    }
   }
 }

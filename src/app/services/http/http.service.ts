@@ -28,26 +28,10 @@ export class HttpService<T> implements Http<T> {
     @Inject(String) protected api: string
   ) {}
 
-  /**
-   * @class HttpService
-   * @function headers
-   * @type string
-   * @readonly Seta o valor csrf para o cabeçalho
-   * @param csrf string
-   * @returns void
-   */
   public set csrf(csrf: string) {
     this.httpOptions.headers = this.httpOptions.headers.set('CSRF-Token', csrf);
   }
 
-  /**
-   * @class HttpService
-   * @function token
-   * @type string
-   * @readonly Seta o valor auth token para o cabeçalho
-   * @param token string
-   * @returns void
-   */
   protected set token(token: string) {
     this.httpOptions.headers = this.httpOptions.headers.set(
       'Authorization',
@@ -55,99 +39,48 @@ export class HttpService<T> implements Http<T> {
     );
   }
 
-  /**
-   * @class HttpService
-   * @function requirement
-   * @type Observable<T>
-   * @readonly Carrega a interface e o CSRF
-   * @returns Observable<T>
-   */
   public requirement(): Observable<T> {
     return this.http
       .get<T>(`${this.api}/requirement`, this.httpOptions)
       .pipe(tap((e: T) => console.log('requirement', e)));
   }
 
-  /**
-   * @class HttpService
-   * @function findAll
-   * @type Observable<T[] | T>
-   * @readonly Seleciona todos os dados da tabela
-   * @param url ex: user/id
-   * @returns Observable<T>
-   */
+  public index(): Observable<T> {
+    return this.http
+      .get<T>(`${this.api}/`, this.httpOptions)
+      .pipe(tap((e: T) => console.log('index', e)));
+  }
+
   public findAll(url?: string): Observable<T> {
     return this.http
       .get<T>(`${this.api}/${url || ''}`, this.httpOptions)
       .pipe(tap((e: T) => console.log('findAll', e)));
   }
 
-  /**
-   * @class HttpService
-   * @function create
-   * @type Observable<T>
-   * @readonly Insere dados em uma tabela
-   * @param data object {}
-   * @param url string
-   * @returns Observable<T>
-   */
   public create(data: T, url?: string): Observable<T> {
     return this.http
       .post<T>(`${this.api}/${url || ''}`, data, this.httpOptions)
       .pipe(tap((e: T) => console.log('create', e)));
   }
 
-  /**
-   * @class HttpService
-   * @function find
-   * @type Observable<T>
-   * @readonly Seleciona uma linha da tabela
-   * @param id string ou number
-   * @returns Observable<T>
-   */
   public find(id: string | number): Observable<T> {
     return this.http
       .get<T>(`${this.api}/${id}`, this.httpOptions)
       .pipe(tap((e: T) => console.log('find', e)));
   }
 
-  /**
-   * @class HttpService
-   * @function update
-   * @type Observable<T | number[]>
-   * @readonly Atualiza linhas da tabela
-   * @param data object {}
-   * @returns Observable<T | number[]>
-   */
   public update(data: T): Observable<T | number[]> {
     return this.http
       .put<T | []>(`${this.api}/`, data, this.httpOptions)
       .pipe(tap((e: T | number[]) => console.log('update', e)));
   }
 
-  /**
-   * @class HttpService
-   * @function patch
-   * @type Observable<T | number[]>
-   * @readonly Atualiza parcialmente campos de uma tabela
-   * @param data {}
-   * @param url string
-   * @returns Observable<T | number[]>
-   */
   public patch(data: T, url?: string): Observable<T | number[]> {
     return this.http
       .patch<T>(`${this.api}/${url || ''}`, data, this.httpOptions)
       .pipe(tap((e: T | number[]) => console.log('patch', e)));
   }
 
-  /**
-   * @class HttpService
-   * @function destroy
-   * @type Observable<T>
-   * @readonly  Exclui linhas da tabela
-   * @param data {}
-   * @returns Observable<T | number>
-   */
   public destroy(data: T): Observable<T | number> {
     return this.http.delete<T | number>(`${this.api}`, {
       headers: this.httpOptions.headers,
@@ -155,16 +88,6 @@ export class HttpService<T> implements Http<T> {
     });
   }
 
-  /**
-   * @class HttpService
-   * @function upload
-   * @type Observable<any>
-   * @readonly Transfere arquivo para o servidor
-   * @param url rota
-   * @param data {}
-   * @param file arquivo jpg, jpeg, png
-   * @returns Observable<any>
-   */
   public upload(url: string, data: any, file: File): Observable<any> {
     const formData = new FormData();
     formData.append('id', data?.slug);

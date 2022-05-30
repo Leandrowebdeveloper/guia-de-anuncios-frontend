@@ -1,9 +1,9 @@
-<ion-header class="ion-no-border ion-margin-bottom"  collapse="fade">
-  <ion-toolbar>
+<ion-header class="ion-no-border ion-margin-bottom" collapse="fade">
+  <ion-toolbar color="light">
     <ion-breadcrumbs>
-      <ion-breadcrumb *ngFor="let breadcrumb of (breadcrumbs$ | async)" 
-      [href]="breadcrumb.url" 
-      [rel]="breadcrumb.label" 
+      <ion-breadcrumb *ngFor="let breadcrumb of (breadcrumbs$ | async)"
+      [href]="breadcrumb.url"
+      [rel]="breadcrumb.label"
       routerDirection="forward"
       [title]="breadcrumb.label">
         {{ breadcrumb.label }}

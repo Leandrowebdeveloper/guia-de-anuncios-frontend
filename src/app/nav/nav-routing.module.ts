@@ -11,38 +11,45 @@ const routes: Routes = [
       {
         path: 'inicio',
         loadChildren: () =>
-          import('../pages/home/home.module').then((m) => m.HomePageModule),
+          import('../public/home/home.module').then((m) => m.HomePageModule),
         data: { breadcrumb: 'Início' },
       },
       {
         path: 'noticias',
         loadChildren: () =>
-          import('../pages/news/news.module').then((m) => m.NewsPageModule),
+          import('../public/news/news.module').then((m) => m.NewsPageModule),
         data: { breadcrumb: 'Notícias' },
       },
 
       {
-        path: 'meus-produtos',
+        path: 'classificados',
         loadChildren: () =>
-          import('../pages/my-products/my-products.module').then(
-            (m) => m.MyProductsPageModule
+          import('../public/classified/classified.module').then(
+            (m) => m.ClassifiedPageModule
           ),
-        data: { breadcrumb: 'Meus Produtos' },
+        data: { breadcrumb: 'Classificados' },
       },
       {
-        path: 'login',
+        path: 'entrar',
         canActivate: [AuthGuard],
         loadChildren: () =>
-          import('./../pages/login/login.module').then(
-            (m) => m.LoginPageModule
+          import('../public/login/login.module').then((m) => m.LoginPageModule),
+        data: { breadcrumb: 'Entrar' },
+      },
+      {
+        path: 'sair',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('../public/logout/logout.module').then(
+            (m) => m.LogoutPageModule
           ),
-        data: { breadcrumb: 'Login' },
+        data: { breadcrumb: 'Sair do sistema' },
       },
       {
         path: 'cadastrar',
         canActivate: [AuthGuard],
         loadChildren: () =>
-          import('./../pages/register/register.module').then(
+          import('../public/register/register.module').then(
             (m) => m.RegisterPageModule
           ),
         data: { breadcrumb: 'Cadastrar' },
@@ -51,33 +58,31 @@ const routes: Routes = [
         path: 'recuperar-senha',
         canActivate: [AuthGuard],
         loadChildren: () =>
-          import('./../pages/recover/recover.module').then(
+          import('../public/recover/recover.module').then(
             (m) => m.RecoverPageModule
           ),
         data: { breadcrumb: 'Recuperar Senha' },
       },
       {
-        path: 'usuario',
+        path: 'usuarios',
         canActivate: [AuthGuard],
         loadChildren: () =>
-          import('../pages/dashboard/user/user.module').then(
-            (m) => m.UserPageModule
-          ),
-        data: { breadcrumb: 'Usuário' },
+          import('../dashboard/user/user.module').then((m) => m.UserPageModule),
+        data: { breadcrumb: 'Usuários' },
       },
       {
-        path: 'administracao',
+        path: 'anuncios',
         canActivate: [AuthGuard],
         loadChildren: () =>
-          import('../pages/dashboard/admin/admin.module').then(
-            (m) => m.AdminPageModule
+          import('../dashboard/advert/advert.module').then(
+            (m) => m.AdvertPageModule
           ),
-        data: { breadcrumb: 'Administração' },
+        data: { breadcrumb: 'Anúncios' },
       },
       {
         path: 'ativar-conta/:token',
         loadChildren: () =>
-          import('../pages/activate-account/activate-account.module').then(
+          import('../public/activate-account/activate-account.module').then(
             (m) => m.ActivateAccountPageModule
           ),
         data: { breadcrumb: 'Ativar conta' },
@@ -86,7 +91,7 @@ const routes: Routes = [
       {
         path: 'termos-de-uso',
         loadChildren: () =>
-          import('../pages/terms-of-use/terms-of-use.module').then(
+          import('../public/terms-of-use/terms-of-use.module').then(
             (m) => m.TermsOfUsePageModule
           ),
         data: { breadcrumb: 'Termos de uso' },
@@ -99,7 +104,7 @@ const routes: Routes = [
       {
         path: '**',
         loadChildren: () =>
-          import('./../pages/not-found/not-found.module').then(
+          import('../public/not-found/not-found.module').then(
             (m) => m.NotFoundPageModule
           ),
         data: { breadcrumb: 'Erro 404' },

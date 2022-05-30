@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { HeaderPage } from './header.page';
 
 import { BreadcrumpsPageModule } from './breadcrumps/breadcrumps.module';
+import { MenuComponent } from './menu/menu.component';
 
 @NgModule({
   imports: [
@@ -17,7 +18,7 @@ import { BreadcrumpsPageModule } from './breadcrumps/breadcrumps.module';
     RouterModule,
     BreadcrumpsPageModule
   ],
-  declarations: [HeaderPage],
+  declarations: [HeaderPage, MenuComponent],
   exports: [HeaderPage]
 })
 export class HeaderPageModule {}

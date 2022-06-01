@@ -14,9 +14,10 @@ export class FormServices {
   };
 
   private regexName =
-    /^(?![ ])(?!.*(?:\d|[ ]{2}|[!$%^&*()_+|~=\{\}\[\]:";<>?,\/]))(?:(?:e|da|do|das|dos|de|d'|D'|la|las|el|los|l')\s*?|(?:[A-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð'][^\s]*\s*?)(?!.*[ ]$))+$/;
+  /^(?![ ])(?!.*(?:\d|[ ]{2}|[!$%^&*()_+|~=\{\}\[\]:";<>?,\/]))(?:(?:e|da|do|das|dos|de|d'|D'|la|las|el|los|l')\s*?|(?:[A-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð'][^\s]*\s*?)(?!.*[ ]$))+$/;
 
   private controls = {
+    id: ['', [Validators.required]],
     firstName: [
       '',
       [
@@ -110,14 +111,13 @@ export class FormServices {
 
   public buildInput(configs: object, inputName: InputName): Attributes[] {
     const KEYS = this.getObjectKeys(configs);
-    const result = [];
+    const inputs = [];
     for (const key in inputName) {
-      if (KEYS.includes(key)) {
-        result.push(inputName[key]);
+      if (KEYS.includes(key) && inputName[key] !== null) {
+        inputs.push(inputName[key]);
       }
     }
-    result.pop();
-    return result;
+    return inputs;
   }
 
   private getObjectKeys(object: object): string[] {

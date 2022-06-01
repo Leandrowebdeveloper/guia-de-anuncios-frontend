@@ -6,6 +6,7 @@ import { InputName } from '../interface';
  */
 export class ConfigForm {
   public readonly input: InputName = {
+    id: null,
     firstName: {
       name: 'firstName',
       label: 'Nome',

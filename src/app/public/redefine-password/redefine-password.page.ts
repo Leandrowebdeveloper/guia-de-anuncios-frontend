@@ -19,9 +19,10 @@ export class RedefinePasswordPage implements OnInit {
   public config: User;
   public active: boolean;
   public attrButton: AttrButton;
+  public message: string;
   private form: FormGroup;
   private urlTree: boolean;
-  private revocer: Subscription;
+  private redefine: Subscription;
   constructor(
     private activatedRoute: ActivatedRoute,
     private helpsService: HelpsService,
@@ -32,8 +33,12 @@ export class RedefinePasswordPage implements OnInit {
     this.setConfig();
     this.setAttrButton();
     this.isActived();
+    this.setMessageLinkInvalid();
   }
 
+  private setMessageLinkInvalid() {
+    return (this.message = this.config.message || null);
+  }
 
   private isActived(): boolean {
     return (this.active = this.config.active);
@@ -65,8 +70,10 @@ export class RedefinePasswordPage implements OnInit {
   }
 
   public onSubmit(event: FormGroup) {
+    console.log(event.value);
+
     const loading = this.redefinePasswordService.loading();
-    return (this.revocer = this.redefinePasswordService
+    return (this.redefine = this.redefinePasswordService
       .passwordRecover(event.value)
       .subscribe(
         (user: User) => this.success(user, loading),
@@ -87,14 +94,14 @@ export class RedefinePasswordPage implements OnInit {
     user: User,
     loading: Promise<HTMLIonLoadingElement>
   ) {
-    return this.redefinePasswordService.success(user, loading, this.revocer);
+    return this.redefinePasswordService.success(user, loading, this.redefine);
   }
 
   private error(
     error: HttpErrorResponse,
     loading: Promise<HTMLIonLoadingElement>
   ): any {
-    return this.redefinePasswordService.error(error, loading, this.revocer);
+    return this.redefinePasswordService.error(error, loading, this.redefine);
   }
 
   private formUpdate(): number {

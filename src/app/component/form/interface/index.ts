@@ -1,4 +1,5 @@
 export interface InputName {
+  id: number;
   firstName: Attributes;
   lastName: Attributes;
   email: Attributes;

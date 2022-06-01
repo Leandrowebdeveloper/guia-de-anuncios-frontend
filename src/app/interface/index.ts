@@ -11,6 +11,7 @@ export interface User {
   slug: string;
   state: boolean;
   token: string;
+  active: boolean;
   key: string;
   passwordConfirmation: string;
   stayConnected: boolean;
@@ -26,7 +27,6 @@ export interface User {
 
 export interface ActivateAccount {
   user_id: number;
-  hash: string;
   activation: boolean;
   message: string;
 }

@@ -39,9 +39,9 @@ export class HttpService<T> implements Http<T> {
     );
   }
 
-  public requirement(): Observable<T> {
+  public requirement(token?: string): Observable<T> {
     return this.http
-      .get<T>(`${this.api}/requirement`, this.httpOptions)
+      .get<T>(`${this.api}/requirement/${token || ''}`, this.httpOptions)
       .pipe(tap((e: T) => console.log('requirement', e)));
   }
 

@@ -1,21 +1,23 @@
-import { RecoverService } from './services/recover.service';
-import { Observable, Subscription } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, UrlTree } from '@angular/router';
-import { User } from 'src/app/interface';
-import { AttrButton } from 'src/app/component/buttons/system-access-page-buttons/interface';
-import { OnComponentDeactivate } from 'src/app/component/form/guard/deactivate.guard';
-import { HelpsService } from 'src/app/services/helps/helps.service';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
+import { RedefinePasswordService } from './services/redefine-password.service';
+import { User } from 'src/app/interface';
+import { FormGroup } from '@angular/forms';
+import { AttrButton } from 'src/app/component/buttons/system-access-page-buttons/interface';
+import { Subscription } from 'rxjs';
+import { HelpsService } from 'src/app/services/helps/helps.service';
+
 @Component({
-  selector: 'app-recover',
-  templateUrl: './recover.page.html',
-  styleUrls: ['./recover.page.scss'],
+  selector: 'app-redefine-password',
+  templateUrl: './redefine-password.page.html',
+  styleUrls: ['./redefine-password.page.scss'],
 })
-export class RecoverPage implements OnInit, OnComponentDeactivate {
+export class RedefinePasswordPage implements OnInit {
   public config: User;
+  public active: boolean;
   public attrButton: AttrButton;
   private form: FormGroup;
   private urlTree: boolean;
@@ -23,12 +25,18 @@ export class RecoverPage implements OnInit, OnComponentDeactivate {
   constructor(
     private activatedRoute: ActivatedRoute,
     private helpsService: HelpsService,
-    private recoverService: RecoverService
+    private redefinePasswordService: RedefinePasswordService
   ) {}
 
   ngOnInit() {
     this.setConfig();
     this.setAttrButton();
+    this.isActived();
+  }
+
+
+  private isActived(): boolean {
+    return (this.active = this.config.active);
   }
 
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean | UrlTree {
@@ -57,8 +65,8 @@ export class RecoverPage implements OnInit, OnComponentDeactivate {
   }
 
   public onSubmit(event: FormGroup) {
-    const loading = this.recoverService.loading();
-    return (this.revocer = this.recoverService
+    const loading = this.redefinePasswordService.loading();
+    return (this.revocer = this.redefinePasswordService
       .passwordRecover(event.value)
       .subscribe(
         (user: User) => this.success(user, loading),
@@ -79,14 +87,14 @@ export class RecoverPage implements OnInit, OnComponentDeactivate {
     user: User,
     loading: Promise<HTMLIonLoadingElement>
   ) {
-    return this.recoverService.success(user, loading, this.revocer);
+    return this.redefinePasswordService.success(user, loading, this.revocer);
   }
 
   private error(
     error: HttpErrorResponse,
     loading: Promise<HTMLIonLoadingElement>
   ): any {
-    return this.recoverService.error(error, loading, this.revocer);
+    return this.redefinePasswordService.error(error, loading, this.revocer);
   }
 
   private formUpdate(): number {
@@ -105,17 +113,17 @@ export class RecoverPage implements OnInit, OnComponentDeactivate {
   }
 
   private setConfig(): void {
-    this.config = this.activatedRoute.snapshot.data.recover;
+    this.config = this.activatedRoute.snapshot.data.redefinePassword;
   }
 
   private setAttrButton(): void {
     this.attrButton = {
-      route: 'recuperar-senha',
+      route: 'redefinir-senha',
       icon: 'arrow-up-circle',
-      label: 'Recuperar senha',
+      label: 'Redefinir senha',
       fill: false,
-      aria: 'Recuperar senha.',
-      title: 'Recuperar senha.',
+      aria: 'Redefinir senha.',
+      title: 'Redefinir senha.',
     };
   }
 }

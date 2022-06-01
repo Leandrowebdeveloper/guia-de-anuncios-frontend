@@ -1,18 +1,19 @@
-import { HelpsService } from 'src/app/services/helps/helps.service';
-import { NavController } from '@ionic/angular';
+import { HttpService } from 'src/app/services/http/http.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, Subscription } from 'rxjs';
-
-import { HttpService } from 'src/app/services/http/http.service';
 import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
+
+import { User } from 'src/app/interface';
 import { LoadingService } from 'src/app/component/loading/loading.service';
 import { AlertService } from 'src/app/component/alert/alert.service';
-import { User } from 'src/app/interface';
+import { NavController } from '@ionic/angular';
+import { HelpsService } from 'src/app/services/helps/helps.service';
 import { ToastService } from 'src/app/component/toast/toast.service';
+import { Subscription } from 'rxjs';
 
 @Injectable()
-export class RegisterService extends HttpService<User> {
+export class RedefinePasswordService extends HttpService<User> {
   constructor(
     public http: HttpClient,
     private loadingService: LoadingService,
@@ -21,10 +22,10 @@ export class RegisterService extends HttpService<User> {
     private helpsService: HelpsService,
     private toastService: ToastService
   ) {
-    super(http, `${environment.api}api/register`);
+    super(http, `${environment.api}api/redefine-password`);
   }
 
-  public store(user: User): Observable<User> {
+  public passwordRecover(user: User): Observable<User> {
     return this.create(user);
   }
 
@@ -41,7 +42,12 @@ export class RegisterService extends HttpService<User> {
   private async successMessage(user: User): Promise<number> {
     return this.helpsService.delay(
       async () =>
-        await this.toastService.show(user?.message, 'bottom', 'thumbs-up', 3000),
+        await this.toastService.show(
+          user?.message,
+          'bottom',
+          'thumbs-up',
+          3000
+        ),
       3000
     );
   }
@@ -70,7 +76,7 @@ export class RegisterService extends HttpService<User> {
   }
 
   public async loading(): Promise<HTMLIonLoadingElement> {
-    return await this.loadingService.show('Criando conta...');
+    return await this.loadingService.show('Recuperando senha...');
   }
 
   public async disableLoadingUnsubscribeRegisterVariable(

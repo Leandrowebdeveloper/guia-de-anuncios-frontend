@@ -64,6 +64,14 @@ const routes: Routes = [
         data: { breadcrumb: 'Recuperar Senha' },
       },
       {
+        path: 'redefinir-senha/:token',
+        loadChildren: () =>
+          import('../public/redefine-password/redefine-password.module').then(
+            (m) => m.RedefinePasswordPageModule
+          ),
+        data: { breadcrumb: 'Redefinir senha' },
+      },
+      {
         path: 'usuarios',
         canActivate: [AuthGuard],
         loadChildren: () =>
@@ -87,7 +95,6 @@ const routes: Routes = [
           ),
         data: { breadcrumb: 'Ativar conta' },
       },
-
       {
         path: 'termos-de-uso',
         loadChildren: () =>

@@ -10,14 +10,8 @@ import { User } from 'src/app/interface';
  * @implements Resolve<User>
  */
 export class RecoverResolver implements Resolve<User> {
+  constructor(private recoverService: RecoverService) {}
 
-  constructor(private recoverService: RecoverService){}
-    /**
-   * @class RecoverResolver
-   * @function resolve
-   * @param route ActivatedRouteSnapshot
-   * @returns Observable<User>
-   */
   resolve(route: ActivatedRouteSnapshot): Observable<User> {
     return this.recoverService.requirement();
   }

@@ -1,13 +1,17 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
+<ion-header [collapse]="hasIos ? 'condense': 'fade'" [translucent]="!hasIos">
+  <ion-toolbar color="primary">
     <div>
-    <ion-title slot="start" [title]="title">
-      {{ title }}
-    </ion-title>
-    <span class="ion-icon" (click)="menuShow($event)" title="Painel de controle" data-message="Botão painel de controle">
-      <ion-icon  size="large" slot="end" name="options" color="medium"></ion-icon>
-    </span>
-  </div>
+
+      <figure class="ion-margin-start">
+        <ion-img src="./../../assets/layout.svg" alt="Montes belos" title="Montes belos .app"></ion-img>
+      </figure>
+
+      <span class="ion-icon" (click)="menuShow($event)" title="Painel de controle"
+        data-message="Botão painel de controle">
+        <ion-icon size="large" slot="end" name="options" color="medium"></ion-icon>
+      </span>
+
+    </div>
   </ion-toolbar>
 </ion-header>
 

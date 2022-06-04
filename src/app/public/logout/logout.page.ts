@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs';
 import { NavController } from '@ionic/angular';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { LogoutService } from './service/logout.service';
 
 @Component({
@@ -8,21 +8,17 @@ import { LogoutService } from './service/logout.service';
   templateUrl: './logout.page.html',
   styleUrls: ['./logout.page.scss'],
 })
-export class LogoutPage implements OnInit, OnDestroy {
+export class LogoutPage {
   private _logout: Subscription
   constructor(
     private navCtrl: NavController,
     private logoutService: LogoutService
   ) {}
 
-  ngOnInit() {}
 
-  ngOnDestroy(): void {
-    this._logout.unsubscribe();
-  }
 
   public logout(): Subscription {
-    return this._logout = this.logoutService.destroySession().subscribe();
+    return this._logout = this.logoutService.destroySession().subscribe(()=> this._logout.unsubscribe());
   }
 
   public back(): void {

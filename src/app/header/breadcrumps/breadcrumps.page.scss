@@ -3,7 +3,7 @@ ion-breadcrumb {
     font-size: small;
 }
 
-ion-toolbar{
+ion-toolbar.ios, ion-toolbar{
   --min-height: 0px!important;
-  --opacity: 0.6!important;
+   --opacity: 0.9!important;
 }

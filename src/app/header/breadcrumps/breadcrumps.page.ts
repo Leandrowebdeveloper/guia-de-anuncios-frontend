@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Platform } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { Breadcrumb } from 'src/app/interface';
 import { BreadcrumpsService } from './service/breadcrumps.service';
@@ -9,9 +10,18 @@ import { BreadcrumpsService } from './service/breadcrumps.service';
   styleUrls: ['./breadcrumps.page.scss'],
 })
 export class BreadcrumpsPage {
-  breadcrumbs$: Observable<Breadcrumb[]>;
+  public breadcrumbs$: Observable<Breadcrumb[]>;
+  public hasIos: boolean;
 
-  constructor(private readonly breadcrumbService: BreadcrumpsService) {
+  constructor(
+    private readonly breadcrumbService: BreadcrumpsService,
+    private plt: Platform
+  ) {
     this.breadcrumbs$ = this.breadcrumbService.breadcrumbs$;
+    this.isPlatformIos();
+  }
+
+  private isPlatformIos(): boolean {
+    return (this.hasIos = this.plt.is('ios'));
   }
 }

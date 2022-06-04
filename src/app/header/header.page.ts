@@ -1,6 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { PopoverController } from '@ionic/angular';
+import { Platform, PopoverController } from '@ionic/angular';
 import { MenuComponent } from './menu/menu.component';
 
 @Component({
@@ -15,15 +15,21 @@ import { MenuComponent } from './menu/menu.component';
  */
 export class HeaderPage implements OnInit {
   private _title: string;
+  public hasIos: boolean;
 
   constructor(
+    private plt: Platform,
     private popoverController: PopoverController,
     private activatedRoute: ActivatedRoute
   ) {}
   ngOnInit() {
     this.title = this.activatedRoute.snapshot.data.breadcrumb;
+    this.isPlatformIos();
   }
 
+  private isPlatformIos(): boolean {
+    return (this.hasIos = this.plt.is('ios'));
+  }
 
   public set title(value: string) {
     this._title = value;

@@ -2,45 +2,85 @@
   <div *ngFor="let input of buildInputs">
     <div *ngIf="input?.type !== 'checkbox'">
       <ion-item>
-        <ion-label position="floating">{{ input?.label }}</ion-label>
-        <ion-input [type]="visiblePassword ? 'text' : input?.type" [formControlName]="input?.name"
-          [inputmode]="input?.type" [placeholder]="input?.placeholder" [attr.aria-invalid]="submitted"
-          [attr.aria-placeholder]="input?.ActionLabel">
+        <ion-label position="floating"
+        [color]="f[input?.name].valid&&'success'">{{ input?.label }}</ion-label>
+        <ion-input
+          [type]="visiblePassword ? 'text' : input?.type"
+          [formControlName]="input?.name"
+          [inputmode]="input?.type"
+          [placeholder]="input?.placeholder"
+          [attr.aria-invalid]="submitted"
+          [attr.aria-placeholder]="input?.ActionLabel"
+        >
         </ion-input>
 
-        <ion-button *ngIf="
-        input?.name === 'passwordConfirmation' ||
-        (input?.name === 'password' && attrButton?.route === 'login')
-        " slot="end" fill="clear" (click)="showPassword()" class="ion-margin-top"
-          [title]="visiblePassword ? 'Ocultar senha' : 'Ver senha'" [attr.aria-pressed]="visiblePassword"
-          [attr.aria-label]="attrButton?.aria">
-          <ion-icon [name]="visiblePassword ? 'eye-off-outline' : 'eye-outline'" color="medium"></ion-icon>
+        <ion-button
+          *ngIf="
+            input?.name === 'passwordConfirmation' ||
+            (input?.name === 'password' && attrButton?.route === 'login')
+          "
+          slot="end"
+          fill="clear"
+          (click)="showPassword()"
+          class="ion-margin-top"
+          [title]="visiblePassword ? 'Ocultar senha' : 'Ver senha'"
+          [attr.aria-pressed]="visiblePassword"
+          [attr.aria-label]="attrButton?.aria"
+        >
+          <ion-icon
+            [name]="visiblePassword ? 'eye-off-outline' : 'eye-outline'"
+            color="medium"
+          ></ion-icon>
         </ion-button>
       </ion-item>
 
-
       <ion-text color="danger" *ngIf="submitted && f[input?.name].errors">
-        <small *ngIf="f[input?.name].errors.pattern" [attr.aria-errormessage]="input.msg?.invalid">{{ input.msg?.invalid
-          }}&nbsp;</small>
-        <small *ngIf="f[input?.name].errors.email" [attr.aria-errormessage]="input.msg?.invalid">{{ input.msg?.invalid
-          }}&nbsp;</small>
-        <small *ngIf="f[input?.name].errors.required" [attr.aria-errormessage]="input.msg?.empty">{{ input.msg?.empty
-          }}&nbsp;</small>
-        <small *ngIf="f[input?.name].errors.maxlength" [attr.aria-errormessage]="input?.msg?.max">{{ input?.msg?.max
-          }}&nbsp;</small>
-        <small *ngIf="f[input?.name].errors.minlength" [attr.aria-errormessage]="input?.msg?.min">{{ input?.msg?.min
-          }}&nbsp;</small>
+        <small
+          *ngIf="f[input?.name].errors.pattern"
+          [attr.aria-errormessage]="input.msg?.invalid"
+          >{{ input.msg?.invalid }}&nbsp;</small
+        >
+        <small
+          *ngIf="f[input?.name].errors.email"
+          [attr.aria-errormessage]="input.msg?.invalid"
+          >{{ input.msg?.invalid }}&nbsp;</small
+        >
+        <small
+          *ngIf="f[input?.name].errors.required"
+          [attr.aria-errormessage]="input.msg?.empty"
+          >{{ input.msg?.empty }}&nbsp;</small
+        >
+        <small
+          *ngIf="f[input?.name].errors.maxlength"
+          [attr.aria-errormessage]="input?.msg?.max"
+          >{{ input?.msg?.max }}&nbsp;</small
+        >
+        <small
+          *ngIf="f[input?.name].errors.minlength"
+          [attr.aria-errormessage]="input?.msg?.min"
+          >{{ input?.msg?.min }}&nbsp;</small
+        >
       </ion-text>
 
-      <app-password-strength *ngIf="
-      input?.name === 'passwordConfirmation' ||
-      (input?.name === 'password' && attrButton?.route === 'login')
-      " [passwordToCheck]="form.value.password" [hidden]="isPageTheLogin"></app-password-strength>
+      <app-password-strength
+        *ngIf="
+          input?.name === 'passwordConfirmation' ||
+          (input?.name === 'password' && attrButton?.route === 'login')
+        "
+        [passwordToCheck]="form.value.password"
+        [hidden]="isPageTheLogin"
+      ></app-password-strength>
     </div>
 
-
-    <ion-item lines="none" *ngIf="input?.name === 'stayConnected'" [hidden]="!isPageTheLogin">
-      <ion-checkbox [formControlName]="input?.name" [attr.aria-label]="input?.label">
+    <ion-item
+      lines="none"
+      *ngIf="input?.name === 'stayConnected'"
+      [hidden]="!isPageTheLogin"
+    >
+      <ion-checkbox
+        [formControlName]="input?.name"
+        [attr.aria-label]="input?.label"
+      >
       </ion-checkbox>
       <ion-text class="ion-margin-start">{{ input?.label }}</ion-text>
     </ion-item>
@@ -48,28 +88,45 @@
     <!-- terms -->
     <div *ngIf="input?.name === 'terms'">
       <ion-item lines="none">
-        <ion-checkbox [formControlName]="input?.name" [attr.aria-label]="input?.label">
+        <ion-checkbox
+          [formControlName]="input?.name"
+          [attr.aria-label]="input?.label"
+        >
         </ion-checkbox>
         <ion-text class="ion-margin-start">{{ input?.label }}</ion-text>
       </ion-item>
 
       <div class="ion-text-start" *ngIf="submitted && f[input?.name].errors">
         <ion-text color="danger" *ngIf="!form.controls['terms'].valid">
-          <small [attr.aria-errormessage]="input?.msg?.invalid">{{ input?.msg?.invalid }}</small>
+          <small [attr.aria-errormessage]="input?.msg?.invalid">{{
+            input?.msg?.invalid
+          }}</small>
         </ion-text>
       </div>
 
       <ion-text class="cursor" color="secondary">
-        <small class="cursor-pointer" title="Ver termos de uso do jussara.app." routerLink="/termos-de-uso"
-          attr.data-label="Ver termos de uso?"> Ver termos de uso? </small>
+        <small
+          class="cursor-pointer"
+          title="Ver termos de uso do jussara.app."
+          routerLink="/termos-de-uso"
+          attr.data-label="Ver termos de uso?"
+        >
+          Ver termos de uso?
+        </small>
       </ion-text>
     </div>
   </div>
 
-  <ion-button *ngIf="buildInputs.length > 0" type="submit" expand="block" class="ion-margin-vertical"
-    [fill]="attrButton?.fill ? 'outline': 'solid'" [attr.aria-label]="attrButton?.aria" [title]="attrButton?.title">
+  <ion-button
+    *ngIf="buildInputs.length > 0"
+    type="submit"
+    expand="block"
+    class="ion-margin-vertical"
+    [fill]="attrButton?.fill ? 'outline' : 'solid'"
+    [attr.aria-label]="attrButton?.aria"
+    [title]="attrButton?.title"
+  >
     <ion-icon class="ion-margin-end" [name]="attrButton?.icon"></ion-icon>
     {{ attrButton?.label }}
   </ion-button>
-
 </form>

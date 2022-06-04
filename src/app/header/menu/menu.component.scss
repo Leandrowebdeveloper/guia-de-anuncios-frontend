@@ -1,5 +1,19 @@
-ion-item{
+ion-item {
+  --background: rgba(var(--ion-color-primary-rgb), 1);
+
   &.selected {
-    --background: var(--ion-color-light);
+    --background: rgba(var(--ion-color-primary-rgb), 0.970);
+  }
+
+  &:hover {
+    --background: rgba(var(--ion-color-primary-rgb), 0.970);
+  }
+
+  ion-label {
+    --color: var(--ion-color-light);
+  }
+
+  ion-icon {
+    color: var(--ion-color-light);
   }
 }

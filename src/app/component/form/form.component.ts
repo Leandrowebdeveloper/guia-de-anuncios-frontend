@@ -36,6 +36,8 @@ export class FormComponent implements OnInit {
     this.disableValidate();
   }
 
+
+
   public get f() {
     return this.form.controls;
   }
@@ -85,4 +87,6 @@ export class FormComponent implements OnInit {
     );
     return (this.form = this.fb.group(data, validator));
   }
+
+
 }

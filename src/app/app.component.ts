@@ -1,6 +1,7 @@
 import { Platform } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { SplashScreen } from '@capacitor/splash-screen';
+import { StatusBar, Style } from '@capacitor/status-bar';
 
 @Component({
   selector: 'app-root',
@@ -17,13 +18,17 @@ export class AppComponent implements OnInit {
   }
 
   private async init(): Promise<void> {
-    await this.showSplashScreen();
+    await this.statusBar();
+    setTimeout(async () => {
+     await SplashScreen.hide({fadeOutDuration: 300});
+    }, 100);
   }
 
-  private async showSplashScreen(): Promise<void> {
-    return await SplashScreen.show({
-      showDuration: 3000,
-      autoHide: true,
+  private async statusBar(): Promise<void> {
+    StatusBar.setOverlaysWebView({ overlay: false });
+    await StatusBar.show();
+    await StatusBar.setBackgroundColor({
+      color: '#1E295C',
     });
   }
 }

@@ -3,7 +3,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, UrlTree } from '@angular/router';
-import { User } from 'src/app/interface';
+import { RequisitionLimit, User } from 'src/app/interface';
 import { AttrButton } from 'src/app/component/buttons/system-access-page-buttons/interface';
 import { OnComponentDeactivate } from 'src/app/component/form/guard/deactivate.guard';
 import { HelpsService } from 'src/app/services/helps/helps.service';
@@ -15,11 +15,22 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./recover.page.scss'],
 })
 export class RecoverPage implements OnInit, OnComponentDeactivate {
+  public desable: boolean;
+  public time: string;
   public config: User;
-  public attrButton: AttrButton;
   private form: FormGroup;
   private urlTree: boolean;
   private revocer: Subscription;
+  private requiriment: RequisitionLimit;
+  public readonly attrButton: AttrButton = {
+    route: 'recuperar-senha',
+    icon: 'arrow-up-circle',
+    label: 'Recuperar senha',
+    fill: false,
+    aria: 'Recuperar senha.',
+    title: 'Recuperar senha.',
+  };
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private helpsService: HelpsService,
@@ -28,7 +39,7 @@ export class RecoverPage implements OnInit, OnComponentDeactivate {
 
   ngOnInit() {
     this.setConfig();
-    this.setAttrButton();
+    this.hasDesable();
   }
 
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean | UrlTree {
@@ -86,7 +97,22 @@ export class RecoverPage implements OnInit, OnComponentDeactivate {
     error: HttpErrorResponse,
     loading: Promise<HTMLIonLoadingElement>
   ): any {
+    this.requisitionLimit(error);
     return this.recoverService.error(error, loading, this.revocer);
+  }
+
+  private requisitionLimit(error: HttpErrorResponse): void {
+    if (error.status === 403) {
+      this.helpsService.delay(() => {
+        this.setError(error);
+        this.hasDesable();
+        this.formUpdate();
+      }, 2500);
+    }
+  }
+
+  private setError(error: HttpErrorResponse): void {
+    this.requiriment = error.error;
   }
 
   private formUpdate(): number {
@@ -104,18 +130,45 @@ export class RecoverPage implements OnInit, OnComponentDeactivate {
     this.form = event;
   }
 
-  private setConfig(): void {
+  private setConfig(): any {
+    this.addConfig();
+    this.addRequirement();
+  }
+
+  private addRequirement() {
+    this.requiriment = this.config.requisitionLimit;
+  }
+
+  private addConfig(): void {
     this.config = this.activatedRoute.snapshot.data.recover;
   }
 
-  private setAttrButton(): void {
-    this.attrButton = {
-      route: 'recuperar-senha',
-      icon: 'arrow-up-circle',
-      label: 'Recuperar senha',
-      fill: false,
-      aria: 'Recuperar senha.',
-      title: 'Recuperar senha.',
-    };
+  private hasDesable(): void {
+    this.getDesable();
+    if (this.desable) {
+      this.getTimeLeftToUnlock();
+    }
+  }
+
+  private getDesable(): void {
+    if (this.requiriment) {
+      this.addDesable();
+    }
+  }
+
+  public setDesable(event: boolean): void {
+    this.desable = event;
+  }
+
+  private addDesable(): void {
+    this.desable = this.isDesabled();
+  }
+
+  private isDesabled(): boolean {
+    return this.requiriment.count >= 3;
+  }
+
+  public getTimeLeftToUnlock(): void {
+    this.time = this.requiriment?.delay;
   }
 }

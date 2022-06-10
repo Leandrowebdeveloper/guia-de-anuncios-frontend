@@ -9,7 +9,7 @@ export class HelpsService {
 
   public delay(
     callback: Function,
-    time: 1000 | 1500 | 2000 | 2500 | 3000
+    time: 1000 | 1500 | 2000 | 2500 | 3000 | 3500
   ): number {
     return setTimeout(callback, time);
   }
@@ -31,7 +31,7 @@ export class HelpsService {
   }
 
   public isAuthorizeTheRoute(form: FormGroup): boolean {
-    return form.dirty;
+    return form?.dirty;
   }
 
   public messageAuthorizeTheRoute(): boolean {

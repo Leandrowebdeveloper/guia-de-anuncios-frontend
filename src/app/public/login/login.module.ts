@@ -10,6 +10,8 @@ import { LoginPage } from './login.page';
 import { FormComponentModule } from 'src/app/component/form/form.module';
 import { SystemAccessPageButtonsModule } from 'src/app/component/buttons/system-access-page-buttons/system-access-page-buttons.module';
 import { LoginService } from './services/login.service';
+import { RequisitionLimitComponentModule } from 'src/app/component/requisitionLimit/requisition-limit.module';
+
 
 @NgModule({
   imports: [
@@ -18,7 +20,8 @@ import { LoginService } from './services/login.service';
     LoginPageRoutingModule,
     HeaderPageModule,
     FormComponentModule,
-    SystemAccessPageButtonsModule
+    SystemAccessPageButtonsModule,
+    RequisitionLimitComponentModule
   ],
   declarations: [LoginPage],
   providers: [LoginService]

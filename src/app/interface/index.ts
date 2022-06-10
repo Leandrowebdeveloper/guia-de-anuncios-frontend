@@ -12,6 +12,7 @@ export interface User {
   state: boolean;
   token: string;
   active: boolean;
+  desabled: boolean;
   key: string;
   passwordConfirmation: string;
   stayConnected: boolean;
@@ -22,8 +23,15 @@ export interface User {
   };
   _csrf: string;
   message: string;
+  requisitionLimit: RequisitionLimit;
 }
 
+export interface RequisitionLimit {
+  count: number;
+  delay: string;
+  desabled: boolean;
+  time: string;
+}
 
 export interface ActivateAccount {
   user_id: number;
@@ -60,5 +68,3 @@ export interface LocalStorage {
   find: (key: string) => Promise<any>;
   destroy: (key: string) => Promise<any>;
 }
-
-

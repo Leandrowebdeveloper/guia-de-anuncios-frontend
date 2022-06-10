@@ -1,7 +1,7 @@
 import { Platform } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { SplashScreen } from '@capacitor/splash-screen';
-import { StatusBar, Style } from '@capacitor/status-bar';
+import { StatusBar } from '@capacitor/status-bar';
 
 @Component({
   selector: 'app-root',
@@ -25,10 +25,12 @@ export class AppComponent implements OnInit {
   }
 
   private async statusBar(): Promise<void> {
-    StatusBar.setOverlaysWebView({ overlay: false });
-    await StatusBar.show();
-    await StatusBar.setBackgroundColor({
-      color: '#1E295C',
-    });
+    if(this.plt.is('hybrid')) {
+      await StatusBar.setOverlaysWebView({ overlay: false });
+      await StatusBar.show();
+      await StatusBar.setBackgroundColor({
+        color: '#1E295C',
+      });
+    }
   }
 }

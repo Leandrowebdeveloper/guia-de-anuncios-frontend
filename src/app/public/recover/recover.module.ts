@@ -9,6 +9,7 @@ import { RecoverPageRoutingModule } from './recover-routing.module';
 import { FormComponentModule } from 'src/app/component/form/form.module';
 import { RecoverPage } from './recover.page';
 import { RecoverService } from './services/recover.service';
+import { RequisitionLimitComponentModule } from 'src/app/component/requisitionLimit/requisition-limit.module';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { RecoverService } from './services/recover.service';
     IonicModule,
     RecoverPageRoutingModule,
     HeaderPageModule,
-    FormComponentModule
+    FormComponentModule,
+    RequisitionLimitComponentModule
   ],
   declarations: [RecoverPage],
   providers: [RecoverService]

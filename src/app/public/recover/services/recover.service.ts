@@ -62,7 +62,9 @@ export class RecoverService extends HttpService<User> {
     subscribe: Subscription
   ) {
     await this.disableLoadingUnsubscribeRegisterVariable(loading, subscribe);
-    return this.errorMessage(error);
+    if (error.status !== 403) {
+      return this.errorMessage(error);
+    }
   }
 
   private errorMessage(error: HttpErrorResponse): any {

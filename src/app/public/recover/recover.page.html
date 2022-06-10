@@ -3,11 +3,21 @@
 <ion-content [fullscreen]="true">
   <ion-grid fixed>
 
-    <app-form
-    (submitDataForm)="onSubmit($event)"
-    (exportForm)="importForm($event)"
-    [inputConfig]="config"
-    [attrButton]="attrButton"></app-form>
+    <div *ngIf="!desable; else Message">
+
+      <app-form
+      (submitDataForm)="onSubmit($event)"
+      (exportForm)="importForm($event)"
+      [inputConfig]="config"
+      [attrButton]="attrButton"></app-form>
+
+    </div>
+
+    <ng-template #Message>
+
+      <app-requisition-limit [time]="time" (desable)="setDesable($event)"></app-requisition-limit>
+
+    </ng-template>
 
   </ion-grid>
 </ion-content>

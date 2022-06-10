@@ -93,7 +93,9 @@ export class LoginService extends HttpService<User> {
     subscribe: Subscription
   ) {
     this.disableLoadingUnsubscribeLoginVariable(loading, subscribe).then();
-    return this.errorMessage(error);
+    if (error.status !== 403) {
+      return this.errorMessage(error);
+    }
   }
 
   private async disableLoadingAndGoToUserPageAndShowMessage(

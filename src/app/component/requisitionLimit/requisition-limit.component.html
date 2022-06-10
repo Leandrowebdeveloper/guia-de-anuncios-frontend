@@ -1,0 +1,17 @@
+<ion-card class="ion-margin-vertical">
+
+  <ion-card-header color="warning">
+    <ion-card-subtitle color="light"><ion-icon name="warning"></ion-icon> Atenção !</ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-card-content class="ion-margin-top">
+
+    <ion-text>
+      <p>Você já efetuou 3 tentativas, esse e o limite.</p>
+      <p>Por favor aguarde por 5 minútos para tentar novamente.</p>
+      <p class="d-flex">&#9203; {{ timeRunningOut }} <ion-spinner class="ion-no-margin" [hidden]="timeRunningOut" name="dots"></ion-spinner> </p>
+    </ion-text>
+
+  </ion-card-content>
+
+</ion-card>

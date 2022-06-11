@@ -38,7 +38,6 @@ export class SystemAccessPage implements OnInit, OnComponentDeactivate {
     this.setConfig();
     this.hasDesable();
     this.initattrButton();
-    console.log(this.activeRoute);
   }
 
   private get activeRoute(): string {
@@ -95,7 +94,7 @@ export class SystemAccessPage implements OnInit, OnComponentDeactivate {
     switch (this.activeRoute) {
       case 'entrar':
         return this.login(event);
-      case 'recuperar-renha':
+      case 'recuperar-senha':
         return this.recover(event);
       case 'cadastrar':
         return this.register(event);
@@ -117,7 +116,7 @@ export class SystemAccessPage implements OnInit, OnComponentDeactivate {
     this.setRouter('register');
     const loading = this.showLoading('Cadastrando usuário...');
     return (this.systemAccess = this.systemAccessService
-      .sendLoginData(event.value)
+      .register(event.value)
       .subscribe(
         (user: User) => this.success(user, loading),
         (error: HttpErrorResponse) => this.error(error, loading)

@@ -1,4 +1,4 @@
-import { LoginService } from './services/login.service';
+import { SystemAccessService } from './services/system-access.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, UrlTree } from '@angular/router';
@@ -11,39 +11,59 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { HelpsService } from 'src/app/services/helps/helps.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
+  selector: 'app-system-access',
+  templateUrl: './system-access.page.html',
   styleUrls: [
-    './login.page.scss',
+    './system-access.page.scss',
     './../activate-account/activate-account.page.scss',
   ],
 })
-export class LoginPage implements OnInit, OnComponentDeactivate {
+export class SystemAccessPage implements OnInit, OnComponentDeactivate {
   public desable: boolean;
   public time: string;
   public config: User;
   private form: FormGroup;
   private urlTree: boolean;
-  private login: Subscription;
+  private systemAccess: Subscription;
   private requiriment: RequisitionLimit;
-  public readonly attrButton: AttrButton = {
-    route: 'login',
-    icon: 'log-in',
-    label: 'Entrar',
-    fill: false,
-    aria: 'Acessar o sistema.',
-    title: 'Acessar o sistema.',
-  };
+  private _attrButton: AttrButton;
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private loginService: LoginService,
+    private systemAccessService: SystemAccessService,
     private helpsService: HelpsService
   ) {}
 
   ngOnInit() {
     this.setConfig();
     this.hasDesable();
+    this.initattrButton();
+    console.log(this.activeRoute);
+  }
+
+  private get activeRoute(): string {
+    return this.activatedRoute.snapshot.parent.routeConfig.path;
+  }
+
+  public get attrButton(): AttrButton {
+    return this._attrButton;
+  }
+  public set attrButton(value: AttrButton) {
+    this._attrButton = value;
+  }
+
+  private initattrButton(): void {
+    switch (this.activeRoute) {
+      case 'entrar':
+        this.attrButton = this.systemAccessService.attrButton[0];
+        break;
+      case 'recuperar-senha':
+        this.attrButton = this.systemAccessService.attrButton[1];
+        break;
+      case 'cadastrar':
+        this.attrButton = this.systemAccessService.attrButton[2];
+        break;
+    }
   }
 
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean | UrlTree {
@@ -72,11 +92,51 @@ export class LoginPage implements OnInit, OnComponentDeactivate {
   }
 
   public onSubmit(event: FormGroup): Subscription {
-    const loading = this.loginService.loading();
-    return (this.login = this.loginService.sendLoginData(event.value).subscribe(
-      (user: User) => this.success(user, loading),
-      (error: HttpErrorResponse) => this.error(error, loading)
-    ));
+    switch (this.activeRoute) {
+      case 'entrar':
+        return this.login(event);
+      case 'recuperar-renha':
+        return this.recover(event);
+      case 'cadastrar':
+        return this.register(event);
+    }
+  }
+
+  private login(event: FormGroup): Subscription {
+    this.setRouter('login');
+    const loading = this.showLoading('Acessar o sistema...');
+    return (this.systemAccess = this.systemAccessService
+      .sendLoginData(event.value)
+      .subscribe(
+        (user: User) => this.success(user, loading),
+        (error: HttpErrorResponse) => this.error(error, loading)
+      ));
+  }
+
+  private register(event: FormGroup): Subscription {
+    this.setRouter('register');
+    const loading = this.showLoading('Cadastrando usuário...');
+    return (this.systemAccess = this.systemAccessService
+      .sendLoginData(event.value)
+      .subscribe(
+        (user: User) => this.success(user, loading),
+        (error: HttpErrorResponse) => this.error(error, loading)
+      ));
+  }
+
+  private recover(event: FormGroup): Subscription {
+    this.setRouter('recover');
+    const loading = this.showLoading('Recuperando senha...');
+    return (this.systemAccess = this.systemAccessService
+      .passwordRecover(event.value)
+      .subscribe(
+        (user: User) => this.success(user, loading),
+        (error: HttpErrorResponse) => this.error(error, loading)
+      ));
+  }
+
+  private showLoading(message: string): Promise<HTMLIonLoadingElement> {
+    return this.systemAccessService.loading(message);
   }
 
   private success(user: User, loading: Promise<HTMLIonLoadingElement>) {
@@ -92,7 +152,7 @@ export class LoginPage implements OnInit, OnComponentDeactivate {
     user: User,
     loading: Promise<HTMLIonLoadingElement>
   ) {
-    return this.loginService.success(user, loading, this.login);
+    return this.systemAccessService.success(user, loading, this.systemAccess);
   }
 
   private error(
@@ -100,7 +160,7 @@ export class LoginPage implements OnInit, OnComponentDeactivate {
     loading: Promise<HTMLIonLoadingElement>
   ) {
     this.requisitionLimit(error);
-    return this.loginService.error(error, loading, this.login);
+    return this.systemAccessService.error(error, loading, this.systemAccess);
   }
 
   private requisitionLimit(error: HttpErrorResponse): void {
@@ -140,7 +200,7 @@ export class LoginPage implements OnInit, OnComponentDeactivate {
   }
 
   private addConfig() {
-    this.config = this.activatedRoute.snapshot.data.login;
+    this.config = this.activatedRoute.snapshot.data.systemAccess;
   }
 
   private hasDesable(): void {
@@ -170,5 +230,9 @@ export class LoginPage implements OnInit, OnComponentDeactivate {
 
   public getTimeLeftToUnlock(): void {
     this.time = this.requiriment?.delay;
+  }
+
+  private setRouter(route: 'login' | 'recover' | 'register') {
+    this.systemAccessService.activeRoute = route;
   }
 }

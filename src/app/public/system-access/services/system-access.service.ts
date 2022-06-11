@@ -1,9 +1,7 @@
 import { HelpsService } from 'src/app/services/helps/helps.service';
 import { Observable } from 'rxjs';
-import { HttpService } from 'src/app/services/http/http.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 
 import { User } from 'src/app/interface';
 import { LoadingService } from 'src/app/component/loading/loading.service';
@@ -11,72 +9,92 @@ import { AlertService } from 'src/app/component/alert/alert.service';
 import { Subscription } from 'rxjs';
 import { ToastService } from 'src/app/component/toast/toast.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { LoginService } from './login/login.service';
+import { RecoverService } from './recover/recover.service';
+import { AttrButton } from 'src/app/component/buttons/system-access-page-buttons/interface';
+import { RegisterService } from './register/register.service';
 
 @Injectable()
-
-/**
- * @class LoginService
- * @extends HttpService<User>
- */
-export class LoginService extends HttpService<User> {
-  private _stayConnected: boolean;
+export class SystemAccessService {
+  private _activeRoute: string = 'login' || 'recover' || 'register';
+  public attrButton: AttrButton[] = [
+    {
+      route: 'login',
+      icon: 'log-in',
+      label: 'Entrar',
+      fill: false,
+      aria: 'Acessar o sistema.',
+      title: 'Acessar o sistema.',
+    },
+    {
+      route: 'recuperar-senha',
+      icon: 'arrow-up-circle',
+      label: 'Recuperar senha',
+      fill: false,
+      aria: 'Recuperar senha.',
+      title: 'Recuperar senha.',
+    },
+    {
+      route: 'cadastrar',
+      icon: 'create',
+      label: 'cadastrar',
+      fill: false,
+      aria: 'Criar conta.',
+      title: 'Criar conta.',
+    },
+  ];
   constructor(
     public http: HttpClient,
     private loadingService: LoadingService,
     private alertService: AlertService,
     private authService: AuthService,
     private toastService: ToastService,
-    private helpsService: HelpsService
-  ) {
-    super(http, `${environment.api}api/login`);
+    private helpsService: HelpsService,
+    private loginService: LoginService,
+    private recoverService: RecoverService,
+    private registerService: RegisterService
+  ) {}
+
+  public get activeRoute(): string {
+    return this._activeRoute;
+  }
+  public set activeRoute(value: string) {
+    this._activeRoute = value;
   }
 
-  private set stayConnected(value: boolean) {
-    this._stayConnected = value;
-  }
-
-  private get stayConnected() {
-    return this._stayConnected;
+  public passwordRecover(user: User): Observable<User> {
+    return this.recoverService.create(user);
   }
 
   public sendLoginData(user: User): Observable<User> {
-    this.stayConnected = user.stayConnected;
-    return this.create(user);
+    this.loginService.stayConnected = user.stayConnected;
+    return this.loginService.create(user);
   }
 
-  private setTokenSession(user: User): void {
-    return sessionStorage.setItem('token', user.token);
+  public register(user: User): Observable<User> {
+    return this.registerService.register(user);
   }
 
-  private async setTokenDatabase(user: User): Promise<void> {
-    return await this.authService.setToken(user);
-  }
-
-  private setUser(user: User): User {
-    return (this.authService.setUserAndAuthentication = user);
-  }
-
-  private setUserAndTokenInSession(user: User): void {
-    this.setUser(user);
-    this.setTokenSession(user);
-  }
-
-  private setUserAndTokenInDatabase(user: User): void {
-    this.setUser(user);
-    this.setTokenDatabase(user);
-  }
-
+  /********************************************************
+   ******* MESSAGENS DE RETORNO DA CHAMADA HTTP ***********
+   ********************************************************/
   public success(
     user: User,
     loading: Promise<HTMLIonLoadingElement>,
     subscribe: Subscription
   ): any {
-    this.storesTokenDatabaseOrSession(user);
+    this.isLogin(user);
     return this.disableLoadingAndGoToUserPageAndShowMessage(
       user,
       loading,
       subscribe
     );
+  }
+
+  private isLogin(user: User): void {
+    if (this.activeRoute === 'login') {
+      return this.loginService.storesTokenDatabaseOrSession(user);
+    }
   }
 
   private async disableLoadingUnsubscribeLoginVariable(
@@ -109,6 +127,17 @@ export class LoginService extends HttpService<User> {
   }
 
   private async goToUserPage(): Promise<number> {
+    switch (this.activeRoute) {
+      case 'entrar':
+        return this.authRoute();
+      case 'recuperar-senha':
+        return this.recoverService.goToLoginPage();
+      case 'cadastrar':
+        return this.registerService.goToLoginPage();
+    }
+  }
+
+  private authRoute(): number | PromiseLike<number> {
     return this.helpsService.delay(
       async () => await this.authService.unauthenticatedUserAllowLoginRoute(),
       2500
@@ -130,14 +159,7 @@ export class LoginService extends HttpService<User> {
     );
   }
 
-  public async loading(): Promise<HTMLIonLoadingElement> {
-    return await this.loadingService.show('Acessar o sistema...');
-  }
-
-  private storesTokenDatabaseOrSession(user: User): void {
-    if (this.stayConnected) {
-      return this.setUserAndTokenInDatabase(user);
-    }
-    return this.setUserAndTokenInSession(user);
+  public async loading(message: string): Promise<HTMLIonLoadingElement> {
+    return await this.loadingService.show(message);
   }
 }

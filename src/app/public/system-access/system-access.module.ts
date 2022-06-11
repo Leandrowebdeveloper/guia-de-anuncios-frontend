@@ -4,13 +4,17 @@ import { CommonModule } from '@angular/common';
 
 import { IonicModule } from '@ionic/angular';
 
-import { LoginPageRoutingModule } from './login-routing.module';
+import { LoginPageRoutingModule } from './system-access-routing.module';
 
-import { LoginPage } from './login.page';
+import { SystemAccessPage } from './system-access.page';
 import { FormComponentModule } from 'src/app/component/form/form.module';
 import { SystemAccessPageButtonsModule } from 'src/app/component/buttons/system-access-page-buttons/system-access-page-buttons.module';
-import { LoginService } from './services/login.service';
+import { SystemAccessService } from './services/system-access.service';
 import { RequisitionLimitComponentModule } from 'src/app/component/requisitionLimit/requisition-limit.module';
+import { SystemAccessResolver } from './guard/resolve.guard';
+import { RecoverService } from './services/recover/recover.service';
+import { LoginService } from './services/login/login.service';
+import { RegisterService } from './services/register/register.service';
 
 
 @NgModule({
@@ -23,7 +27,7 @@ import { RequisitionLimitComponentModule } from 'src/app/component/requisitionLi
     SystemAccessPageButtonsModule,
     RequisitionLimitComponentModule
   ],
-  declarations: [LoginPage],
-  providers: [LoginService]
+  declarations: [SystemAccessPage],
+  providers: [SystemAccessService, LoginService, RecoverService, RegisterService,  SystemAccessResolver]
 })
 export class LoginPageModule {}

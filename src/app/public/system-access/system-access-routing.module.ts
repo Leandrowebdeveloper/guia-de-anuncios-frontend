@@ -1,23 +1,25 @@
-import { RecoverResolver } from './guard/resolve.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { RecoverPage } from './recover.page';
 import { DeactivateGuard } from 'src/app/component/form/guard/deactivate.guard';
+import { SystemAccessResolver } from './guard/resolve.guard';
+
+import { SystemAccessPage } from './system-access.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: RecoverPage,
+    component: SystemAccessPage,
     canDeactivate: [DeactivateGuard],
     resolve: {
-      recover: RecoverResolver
-    }
+      systemAccess: SystemAccessResolver,
+    },
+
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [RecoverResolver, DeactivateGuard]
+  providers: [SystemAccessResolver, DeactivateGuard]
 })
-export class RecoverPageRoutingModule {}
+export class LoginPageRoutingModule {}

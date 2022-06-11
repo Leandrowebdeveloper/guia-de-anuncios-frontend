@@ -29,13 +29,7 @@ const routes: Routes = [
           ),
         data: { breadcrumb: 'Classificados' },
       },
-      {
-        path: 'entrar',
-        canActivate: [AuthGuard],
-        loadChildren: () =>
-          import('../public/login/login.module').then((m) => m.LoginPageModule),
-        data: { breadcrumb: 'Entrar' },
-      },
+
       {
         path: 'sair',
         canActivate: [AuthGuard],
@@ -49,17 +43,26 @@ const routes: Routes = [
         path: 'cadastrar',
         canActivate: [AuthGuard],
         loadChildren: () =>
-          import('../public/register/register.module').then(
-            (m) => m.RegisterPageModule
+          import('../public/system-access/system-access.module').then(
+            (m) => m.LoginPageModule
           ),
         data: { breadcrumb: 'Cadastrar' },
+      },
+      {
+        path: 'entrar',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('../public/system-access/system-access.module').then(
+            (m) => m.LoginPageModule
+          ),
+        data: { breadcrumb: 'Entrar' },
       },
       {
         path: 'recuperar-senha',
         canActivate: [AuthGuard],
         loadChildren: () =>
-          import('../public/recover/recover.module').then(
-            (m) => m.RecoverPageModule
+          import('../public/system-access/system-access.module').then(
+            (m) => m.LoginPageModule
           ),
         data: { breadcrumb: 'Recuperar Senha' },
       },

@@ -1,0 +1,1 @@
+# Guia de Anúncios frontend

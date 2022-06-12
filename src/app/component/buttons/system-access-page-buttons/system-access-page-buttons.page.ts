@@ -12,26 +12,20 @@ import { AttrButton } from './interface';
  */
 export class SystemAccessPageButtons implements OnInit {
   @Input() dataButtons: AttrButton[];
+  @Input() router: string;
   constructor() {}
 
   ngOnInit() {
-    this.dataButtons = [
-      {
-        route: '/recuperar-senha',
-        icon: 'key',
-        label: 'Esqueceu a senha?',
-        aria: 'Página recuperar senha.',
-        title: 'Página recuperar senha.',
-        fill: true,
-      },
-      {
-        route: '/cadastrar',
-        icon: 'create',
-        label: 'criar conta',
-        aria: 'Página criar conta.',
-        title: 'Página criar conta.',
-        fill: false,
-      },
-    ];
+    switch (this.router) {
+      case 'entrar':
+        this.dataButtons[1].fill = true;
+        return this.dataButtons.splice(0, 1);
+      case 'recuperar-senha':
+        this.dataButtons[0].fill = true;
+        return this.dataButtons.splice(1, 1);
+      case 'cadastrar':
+        this.dataButtons[0].fill = true;
+        return this.dataButtons.splice(2, 1);
+    }
   }
 }

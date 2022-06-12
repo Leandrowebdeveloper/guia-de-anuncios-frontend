@@ -17,9 +17,9 @@ import { RegisterService } from './register/register.service';
 @Injectable()
 export class SystemAccessService {
   private _activeRoute: string = 'login' || 'recover' || 'register';
-  public attrButton: AttrButton[] = [
+  public readonly attrButton: AttrButton[] = [
     {
-      route: 'login',
+      route: '/entrar',
       icon: 'log-in',
       label: 'Entrar',
       fill: false,
@@ -27,7 +27,7 @@ export class SystemAccessService {
       title: 'Acessar o sistema.',
     },
     {
-      route: 'recuperar-senha',
+      route: '/recuperar-senha',
       icon: 'arrow-up-circle',
       label: 'Recuperar senha',
       fill: false,
@@ -35,7 +35,7 @@ export class SystemAccessService {
       title: 'Recuperar senha.',
     },
     {
-      route: 'cadastrar',
+      route: '/cadastrar',
       icon: 'create',
       label: 'cadastrar',
       fill: false,

@@ -1,5 +1,5 @@
 import { HelpsService } from 'src/app/services/helps/helps.service';
-import { AlertService } from './../../../component/alert/alert.service';
+import { AlertService } from '../../../../component/alert/alert.service';
 import { NavController } from '@ionic/angular';
 import { tap, catchError } from 'rxjs/operators';
 import { Observable, EMPTY } from 'rxjs';

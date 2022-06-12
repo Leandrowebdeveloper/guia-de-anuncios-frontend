@@ -27,6 +27,7 @@ export class SystemAccessPage implements OnInit, OnComponentDeactivate {
   private systemAccess: Subscription;
   private requiriment: RequisitionLimit;
   private _attrButton: AttrButton;
+  private _attrButtonPage: AttrButton[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -40,7 +41,7 @@ export class SystemAccessPage implements OnInit, OnComponentDeactivate {
     this.initattrButton();
   }
 
-  private get activeRoute(): string {
+  public get activeRoute(): string {
     return this.activatedRoute.snapshot.parent.routeConfig.path;
   }
 
@@ -51,7 +52,16 @@ export class SystemAccessPage implements OnInit, OnComponentDeactivate {
     this._attrButton = value;
   }
 
+  public get attrButtonPage(): AttrButton[] {
+    return this._attrButtonPage;
+  }
+
+  public set attrButtonPage(value: AttrButton[]) {
+    this._attrButtonPage = value;
+  }
+
   private initattrButton(): void {
+    this.setAttrButtonPage();
     switch (this.activeRoute) {
       case 'entrar':
         this.attrButton = this.systemAccessService.attrButton[0];
@@ -63,6 +73,10 @@ export class SystemAccessPage implements OnInit, OnComponentDeactivate {
         this.attrButton = this.systemAccessService.attrButton[2];
         break;
     }
+  }
+
+  private setAttrButtonPage() {
+    this.attrButtonPage = this.systemAccessService.attrButton;
   }
 
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean | UrlTree {

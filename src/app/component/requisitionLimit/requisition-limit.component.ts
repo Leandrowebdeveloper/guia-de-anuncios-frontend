@@ -9,6 +9,7 @@ import * as moment from 'moment';
   styleUrls: ['./requisition-limit.component.scss'],
 })
 export class RequisitionLimitComponent implements OnInit {
+  @Input() route: string;
   @Input() time: string;
   @Output() desable = new EventEmitter<boolean>();
   public timeRunningOut: string;
@@ -16,6 +17,7 @@ export class RequisitionLimitComponent implements OnInit {
 
   ngOnInit(): void {
     this.init();
+    console.log(this.route);
   }
 
   public init(): void {

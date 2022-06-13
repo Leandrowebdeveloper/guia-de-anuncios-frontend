@@ -128,11 +128,11 @@ export class SystemAccessService {
 
   private async goToUserPage(): Promise<number> {
     switch (this.activeRoute) {
-      case 'entrar':
+      case 'login':
         return this.authRoute();
-      case 'recuperar-senha':
+      case 'recover':
         return this.recoverService.goToLoginPage();
-      case 'cadastrar':
+      case 'register':
         return this.registerService.goToLoginPage();
     }
   }

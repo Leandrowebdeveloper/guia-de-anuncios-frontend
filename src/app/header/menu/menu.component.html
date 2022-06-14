@@ -3,8 +3,8 @@
     <ion-label>Painel de controle</ion-label>
   </ion-item-divider> -->
 
-  <ion-item *ngFor="let item of data; let last = last;" [routerLink]="[item?.route]" routerLinkActive="selected" detail="false"
-    routerDirection="forward" [lines]="last? 'none': 'inset'">
+  <ion-item *ngFor="let item of data; let last = last;" [routerLink]="item?.route" routerLinkActive="selected"
+    detail="false" routerDirection="forward" [lines]="last? 'none': 'inset'">
     <ion-label>{{ item?.label }}</ion-label>
     <ion-icon slot="end" [name]="item?.icon"></ion-icon>
   </ion-item>

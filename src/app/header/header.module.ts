@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { HeaderPage } from './header.page';
 
-import { BreadcrumpsPageModule } from './breadcrumps/breadcrumps.module';
+import { BreadcrumpsPageModule } from './breadcrumbs/breadcrumbs.module';
 import { MenuComponent } from './menu/menu.component';
 
 @NgModule({

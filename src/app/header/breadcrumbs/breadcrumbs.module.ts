@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { BreadcrumpsPageRoutingModule } from './breadcrumps-routing.module';
+import { BreadcrumpsPageRoutingModule } from './breadcrumbs-routing.module';
 
-import { BreadcrumpsPage } from './breadcrumps.page';
+import { BreadcrumpsPage } from './breadcrumbs.page';
 
 @NgModule({
   imports: [

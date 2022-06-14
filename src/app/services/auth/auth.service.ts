@@ -54,7 +54,7 @@ export class AuthService {
 
   public checkLogin(url: string): true | UrlTree {
     if (this.isLoggedIn && url === '/entrar') {
-      return this.router.parseUrl('/usuarios');
+      return this.router.parseUrl('/painel-de-controle');
     } else if (
       (this.isLoggedIn && url !== '/entrar') ||
       (this.isLoggedIn && url !== '/recuperar-senha') ||
@@ -74,7 +74,7 @@ export class AuthService {
   public unauthenticatedUserAllowLoginRoute(): Promise<boolean> {
     const url = this.router.url;
     if (this.isLoggedIn && url.toLowerCase() === '/entrar') {
-      return this.navCtrl.navigateForward('/usuarios');
+      return this.navCtrl.navigateForward('/painel-de-controle');
     }
   }
 

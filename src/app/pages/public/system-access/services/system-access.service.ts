@@ -28,7 +28,7 @@ export class SystemAccessService {
     },
     {
       route: '/recuperar-senha',
-      icon: 'arrow-up-circle',
+      icon: 'key',
       label: 'Recuperar senha',
       fill: false,
       aria: 'Recuperar senha.',

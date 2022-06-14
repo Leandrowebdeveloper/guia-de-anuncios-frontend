@@ -10,22 +10,22 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 export class MenuComponent implements OnInit, OnDestroy {
   public data = [
     {
-      route: '/usuarios',
+      route: ['painel-de-controle', 'usuarios'],
       label: 'Usuários',
       icon: 'person',
     },
     {
-      route: '/anuncios',
+      route: ['painel-de-controle', 'anuncios'],
       label: 'Anúncios',
       icon: 'albums',
     },
     {
-      route: '/sair',
+      route: ['sair'],
       label: 'Sair',
       icon: 'log-out',
     },
     {
-      route: '/entrar',
+      route: ['entrar'],
       label: 'Entrar',
       icon: 'log-in',
     },

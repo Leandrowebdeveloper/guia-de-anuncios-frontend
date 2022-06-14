@@ -11,13 +11,17 @@ const routes: Routes = [
       {
         path: 'inicio',
         loadChildren: () =>
-          import('../pages/public/home/home.module').then((m) => m.HomePageModule),
+          import('../pages/public/home/home.module').then(
+            (m) => m.HomePageModule
+          ),
         data: { breadcrumb: 'Início' },
       },
       {
         path: 'noticias',
         loadChildren: () =>
-          import('../pages/public/news/news.module').then((m) => m.NewsPageModule),
+          import('../pages/public/news/news.module').then(
+            (m) => m.NewsPageModule
+          ),
         data: { breadcrumb: 'Notícias' },
       },
 
@@ -69,33 +73,26 @@ const routes: Routes = [
       {
         path: 'redefinir-senha/:token',
         loadChildren: () =>
-          import('../pages/public/redefine-password/redefine-password.module').then(
-            (m) => m.RedefinePasswordPageModule
-          ),
+          import(
+            '../pages/public/redefine-password/redefine-password.module'
+          ).then((m) => m.RedefinePasswordPageModule),
         data: { breadcrumb: 'Redefinir senha' },
       },
       {
-        path: 'usuarios',
+        path: 'painel-de-controle',
         canActivate: [AuthGuard],
         loadChildren: () =>
-          import('../pages/restricted/user/user.module').then((m) => m.UserPageModule),
-        data: { breadcrumb: 'Usuários' },
-      },
-      {
-        path: 'anuncios',
-        canActivate: [AuthGuard],
-        loadChildren: () =>
-          import('../pages/restricted/advert/advert.module').then(
-            (m) => m.AdvertPageModule
+          import('../pages/dashboard/dashboard.module').then(
+            (m) => m.DashboardPageModule
           ),
-        data: { breadcrumb: 'Anúncios' },
+        data: { breadcrumb: 'Painel de Controle' },
       },
       {
         path: 'ativar-conta/:token',
         loadChildren: () =>
-          import('../pages/public/activate-account/activate-account.module').then(
-            (m) => m.ActivateAccountPageModule
-          ),
+          import(
+            '../pages/public/activate-account/activate-account.module'
+          ).then((m) => m.ActivateAccountPageModule),
         data: { breadcrumb: 'Ativar conta' },
       },
       {

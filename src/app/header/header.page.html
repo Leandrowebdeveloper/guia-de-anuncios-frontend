@@ -3,11 +3,12 @@
     <div>
 
       <figure class="ion-margin-start">
-        <ion-img src="./../../assets/layout.svg" alt="Montes belos" title="Montes belos .app"></ion-img>
+        <ion-img src="./../../assets/layout.svg" class="cursor-pointer" routerLink="/inicio" routerDirection="forward" alt="Montes belos"
+          title="www.montesbelos.app"></ion-img>
       </figure>
 
-      <span class="ion-icon" (click)="menuShow($event)" title="Painel de controle"
-        data-message="Botão painel de controle">
+      <span class="ion-icon" (click)="menuShow($event)" title="Menu"
+        data-message="Botão de menu">
         <ion-icon size="large" slot="end" name="options" color="medium"></ion-icon>
       </span>
 
@@ -15,4 +16,4 @@
   </ion-toolbar>
 </ion-header>
 
-<app-breadcrumps></app-breadcrumps>
+<app-breadcrumbs></app-breadcrumbs>

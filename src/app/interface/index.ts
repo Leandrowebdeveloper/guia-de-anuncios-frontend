@@ -47,7 +47,7 @@ export interface Image {
 
 export interface Breadcrumb {
   label: string;
-  url: string;
+  link: string;
 }
 
 // Interface de funções

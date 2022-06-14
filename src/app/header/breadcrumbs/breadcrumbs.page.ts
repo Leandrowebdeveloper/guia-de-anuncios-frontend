@@ -2,19 +2,19 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { Breadcrumb } from 'src/app/interface';
-import { BreadcrumpsService } from './service/breadcrumps.service';
+import { BreadcrumbsService } from './service/breadcrumbs.service';
 
 @Component({
-  selector: 'app-breadcrumps',
-  templateUrl: './breadcrumps.page.html',
-  styleUrls: ['./breadcrumps.page.scss'],
+  selector: 'app-breadcrumbs',
+  templateUrl: './breadcrumbs.page.html',
+  styleUrls: ['./breadcrumbs.page.scss'],
 })
 export class BreadcrumpsPage {
   public breadcrumbs$: Observable<Breadcrumb[]>;
   public hasIos: boolean;
 
   constructor(
-    private readonly breadcrumbService: BreadcrumpsService,
+    private readonly breadcrumbService: BreadcrumbsService,
     private plt: Platform
   ) {
     this.breadcrumbs$ = this.breadcrumbService.breadcrumbs$;

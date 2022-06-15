@@ -3,14 +3,25 @@
     <div>
 
       <figure class="ion-margin-start">
-        <ion-img src="./../../assets/layout.svg" class="cursor-pointer" routerLink="/inicio" routerDirection="forward" alt="Montes belos"
-          title="www.montesbelos.app"></ion-img>
+        <ion-img src="./../../assets/layout.svg" class="cursor-pointer" routerLink="/inicio" routerDirection="forward"
+          alt="Montes belos" title="www.montesbelos.app"></ion-img>
       </figure>
 
-      <span class="ion-icon" (click)="menuShow($event)" title="Menu"
-        data-message="Botão de menu">
-        <ion-icon size="large" slot="end" name="options" color="medium"></ion-icon>
-      </span>
+      <div class="ion-icons">
+
+        <span routerLink="/painel-de-controle" title="Painel de controle" data-message="Painel de controle">
+          <ion-icon size="large" slot="end" name="options" color="medium"></ion-icon>
+        </span>
+
+        <!-- <span (click)="menuShow($event)" title="Menu" data-message="Botão de menu">
+          <ion-icon size="large" slot="end" name="options" color="medium"></ion-icon>
+        </span> -->
+
+        <ion-avatar class="ion-margin-horizontal cursor-pointer" [routerLink]="userRouterPage">
+          <img [src]="avatar" [title]="'Usuário ' + name" alt="Usuário">
+        </ion-avatar>
+
+      </div>
 
     </div>
   </ion-toolbar>

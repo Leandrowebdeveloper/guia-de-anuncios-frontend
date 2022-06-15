@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border ion-margin-bottom" [collapse]="hasIos ? 'condense': 'fade'" [translucent]="hasIos">
   <ion-toolbar color="light">
-    <ion-breadcrumbs>
+    <ion-breadcrumbs mode="md">
       <ion-breadcrumb  *ngFor="let breadcrumb of (breadcrumbs$ | async); let i = index; last as Last"
       active="true"
       separator="true"

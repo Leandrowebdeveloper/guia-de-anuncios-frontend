@@ -6,6 +6,7 @@ import { UserPage } from './user.page';
 
 import { UserPageRoutingModule } from './user-routing.module';
 import { HeaderPageModule } from 'src/app/header/header.module';
+import { GaleryComponentModule } from 'src/app/components/galery/galery-component.module';
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import { HeaderPageModule } from 'src/app/header/header.module';
     CommonModule,
     FormsModule,
     UserPageRoutingModule,
-    HeaderPageModule
+    HeaderPageModule,
+    GaleryComponentModule
   ],
   declarations: [UserPage]
 })

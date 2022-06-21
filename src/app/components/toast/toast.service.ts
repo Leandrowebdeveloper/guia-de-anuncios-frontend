@@ -11,8 +11,8 @@ export class ToastService {
     message: string,
     position: 'bottom' | 'middle' | 'top',
     icon: 'thumbs-up' | 'thumbs-down' | 'warning',
-    duration: 2000 | 2500 | 3000,
-    color?: string,
+    duration: 1000 |  1500 | 2000 | 2500 | 3000,
+    color = 'light',
   ): Promise<HTMLIonToastElement> {
     const toast =  await this.toastController.create({
       message,

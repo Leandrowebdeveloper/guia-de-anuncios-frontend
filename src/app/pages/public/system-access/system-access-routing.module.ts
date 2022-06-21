@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DeactivateGuard } from 'src/app/component/form/guard/deactivate.guard';
+import { DeactivateGuard } from 'src/app/components/form/guard/deactivate.guard';
 import { SystemAccessResolver } from './guard/resolve.guard';
 
 import { SystemAccessPage } from './system-access.page';

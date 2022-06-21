@@ -43,6 +43,7 @@ export interface Image {
   user_id: number;
   filename: string;
   url: string;
+  _csrf: string;
 }
 
 export interface Breadcrumb {
@@ -58,8 +59,8 @@ export interface Http<T> {
   update: (data: T) => Observable<T | number[]>;
   find: (id: string | number) => Observable<T>;
   patch: (data: T, url?: string) => Observable<T | number[]>;
-  destroy: (data: T) => Observable<T | number>;
-  upload: (url: string, data: any, file: File) => Observable<any>;
+  destroy: (data: T, url: string) => Observable<T | number>;
+  upload: (url: string, formData: FormData) => Observable<any>;
 }
 
 export interface LocalStorage {
@@ -67,4 +68,20 @@ export interface LocalStorage {
   update: (key: string, value: string | object) => Promise<any>;
   find: (key: string) => Promise<any>;
   destroy: (key: string) => Promise<any>;
+}
+
+export interface LocalFile {
+  name: string;
+  path: string;
+  data: string;
+}
+
+export interface HttpResponse {
+  headers: Headers;
+  status: number;
+  statusText: string;
+  url: string;
+  ok: boolean;
+  type: number;
+  body: Body;
 }

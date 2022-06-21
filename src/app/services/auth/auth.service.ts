@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 import { BehaviorSubject } from 'rxjs';
 import { StorageService } from 'src/app/services/storage/storage.service';
-import { UserService } from '../user/user.service';
+import { UserService } from '../../pages/dashboard/user/services/user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -53,22 +53,27 @@ export class AuthService {
   }
 
   public checkLogin(url: string): true | UrlTree {
-    if (this.isLoggedIn && url === '/entrar') {
-      return this.router.parseUrl('/painel-de-controle');
-    } else if (
-      (this.isLoggedIn && url !== '/entrar') ||
-      (this.isLoggedIn && url !== '/recuperar-senha') ||
-      (this.isLoggedIn && url !== '/cadastrar')
-    ) {
-      return true;
-    } else if (
-      (!this.isLoggedIn && url === '/entrar') ||
-      (!this.isLoggedIn && url === '/recuperar-senha') ||
-      (!this.isLoggedIn && url === '/cadastrar')
-    ) {
-      return true;
+    const login = this.regex('/entrar');
+    const recover = this.regex('/recuperar-senha');
+    const register = this.regex('/cadastrar');
+
+    if (this.isLoggedIn) {
+        if(login.test(url)){
+          return this.router.parseUrl('/painel-de-controle');
+        } else if (!login.test(url) || !recover.test(url) || !register.test(url)){
+          return true;
+        }
+    } else {
+      if (login.test(url) || recover.test(url) || register.test(url)){
+        return true;
+      }else {
+        return this.router.parseUrl('/entrar');
+      }
     }
-    return this.router.parseUrl('/entrar');
+  }
+
+  private regex(value: string): RegExp {
+    return new RegExp(value, 'g');
   }
 
   public unauthenticatedUserAllowLoginRoute(): Promise<boolean> {

@@ -7,10 +7,10 @@ import { IonicModule } from '@ionic/angular';
 import { LoginPageRoutingModule } from './system-access-routing.module';
 
 import { SystemAccessPage } from './system-access.page';
-import { FormComponentModule } from 'src/app/component/form/form.module';
-import { SystemAccessPageButtonsModule } from 'src/app/component/buttons/system-access-page-buttons/system-access-page-buttons.module';
+import { FormComponentModule } from 'src/app/components/form/form.module';
+import { SystemAccessPageButtonsModule } from 'src/app/components/buttons/system-access-page-buttons/system-access-page-buttons.module';
 import { SystemAccessService } from './services/system-access.service';
-import { RequisitionLimitComponentModule } from 'src/app/component/requisitionLimit/requisition-limit.module';
+import { RequisitionLimitComponentModule } from 'src/app/components/requisitionLimit/requisition-limit.module';
 import { SystemAccessResolver } from './guard/resolve.guard';
 import { RecoverService } from './services/recover/recover.service';
 import { LoginService } from './services/login/login.service';

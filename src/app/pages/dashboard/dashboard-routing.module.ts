@@ -10,22 +10,18 @@ const routes: Routes = [
     component: DashboardPage,
   },
   {
-    path: 'usuarios',
+    path: 'usuarios/:id',
     canActivate: [AuthGuard],
     loadChildren: () =>
-      import('../dashboard/user/user.module').then(
-        (m) => m.UserPageModule
-      ),
-    data: { breadcrumb: 'Usuários' },
+      import('../dashboard/user/user.module').then((m) => m.UserPageModule),
   },
   {
-    path: 'anuncios',
+    path: 'anuncios/:id',
     canActivate: [AuthGuard],
     loadChildren: () =>
       import('../dashboard/advert/advert.module').then(
         (m) => m.AdvertPageModule
       ),
-    data: { breadcrumb: 'Anúncios' },
   },
 ];
 

@@ -1,5 +1,5 @@
 import { HelpsService } from 'src/app/services/helps/helps.service';
-import { AlertService } from '../../../../component/alert/alert.service';
+import { AlertService } from 'src/app/components/alert/alert.service';
 import { NavController } from '@ionic/angular';
 import { tap, catchError } from 'rxjs/operators';
 import { Observable, EMPTY } from 'rxjs';
@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 import { HttpService } from 'src/app/services/http/http.service';
 import { User } from 'src/app/interface/index';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { LoadingService } from 'src/app/component/loading/loading.service';
+import { LoadingService } from 'src/app/components/loading/loading.service';
 import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { StorageService } from 'src/app/services/storage/storage.service';

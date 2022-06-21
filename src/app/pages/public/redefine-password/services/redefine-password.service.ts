@@ -5,11 +5,11 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
 import { User } from 'src/app/interface';
-import { LoadingService } from 'src/app/component/loading/loading.service';
-import { AlertService } from 'src/app/component/alert/alert.service';
+import { LoadingService } from 'src/app/components/loading/loading.service';
+import { AlertService } from 'src/app/components/alert/alert.service';
 import { NavController } from '@ionic/angular';
 import { HelpsService } from 'src/app/services/helps/helps.service';
-import { ToastService } from 'src/app/component/toast/toast.service';
+import { ToastService } from 'src/app/components/toast/toast.service';
 import { Subscription } from 'rxjs';
 
 @Injectable()

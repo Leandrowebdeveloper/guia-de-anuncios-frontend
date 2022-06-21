@@ -3,33 +3,24 @@
   <ion-tab-bar slot="bottom" color="primary">
 
     <ion-tab-button href="/inicio" tab="inicio">
-      <ion-icon name="home"></ion-icon>
+      <ion-icon color="light" name="home"></ion-icon>
       <ion-label>Início</ion-label>
     </ion-tab-button>
 
     <ion-tab-button href="/inicio" tab="classificados">
-      <ion-icon name="newspaper"></ion-icon>
+      <ion-icon color="light" name="newspaper"></ion-icon>
       <ion-label>Classificados</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button href="/inicio" tab="noticias">
-      <ion-icon name="notifications"></ion-icon>
-      <ion-label>Notificações</ion-label>
+    <ion-tab-button [href]="'/'+userRouterPage" [tab]="userRouterPage">
+        <ion-icon *ngIf="!state" color="light" name="person"></ion-icon>
+        <ion-avatar *ngIf="state" class="cursor-pointer">
+            <ion-img [src]="avatar" [title]="'Usuário ' + name" alt="Usuário"></ion-img>
+        </ion-avatar>
+        <ion-label>Usuário</ion-label>
     </ion-tab-button>
 
-    <!-- <span *ngIf="auth;else Auth">
-      <ion-tab-button tab="usuarios">
-        <ion-icon name="person"></ion-icon>
-        <ion-label>Usuários</ion-label>
-      </ion-tab-button>
-    </span>
 
-    <ng-template #Auth>
-      <ion-tab-button tab="login">
-        <ion-icon name="log-in"></ion-icon>
-        <ion-label>Login</ion-label>
-      </ion-tab-button>
-    </ng-template> -->
   </ion-tab-bar>
 
 </ion-tabs>

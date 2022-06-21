@@ -6,7 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { RedefinePasswordService } from './services/redefine-password.service';
 import { User } from 'src/app/interface';
 import { FormGroup } from '@angular/forms';
-import { AttrButton } from 'src/app/component/buttons/system-access-page-buttons/interface';
+import { AttrButton } from 'src/app/components/buttons/system-access-page-buttons/interface';
 import { Subscription } from 'rxjs';
 import { HelpsService } from 'src/app/services/helps/helps.service';
 

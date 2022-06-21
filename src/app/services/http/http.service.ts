@@ -81,19 +81,15 @@ export class HttpService<T> implements Http<T> {
       .pipe(tap((e: T | number[]) => console.log('patch', e)));
   }
 
-  public destroy(data: T): Observable<T | number> {
-    return this.http.delete<T | number>(`${this.api}`, {
-      headers: this.httpOptions.headers,
+  public destroy(data: T, url: string): Observable<T | number> {
+    const { headers } = this.httpOptions;
+    return this.http.delete<T | number>(`${this.api}/${url}`, {
+      headers,
       body: data,
     });
   }
 
-  public upload(url: string, data: any, file: File): Observable<any> {
-    const formData = new FormData();
-    formData.append('id', data?.slug);
-    formData.append('_csrf', data?.csrfToken);
-    formData.append('filename', file, file.name);
-
+  public upload(url: string, formData: FormData): Observable<any> {
     const request = new HttpRequest<any>(
       'POST',
       `${this.api}/${url}`,

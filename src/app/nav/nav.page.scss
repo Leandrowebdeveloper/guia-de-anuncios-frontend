@@ -1,0 +1,12 @@
+ion-avatar {
+    width: 26px;
+    height: 26px;
+    margin: 0 auto;
+}
+
+ion-tab-button {
+    --color: var(--ion-color-light);
+    --color-focused: var(--ion-color-light-tint);
+    --background-focused-opacity: 0.5;
+    --color-selected: var(--ion-color-light-tint);
+}

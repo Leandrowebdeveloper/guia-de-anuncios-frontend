@@ -53,7 +53,35 @@ export class BreadcrumbsService {
     const url = this.convertUrlToArray.map((item: string) =>
       item.replace(/[-]/g, ' ')
     );
-    return url;
+    return this.convertSlugEndTitle(url);
+  }
+
+  public convertSlugEndTitle(slug: string[]) {
+    const result = slug
+      .map(this.filterSlug())
+      .filter((item) => item !== undefined);
+    return this.newSlug(slug, result);
+  }
+
+  private newSlug(slug: string[], result: string[]) {
+    if (result.length > 0) {
+      slug.pop();
+      slug.push(result[0]);
+    }
+    return slug;
+  }
+
+  private filterSlug(): (
+    value: string,
+    index: number,
+    array: string[]
+  ) => string {
+    return (item, i) => {
+      if (i > 1) {
+        const rejected = item.split(' ').pop();
+        return item.replace(rejected, '').trim();
+      }
+    };
   }
 
   private createBreadcrumbs(): void {
@@ -73,8 +101,12 @@ export class BreadcrumbsService {
         return 'usuários';
       case 'anuncios':
         return 'anúncios';
+      case 'inicio':
+        return 'Início';
+        case 'erro-de-pagina-404':
+          return 'Erro de Página 404'
       default:
-          return label;
+        return label;
     }
   }
 
@@ -83,7 +115,7 @@ export class BreadcrumbsService {
       case 1:
         return this.url;
       case 2:
-        return `/${this.convertUrlToArray[index]}`;
+        return this.url;
       default:
         return `/${this.convertUrlToArray[index]}`;
     }

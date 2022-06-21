@@ -1,8 +1,7 @@
-import { tap } from 'rxjs/operators';
-import { UserService } from 'src/app/services/user/user.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { UserService } from 'src/app/pages/dashboard/user/services/user.service';
 import { User } from 'src/app/interface/index';
 import { Observable, of, Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
 import {
   Component,
   OnInit,
@@ -26,24 +25,22 @@ import { MenuComponent } from './menu/menu.component';
 export class HeaderPage implements OnInit, OnDestroy {
   @Output() user = new EventEmitter<User>(undefined);
   public hasIos: boolean;
-  public avatar: string = './../../assets/avatar.svg';
+  public avatar: string;
   public name: string;
-  public userRouterPage: string[] = ['/painel-de-controle', 'usuarios'];
+  public state: boolean;
   private _user$: Observable<User>;
 
-  private _title: string;
   private $user: Subscription;
 
   constructor(
     private plt: Platform,
     private popoverController: PopoverController,
-    private activatedRoute: ActivatedRoute,
-    private userService: UserService
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
     this.init();
-    this.title = this.activatedRoute.snapshot.data.breadcrumb;
+    this.getState();
     this.isPlatformIos();
   }
 
@@ -52,8 +49,7 @@ export class HeaderPage implements OnInit, OnDestroy {
   }
 
   private init() {
-    this.setUser();
-    this.getUser();
+    this.getState();
   }
 
   private get user$(): Observable<User> {
@@ -64,45 +60,16 @@ export class HeaderPage implements OnInit, OnDestroy {
     this._user$ = value;
   }
 
-  private setUser() {
-    return (this.$user = this.userService.userObservable.subscribe(
-      (user: User) => {
-        this.user$ = of(user);
-        this.getAvatar(user);
-        this.getName(user);
-      }
-    ));
+
+  private getState(): void {
+    this.state = this.authService.isLoggedIn;
   }
 
-  private getAvatar(user: User): void {
-    if (user.image.url) {
-      this.avatar = user.image.url;
-    }
-  }
-
-  private getName(user: User): void {
-    if (user.firstName && user.lastName) {
-      this.name = `${user.firstName} ${user.lastName}`;
-    }
-  }
-
-  private getUser() {
-    return (this.$user = this.user$.subscribe((user: User) =>
-      this.user.emit(user)
-    ));
-  }
 
   private isPlatformIos(): boolean {
     return (this.hasIos = this.plt.is('ios'));
   }
 
-  public set title(value: string) {
-    this._title = value;
-  }
-
-  public get title() {
-    return this._title;
-  }
 
   async menuShow(ev: any) {
     const popover = await this.popoverController.create({

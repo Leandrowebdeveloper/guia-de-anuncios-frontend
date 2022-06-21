@@ -14,7 +14,13 @@ const routes: Routes = [
           import('../pages/public/home/home.module').then(
             (m) => m.HomePageModule
           ),
-        data: { breadcrumb: 'Início' },
+      },
+      {
+        path: 'erro-de-pagina-404',
+        loadChildren: () =>
+          import('../pages/public/not-found/not-found.module').then(
+            (m) => m.NotFoundPageModule
+          ),
       },
       {
         path: 'noticias',
@@ -22,7 +28,6 @@ const routes: Routes = [
           import('../pages/public/news/news.module').then(
             (m) => m.NewsPageModule
           ),
-        data: { breadcrumb: 'Notícias' },
       },
 
       {
@@ -31,7 +36,6 @@ const routes: Routes = [
           import('../pages/public/classified/classified.module').then(
             (m) => m.ClassifiedPageModule
           ),
-        data: { breadcrumb: 'Classificados' },
       },
 
       {
@@ -41,7 +45,6 @@ const routes: Routes = [
           import('../pages/public/logout/logout.module').then(
             (m) => m.LogoutPageModule
           ),
-        data: { breadcrumb: 'Sair do sistema' },
       },
       {
         path: 'cadastrar',
@@ -50,7 +53,6 @@ const routes: Routes = [
           import('../pages/public/system-access/system-access.module').then(
             (m) => m.LoginPageModule
           ),
-        data: { breadcrumb: 'Cadastrar' },
       },
       {
         path: 'entrar',
@@ -59,7 +61,6 @@ const routes: Routes = [
           import('../pages/public/system-access/system-access.module').then(
             (m) => m.LoginPageModule
           ),
-        data: { breadcrumb: 'Entrar' },
       },
       {
         path: 'recuperar-senha',
@@ -68,7 +69,6 @@ const routes: Routes = [
           import('../pages/public/system-access/system-access.module').then(
             (m) => m.LoginPageModule
           ),
-        data: { breadcrumb: 'Recuperar Senha' },
       },
       {
         path: 'redefinir-senha/:token',
@@ -76,7 +76,6 @@ const routes: Routes = [
           import(
             '../pages/public/redefine-password/redefine-password.module'
           ).then((m) => m.RedefinePasswordPageModule),
-        data: { breadcrumb: 'Redefinir senha' },
       },
       {
         path: 'painel-de-controle',
@@ -85,7 +84,6 @@ const routes: Routes = [
           import('../pages/dashboard/dashboard.module').then(
             (m) => m.DashboardPageModule
           ),
-        data: { breadcrumb: 'Painel de Controle' },
       },
       {
         path: 'ativar-conta/:token',
@@ -93,7 +91,6 @@ const routes: Routes = [
           import(
             '../pages/public/activate-account/activate-account.module'
           ).then((m) => m.ActivateAccountPageModule),
-        data: { breadcrumb: 'Ativar conta' },
       },
       {
         path: 'termos-de-uso',
@@ -101,7 +98,6 @@ const routes: Routes = [
           import('../pages/public/terms-of-use/terms-of-use.module').then(
             (m) => m.TermsOfUsePageModule
           ),
-        data: { breadcrumb: 'Termos de uso' },
       },
       {
         path: '',
@@ -114,15 +110,11 @@ const routes: Routes = [
           import('../pages/public/not-found/not-found.module').then(
             (m) => m.NotFoundPageModule
           ),
-        data: { breadcrumb: 'Erro 404' },
+        redirectTo: '/erro-de-pagina-404',
+        pathMatch: 'full',
       },
     ],
   },
-  // {
-  //   path: '',
-  //   redirectTo: '/tabs/home',
-  //   pathMatch: 'full'
-  // }
 ];
 
 @NgModule({

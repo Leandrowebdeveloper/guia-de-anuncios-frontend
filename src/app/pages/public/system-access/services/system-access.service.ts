@@ -4,14 +4,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { User } from 'src/app/interface';
-import { LoadingService } from 'src/app/component/loading/loading.service';
-import { AlertService } from 'src/app/component/alert/alert.service';
+import { LoadingService } from 'src/app/components/loading/loading.service';
+import { AlertService } from 'src/app/components/alert/alert.service';
 import { Subscription } from 'rxjs';
-import { ToastService } from 'src/app/component/toast/toast.service';
+import { ToastService } from 'src/app/components/toast/toast.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { LoginService } from './login/login.service';
 import { RecoverService } from './recover/recover.service';
-import { AttrButton } from 'src/app/component/buttons/system-access-page-buttons/interface';
+import { AttrButton } from 'src/app/components/buttons/system-access-page-buttons/interface';
 import { RegisterService } from './register/register.service';
 
 @Injectable()

@@ -9,17 +9,22 @@
 
       <div class="ion-icons">
 
-        <span routerLink="/painel-de-controle" title="Painel de controle" data-message="Painel de controle">
-          <ion-icon size="large" slot="end" name="options" color="medium"></ion-icon>
+        <span bottom *ngIf="state" routerLink="/painel-de-controle" title="Painel de controle"
+          attr.data-label="Painel de controle">
+          <ion-icon size="large" slot="end" name="options" color="light"></ion-icon>
         </span>
 
-        <!-- <span (click)="menuShow($event)" title="Menu" data-message="Botão de menu">
-          <ion-icon size="large" slot="end" name="options" color="medium"></ion-icon>
-        </span> -->
+        <span *ngIf="state" class="ion-margin-horizontal cursor-pointer" routerLink="/sair" title="Sair do sistema"
+          attr.data-label="Sair do sistema">
+          <ion-icon size="large" slot="end" name="log-out" color="light"></ion-icon>
+        </span>
 
-        <ion-avatar class="ion-margin-horizontal cursor-pointer" [routerLink]="userRouterPage">
-          <img [src]="avatar" [title]="'Usuário ' + name" alt="Usuário">
-        </ion-avatar>
+
+
+        <span *ngIf="!state" class="ion-margin-horizontal cursor-pointer" routerLink="/entrar" title="Acessar o sistema"
+          attr.data-label="Acessar o sistema">
+          <ion-icon size="large" slot="end" name="log-in" color="light"></ion-icon>
+        </span>
 
       </div>
 

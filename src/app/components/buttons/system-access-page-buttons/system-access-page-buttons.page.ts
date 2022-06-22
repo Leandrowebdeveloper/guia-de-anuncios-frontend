@@ -7,9 +7,7 @@ import { AttrButton } from './interface';
   templateUrl: './system-access-page-buttons.page.html',
   styleUrls: ['./system-access-page-buttons.page.scss'],
 })
-/**
- * @class SystemAccessPageButtons
- */
+
 export class SystemAccessPageButtons implements OnInit {
   @Input() dataButtons: AttrButton[];
   @Input() router: string;

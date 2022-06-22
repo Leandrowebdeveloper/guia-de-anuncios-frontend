@@ -5,85 +5,67 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
 import { User } from 'src/app/interface';
-import { LoadingService } from 'src/app/components/loading/loading.service';
-import { AlertService } from 'src/app/components/alert/alert.service';
+import { AlertService } from 'src/app/utilities/alert/alert.service';
 import { NavController } from '@ionic/angular';
 import { HelpsService } from 'src/app/services/helps/helps.service';
-import { ToastService } from 'src/app/components/toast/toast.service';
 import { Subscription } from 'rxjs';
+import { LoadingService } from 'src/app/utilities/loading/loading.service';
+import { MessageService } from 'src/app/utilities/message/message.service';
 
 @Injectable()
 export class RedefinePasswordService extends HttpService<User> {
-  constructor(
-    public http: HttpClient,
-    private loadingService: LoadingService,
-    private alertService: AlertService,
-    private navCtrl: NavController,
-    private helpsService: HelpsService,
-    private toastService: ToastService
-  ) {
-    super(http, `${environment.api}api/redefine-password`);
-  }
+    constructor(
+        public http: HttpClient,
+        private loadingService: LoadingService,
+        private navCtrl: NavController,
+        private helpsService: HelpsService,
+        private messageService: MessageService
+    ) {
+        super(http, `${environment.api}api/redefine-password`);
+    }
 
-  public passwordRecover(user: User): Observable<User> {
-    return this.create(user);
-  }
+    public passwordRecover(user: User): Observable<User> {
+        return this.create(user);
+    }
 
-  public async success(
-    user: User,
-    loading: Promise<HTMLIonLoadingElement>,
-    subscribe: Subscription
-  ) {
-    await this.disableLoadingUnsubscribeRegisterVariable(loading, subscribe);
-    await this.successMessage(user);
-    return this.goToLoginPage();
-  }
+    public async success(
+        user: User,
+        loading: Promise<HTMLIonLoadingElement>,
+        subscribe: Subscription
+    ) {
+        await this.disableLoadingUnsubscribeRegisterVariable(
+            loading,
+            subscribe
+        );
+        await this.messageService.success(user.message);
+        return this.goToLoginPage();
+    }
 
-  private async successMessage(user: User): Promise<number> {
-    return this.helpsService.delay(
-      async () =>
-        await this.toastService.show(
-          user?.message,
-          'bottom',
-          'thumbs-up',
-          3000
-        ),
-      3000
-    );
-  }
+    public error(
+        error: HttpErrorResponse,
+        loading: Promise<HTMLIonLoadingElement>,
+        subscribe: Subscription
+    ) {
+        return this.messageService.error(error, loading, subscribe);
+    }
 
-  private goToLoginPage(): number {
-    return this.helpsService.delay(
-      () => this.navCtrl.navigateForward('/entrar'),
-      2500
-    );
-  }
+    public async loading(): Promise<HTMLIonLoadingElement> {
+        return await this.loadingService.show('Recuperando senha...');
+    }
 
-  public async error(
-    error: HttpErrorResponse,
-    loading: Promise<HTMLIonLoadingElement>,
-    subscribe: Subscription
-  ) {
-    await this.disableLoadingUnsubscribeRegisterVariable(loading, subscribe);
-    return this.errorMessage(error);
-  }
+    public async disableLoadingUnsubscribeRegisterVariable(
+        loading: Promise<HTMLIonLoadingElement>,
+        subscribe: Subscription
+    ): Promise<void> {
+        this.helpsService.delay(async () => (await loading).dismiss(), 2000);
+        subscribe.unsubscribe();
+    }
 
-  private errorMessage(error: HttpErrorResponse): any {
-    return this.helpsService.delay(
-      () => this.alertService.alert('Atenção', error?.error),
-      2000
-    );
-  }
+    private goToLoginPage(): number {
+        return this.helpsService.delay(
+            () => this.navCtrl.navigateForward('/entrar'),
+            2500
+        );
+    }
 
-  public async loading(): Promise<HTMLIonLoadingElement> {
-    return await this.loadingService.show('Recuperando senha...');
-  }
-
-  public async disableLoadingUnsubscribeRegisterVariable(
-    loading: Promise<HTMLIonLoadingElement>,
-    subscribe: Subscription
-  ): Promise<void> {
-    this.helpsService.delay(async () => (await loading).dismiss(), 2000);
-    subscribe.unsubscribe();
-  }
 }

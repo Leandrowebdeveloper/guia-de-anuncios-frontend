@@ -12,7 +12,7 @@ export class ConfigForm {
       label: 'Nome',
       placeholder: 'Entre com seu nome',
       type: 'text',
-      ActionLabel: 'Entre com seu nome',
+      actionLabel: 'Entre com seu nome',
       msg: {
         invalid: 'Digite nome próprio ou todas letras em maiuscúlo.',
         empty: 'Nome obrigatório!',
@@ -25,7 +25,7 @@ export class ConfigForm {
       label: 'Sobrenome',
       placeholder: 'Entre com seu sobrenome',
       type: 'text',
-      ActionLabel: 'Entre com seu sobrenome',
+      actionLabel: 'Entre com seu sobrenome',
       msg: {
         invalid: 'Digite nome próprio ou todas letras em maiuscúlo.',
         empty: 'Nome obrigatório!',
@@ -38,7 +38,7 @@ export class ConfigForm {
       label: 'Email',
       placeholder: 'Entre com seu email',
       type: 'email',
-      ActionLabel: 'Entre com seu email',
+      actionLabel: 'Entre com seu email',
       msg: {
         invalid: 'Email inválido!',
         empty: 'Email obrigatório!',
@@ -51,7 +51,7 @@ export class ConfigForm {
       label: 'Senha',
       placeholder: 'Entre com sua senha',
       type: 'password',
-      ActionLabel: 'Entre com sua senha',
+      actionLabel: 'Entre com sua senha',
       msg: {
         invalid: 'Senha inválida!',
         empty: 'Senha obrigatório!',
@@ -64,7 +64,7 @@ export class ConfigForm {
       label: 'Confirme a senha',
       placeholder: 'Repita sua senha',
       type: 'password',
-      ActionLabel: 'Repita sua senha',
+      actionLabel: 'Repita sua senha',
       msg: {
         invalid: 'Confirmação de senha inválida!',
         empty: 'Confirmação de senha obrigatório!',
@@ -77,7 +77,7 @@ export class ConfigForm {
       label: 'Permanecer conectado?',
       placeholder: 'Permanecer conectado?',
       type: 'checkbox',
-      ActionLabel: null,
+      actionLabel: null,
       msg: {
         invalid: null,
         empty: null,
@@ -90,7 +90,7 @@ export class ConfigForm {
       label: 'Aceitar termos!',
       placeholder: '',
       type: 'checkbox',
-      ActionLabel: 'Aceitar termos de uso!',
+      actionLabel: 'Aceitar termos de uso!',
       msg: {
         invalid: 'Você precisa aceitar os termos de uso!',
         empty: 'Termos obrigatório!',

@@ -1,35 +1,35 @@
 <ion-header [collapse]="hasIos ? 'condense': 'fade'" [translucent]="!hasIos">
-  <ion-toolbar color="primary">
-    <div>
+    <ion-toolbar color="primary">
+        <div>
 
-      <figure class="ion-margin-start">
-        <ion-img src="./../../assets/layout.svg" class="cursor-pointer" routerLink="/inicio" routerDirection="forward"
-          alt="Montes belos" title="www.montesbelos.app"></ion-img>
-      </figure>
+            <figure class="ion-margin-start">
+                <ion-img src="./../../assets/layout.svg" class="cursor-pointer" routerLink="/inicio"
+                    routerDirection="forward" alt="Montes belos" title="www.montesbelos.app"></ion-img>
+            </figure>
 
-      <div class="ion-icons">
+            <div class="ion-icons">
 
-        <span bottom *ngIf="state" routerLink="/painel-de-controle" title="Painel de controle"
-          attr.data-label="Painel de controle">
-          <ion-icon size="large" slot="end" name="options" color="light"></ion-icon>
-        </span>
+                <span bottom *ngIf="state" routerLink="/painel-de-controle" title="Painel de controle"
+                    attr.data-label="Painel de controle">
+                    <ion-icon size="large" slot="end" name="options" color="light"></ion-icon>
+                </span>
 
-        <span *ngIf="state" class="ion-margin-horizontal cursor-pointer" routerLink="/sair" title="Sair do sistema"
-          attr.data-label="Sair do sistema">
-          <ion-icon size="large" slot="end" name="log-out" color="light"></ion-icon>
-        </span>
+                <span *ngIf="state" class="ion-margin-horizontal cursor-pointer" routerLink="/sair"
+                    title="Sair do sistema" attr.data-label="Sair do sistema">
+                    <ion-icon size="large" slot="end" name="log-out" color="light"></ion-icon>
+                </span>
 
 
 
-        <span *ngIf="!state" class="ion-margin-horizontal cursor-pointer" routerLink="/entrar" title="Acessar o sistema"
-          attr.data-label="Acessar o sistema">
-          <ion-icon size="large" slot="end" name="log-in" color="light"></ion-icon>
-        </span>
+                <span *ngIf="!state" class="ion-margin-horizontal cursor-pointer" routerLink="/entrar"
+                    title="Acessar o sistema" attr.data-label="Acessar o sistema">
+                    <ion-icon size="large" slot="end" name="log-in" color="light"></ion-icon>
+                </span>
 
-      </div>
+            </div>
 
-    </div>
-  </ion-toolbar>
+        </div>
+    </ion-toolbar>
 </ion-header>
 
 <app-breadcrumbs></app-breadcrumbs>

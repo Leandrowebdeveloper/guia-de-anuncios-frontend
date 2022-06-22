@@ -18,9 +18,8 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class PhotoService {
-    private _imageDir: string;
-
     private static _images: LocalFile[] = [];
+    private imageDir: string;
 
     private readonly configPhoto = {
         quality: 90,
@@ -31,53 +30,63 @@ export class PhotoService {
         promptLabelHeader: 'Foto',
         promptLabelCancel: 'Cancelar',
         promptLabelPhoto: 'Carregue uma foto',
-        promptLabelPicture: 'Tire uma foto'
+        promptLabelPicture: 'Tire uma foto',
     };
 
     constructor(private plt: Platform, private router: Router) {
-        this.setImageDir;
-    }
-
-    private get imageDir() {
-        return this._imageDir;
-    }
-
-    private set imageDir(value) {
-        this._imageDir = value;
+        this.setImageDir();
     }
 
     public static get images(): LocalFile[] {
         return PhotoService._images;
     }
+
     public static set images(value: LocalFile[]) {
         PhotoService._images = value;
-    }
-
-    private get setImageDir() {
-        return (this.imageDir = this.isPageUser()
-            ? 'stored_user'
-            : 'stored_advert');
     }
 
     public async loadFiles(): Promise<any[] | (() => Promise<void>)> {
         try {
             PhotoService.images = [];
-            const filesystem = await Filesystem.readdir(this.readdirOptions);
+            const filesystem = await Filesystem.readdir(this.readdirOptions());
             this.loadFileData(filesystem.files);
         } catch (error) {
-            return async () => await Filesystem.mkdir(this.readdirOptions);
+            return async () => await Filesystem.mkdir(this.readdirOptions());
         }
     }
 
-    public get readdirOptions(): ReaddirOptions {
+    public async selectImage(): Promise<void> {
+        try {
+            const image = await Camera.getPhoto(this.configPhoto);
+            if (image) {
+                this.saveImage(image);
+            }
+        } catch (error) {}
+    }
+
+    public isPageUser() {
+        return /usuarios/g.test(this.router.url);
+    }
+    public async deleteFile(file: LocalFile) {
+        await Filesystem.deleteFile(this.deleteFileOptions(file));
+    }
+
+    private readdirOptions(): ReaddirOptions {
         return {
             path: this.imageDir,
             directory: Directory.Data,
         };
     }
 
+    private setImageDir() {
+        return (this.imageDir = this.isPageUser()
+            ? 'stored_user'
+            : 'stored_advert');
+    }
+
+
     private async loadFileData(fileNames: string[]): Promise<void> {
-        for (let f of fileNames) {
+        for (const f of fileNames) {
             const filePath = `${this.imageDir}/${f}`;
             const readFile = await Filesystem.readFile(
                 this.readFileOptions(filePath)
@@ -103,21 +112,6 @@ export class PhotoService {
             path: filePath,
             directory: Directory.Data,
         };
-    }
-
-    public async selectImage(): Promise<void> {
-        try {
-            const image = await Camera.getPhoto(this.configPhoto);
-            if (image) {
-                this.saveImage(image);
-            }
-        } catch (error) {
-
-        }
-    }
-
-    public isPageUser() {
-        return /usuarios/g.test(this.router.url);
     }
 
     private async saveImage(photo: Photo): Promise<void> {
@@ -156,10 +150,6 @@ export class PhotoService {
             reader.readAsDataURL(blob);
         });
         return result;
-    }
-
-    public async deleteFile(file: LocalFile) {
-        await Filesystem.deleteFile(this.deleteFileOptions(file));
     }
 
     private deleteFileOptions(file: LocalFile) {

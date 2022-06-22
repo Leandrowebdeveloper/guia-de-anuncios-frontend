@@ -15,11 +15,11 @@
 
     <ng-template #Message>
 
-      <app-requisition-limit [time]="time" [route]="activeRoute" (desable)="setDesable($event)"></app-requisition-limit>
+      <app-requisition-limit [time]="time" [route]="activeRoute()" (desable)="setDesable($event)"></app-requisition-limit>
 
     </ng-template>
 
-    <app-system-access-page-buttons [dataButtons]="attrButtonPage" [router]="activeRoute"></app-system-access-page-buttons>
+    <app-system-access-page-buttons [dataButtons]="attrButtonPage" [router]="activeRoute()"></app-system-access-page-buttons>
 
   </ion-grid>
 </ion-content>

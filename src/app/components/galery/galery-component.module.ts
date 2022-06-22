@@ -6,12 +6,14 @@ import { IonicModule } from '@ionic/angular';
 
 import { GaleryComponent } from './galery-component';
 import { PhotoService } from './services/photo/photo.service';
+import { HeaderModalModule } from '../header-modal/header-modal.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule
+    IonicModule,
+    HeaderModalModule
   ],
   declarations: [GaleryComponent],
   providers: [PhotoService]

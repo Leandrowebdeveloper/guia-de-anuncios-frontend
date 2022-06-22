@@ -6,10 +6,10 @@ import { UserService } from 'src/app/pages/dashboard/user/services/user.service'
 
 @Injectable()
 export class UserResolver implements Resolve<User> {
-  constructor(private userService: UserService) {}
+    constructor(private userService: UserService) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<User> {
-    const id = route.params?.id;
-    return this.userService.requirement(id);
-  }
+    resolve(route: ActivatedRouteSnapshot): Observable<User> {
+        const id = route.params?.id;
+        return this.userService.requirement(id);
+    }
 }

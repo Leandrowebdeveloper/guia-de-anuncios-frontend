@@ -9,13 +9,13 @@ import { BreadcrumpsPageRoutingModule } from './breadcrumbs-routing.module';
 import { BreadcrumpsPage } from './breadcrumbs.page';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    BreadcrumpsPageRoutingModule
-  ],
-  declarations: [BreadcrumpsPage],
-  exports: [BreadcrumpsPage]
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        BreadcrumpsPageRoutingModule,
+    ],
+    declarations: [BreadcrumpsPage],
+    exports: [BreadcrumpsPage],
 })
 export class BreadcrumpsPageModule {}

@@ -1,5 +1,5 @@
+import { MessageService } from 'src/app/utilities/message/message.service';
 import { HelpsService } from 'src/app/services/helps/helps.service';
-import { AlertService } from 'src/app/components/alert/alert.service';
 import { NavController } from '@ionic/angular';
 import { tap, catchError } from 'rxjs/operators';
 import { Observable, EMPTY } from 'rxjs';
@@ -7,109 +7,103 @@ import { Injectable } from '@angular/core';
 import { HttpService } from 'src/app/services/http/http.service';
 import { User } from 'src/app/interface/index';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { LoadingService } from 'src/app/components/loading/loading.service';
 import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
+import { LoadingService } from 'src/app/utilities/loading/loading.service';
 
 @Injectable()
 export class LogoutService extends HttpService<User> {
-  constructor(
-    public http: HttpClient,
-    private authService: AuthService,
-    private storageService: StorageService,
-    private navCtrl: NavController,
-    private loadingService: LoadingService,
-    private alertService: AlertService,
-    private helpsService: HelpsService
-  ) {
-    super(http, `${environment.api}api/logout`);
-    this.setToken();
-  }
+    constructor(
+        public http: HttpClient,
+        private authService: AuthService,
+        private storageService: StorageService,
+        private navCtrl: NavController,
+        private loadingService: LoadingService,
+        private messageService: MessageService,
+        private helpsService: HelpsService
+    ) {
+        super(http, `${environment.api}api/logout`);
+        this.setToken();
+    }
 
-  private setToken(): void {
-    this.token = this.isGetTokenSessionOrDatabase();
-  }
+    public destroySession(): Observable<User> {
+        const loading = this.loading();
+        return this.index().pipe(
+            tap(
+                (user: User) => this.success(user, loading),
+                catchError((error: HttpErrorResponse) => {
+                    this.error(error, loading);
+                    return EMPTY;
+                })
+            )
+        );
+    }
 
-  private isGetTokenSessionOrDatabase(): string {
-    return sessionStorage.getItem('token') || this.storageService.getToken;
-  }
+    public success(user: User, loading: Promise<HTMLIonLoadingElement>) {
+        this.setUser(user);
+        this.clearsSessionAndDatabaseStorage();
+        this.disableLoadingAndGoToLoginPage(loading);
+    }
 
-  public destroySession(): Observable<User> {
-    const loading = this.loading();
-    return this.index().pipe(
-      tap(
-        (user: User) => this.success(user, loading),
-        catchError((error: HttpErrorResponse) => {
-          this.error(error, loading);
-          return EMPTY;
-        })
-      )
-    );
-  }
+    public async loading(): Promise<HTMLIonLoadingElement> {
+        return await this.loadingService.show('Saindo do sistema...');
+    }
 
-  public success(user: User, loading: Promise<HTMLIonLoadingElement>) {
-    this.setUser(user);
-    this.clearsSessionAndDatabaseStorage();
-    this.disableLoadingAndGoToLoginPage(loading);
-  }
+    public async disableLoading(
+        loading: Promise<HTMLIonLoadingElement>
+    ): Promise<number> {
+        return this.helpsService.delay(
+            async () => await (await loading).dismiss(),
+            2000
+        );
+    }
 
-  private async disableLoadingAndGoToLoginPage(
-    loading: Promise<HTMLIonLoadingElement>
-  ) {
-    await this.disableLoading(loading);
-    return await this.goToLoginPage();
-  }
+    public async error(
+        error: HttpErrorResponse,
+        loading: Promise<HTMLIonLoadingElement>
+    ) {
+        await this.disableLoading(loading);
+        return this.messageService.error(error);
+    }
 
-  private async goToLoginPage(): Promise<number> {
-    return this.helpsService.delay(
-      async () => await this.navCtrl.navigateForward('/entrar'),
-      2500
-    );
-  }
+    private setToken(): void {
+        this.token = this.isGetTokenSessionOrDatabase();
+    }
 
-  private clearsSessionAndDatabaseStorage(): void {
-    this.removeTokenStorageSession();
-    this.removeTokenStorageDatabase();
-  }
+    private isGetTokenSessionOrDatabase(): string {
+        return sessionStorage.getItem('token') || this.storageService.getToken;
+    }
 
-  private removeTokenStorageSession(): void {
-    return sessionStorage.removeItem('token');
-  }
+    private async disableLoadingAndGoToLoginPage(
+        loading: Promise<HTMLIonLoadingElement>
+    ) {
+        await this.disableLoading(loading);
+        return await this.goToLoginPage();
+    }
 
-  private removeTokenStorageDatabase(): Promise<void> {
-    return this.storageService.clean();
-  }
+    private async goToLoginPage(): Promise<number> {
+        return this.helpsService.delay(
+            async () => await this.navCtrl.navigateForward('/entrar'),
+            2500
+        );
+    }
 
-  private setUser(user: User): User {
-    return (this.authService.setUserAndAuthentication = user);
-  }
+    private clearsSessionAndDatabaseStorage(): void {
+        this.removeTokenStorageSession();
+        this.removeTokenStorageDatabase();
+    }
 
-  public async error(
-    error: HttpErrorResponse,
-    loading: Promise<HTMLIonLoadingElement>
-  ) {
-    await this.disableLoading(loading);
-    return this.errorMessage(error);
-  }
+    private removeTokenStorageSession(): void {
+        return sessionStorage.removeItem('token');
+    }
 
-  private errorMessage(error: HttpErrorResponse) {
-    return this.helpsService.delay(
-      () => this.alertService.alert('Atenção', error?.error),
-      2500
-    );
-  }
+    private removeTokenStorageDatabase(): Promise<void> {
+        return this.storageService.clean();
+    }
 
-  public async loading(): Promise<HTMLIonLoadingElement> {
-    return await this.loadingService.show('Saindo do sistema...');
-  }
+    private setUser(user: User): User {
+        return (this.authService.setUserAndAuthentication = user);
+    }
 
-  public async disableLoading(
-    loading: Promise<HTMLIonLoadingElement>
-  ): Promise<number> {
-    return this.helpsService.delay(
-      async () => await (await loading).dismiss(),
-      2000
-    );
-  }
 }

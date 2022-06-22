@@ -1,14 +1,13 @@
-import { ToastService } from 'src/app/components/toast/toast.service';
-import { HelpsService } from './../../services/helps/helps.service';
+import { HelpsService } from 'src/app/services/helps/helps.service';
 import { PhotoService } from './services/photo/photo.service';
 import { ImageService } from './services/image/image.service';
 import { HttpResponse, LocalFile } from 'src/app/interface/index';
 import { UserService } from 'src/app/pages/dashboard/user/services/user.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
 
 import { HttpErrorResponse, HttpHeaderResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+import { MessageService } from 'src/app/utilities/message/message.service';
 
 @Component({
     selector: 'app-galery-component',
@@ -19,35 +18,31 @@ export class GaleryComponent implements OnInit {
     @Input() _csrf: string;
     @Input() slug: string;
     public spinner: number;
+    public images: LocalFile[] = [];
 
-    private _avatar: string;
-    private _images: LocalFile[] = [];
+    public avatar: string;
     private upload: Subscription;
 
     constructor(
-        private modalController: ModalController,
         private photoService: PhotoService,
         private userService: UserService,
         private imageService: ImageService,
         private helpsService: HelpsService,
-        private toastService: ToastService
+        private messageService: MessageService
     ) {}
 
     async ngOnInit() {
         this.loadFiles();
+        this.getAvatar();
     }
 
-    public get avatar(): string {
-        return (this._avatar = this.userService.avatar.filename);
-    }
-
-    public get images(): LocalFile[] {
-        return (this._images = PhotoService.images);
+    public getAvatar(): string {
+        return (this.avatar = this.userService.avatar.filename);
     }
 
     public loadFiles(): void {
         this.photoService.loadFiles();
-        this.images;
+        this.images = PhotoService.images;
     }
 
     public async selectImage() {
@@ -60,6 +55,18 @@ export class GaleryComponent implements OnInit {
         const blob = await response.blob();
         const formData = this.buildDataForm(blob, file);
         this.uploadData(formData);
+    }
+
+    public deleteImage(file: LocalFile): Subscription {
+        if (this.photoService.isPageUser()) {
+            return this.destroyAvatar(file);
+        }
+    }
+
+    public async uploadData(formData: FormData): Promise<Subscription> {
+        this.userService.setToken();
+        this.userService.setCsrf(this._csrf);
+        return this.sendFile(formData);
     }
 
     private startLoading(index: any) {
@@ -78,12 +85,6 @@ export class GaleryComponent implements OnInit {
         return formData;
     }
 
-    public async uploadData(formData: FormData): Promise<Subscription> {
-        this.userService.setToken();
-        this.userService.setCsrf(this._csrf);
-        return this.sendFile(formData);
-    }
-
     private sendFile(
         formData: FormData
     ): Subscription | PromiseLike<Subscription> {
@@ -92,7 +93,7 @@ export class GaleryComponent implements OnInit {
                 .upload('upload', formData)
                 .subscribe(
                     (response: any) => this.success(response, response),
-                    (error: HttpErrorResponse) => console.log(error),
+                    (error: HttpErrorResponse) => this.messageService.error(error),
                     () => setTimeout(() => this.upload.unsubscribe(), 2000)
                 ));
         }
@@ -116,25 +117,12 @@ export class GaleryComponent implements OnInit {
 
     private setUserImage(result: Body): void {
         this.helpsService.delay(() => {
-            this.imageService.setAvatar(result);
+            const { filename } = this.imageService.setAvatar(result);
+            this.avatar = filename;
             this.stopLoading();
+            this.loadFiles();
         }, 2500);
-        this.helpsService.delay(
-            () =>
-                this.toastService.show(
-                    'Imagem alterada com sucesso.',
-                    'bottom',
-                    'thumbs-up',
-                    3000
-                ),
-            3500
-        );
-    }
-
-    public deleteImage(file: LocalFile): Subscription {
-        if (this.photoService.isPageUser()) {
-            return this.destroyAvatar(file);
-        }
+        this.messageService.success('Imagem alterada com sucesso.', 3000);
     }
 
     private destroyAvatar(file: LocalFile): Subscription {
@@ -145,9 +133,5 @@ export class GaleryComponent implements OnInit {
             },
             (error) => console.error(error)
         );
-    }
-
-    public close(): Promise<boolean> {
-        return this.modalController.dismiss();
     }
 }

@@ -1,0 +1,5 @@
+<ion-item>
+    <ion-label>{{ status ? 'On':  'Off'}}</ion-label>
+    <ion-toggle slot="end" (ionChange)="toggleState()" [checked]="status"></ion-toggle>
+    <ion-icon slot="start" [name]="status ? 'eye': 'eye-off'"></ion-icon>
+  </ion-item>

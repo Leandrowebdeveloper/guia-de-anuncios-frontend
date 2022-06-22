@@ -3,24 +3,7 @@
 <ion-content [fullscreen]="true">
   <ion-grid fixed>
 
-
-   <div class="container ion-margin-vertical">
-
-
-      <div (click)="addAvatar()" title="Adicionar imagem.">
-        <ion-avatar>
-          <ion-img [src]="avatar" alt="Avatar"></ion-img>
-        </ion-avatar>
-        <ion-icon color="medium" size="large" name="camera">
-        </ion-icon>
-      </div>
-
-      <!-- <ion-chip *ngIf="user?.image?.filename" title="Deletar imagem" slot="end" (click)="destroy(user)">
-              <ion-label>Excluir</ion-label>
-              <ion-icon name="trash"></ion-icon>
-            </ion-chip> -->
-    </div>
-
+    <app-avatar [user]="user"></app-avatar>
 
     <ion-item-group>
       <ion-item-divider>
@@ -28,13 +11,9 @@
         <ion-label>Administração do usuário</ion-label>
       </ion-item-divider>
 
-      <ion-item>
-        <ion-label>Status</ion-label>
-        <ion-toggle slot="end" (ionChange)="toggleState()" [checked]="status"></ion-toggle>
-        <ion-icon slot="start" [name]="status ? 'eye': 'eye-off'"></ion-icon>
-      </ion-item>
+     <app-status [user]="user"></app-status>
 
-      <ion-item detail="true" button>
+      <ion-item detail="true" (click)="updateName()" button>
         <ion-icon name="create" slot="start"></ion-icon>
         <ion-label>Nome</ion-label>
       </ion-item>

@@ -28,19 +28,19 @@ export class FormComponent implements OnInit {
     private router: Router
   ) {}
 
+  public get f() {
+    return this.form.controls;
+  }
+
   ngOnInit() {
     this.formBuild();
     this.inputFilter();
     this.importForm();
     this.isPageLogin();
     this.disableValidate();
+
   }
 
-
-
-  public get f() {
-    return this.form.controls;
-  }
 
   public onSubmit(): void {
     this.submitted = true;

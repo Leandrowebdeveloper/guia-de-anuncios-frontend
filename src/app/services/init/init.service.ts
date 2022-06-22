@@ -7,22 +7,22 @@ import { User } from 'src/app/interface';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 /**
  * @class InitService
  * @extends HttpService<User[]>
  */
 export class InitService extends HttpService<User> {
-  constructor(public http: HttpClient) {
-    super(http, `${environment.api}api/init`);
-  }
+    constructor(public http: HttpClient) {
+        super(http, `${environment.api}api/init`);
+    }
 
-  public set setToken(token: string) {
-    this.token = token;
-  }
+    public set setToken(token: string) {
+        this.token = token;
+    }
 
-  public boot(): Observable<User> {
-    return this.findAll();
-  }
+    public boot(): Observable<User> {
+        return this.findAll();
+    }
 }

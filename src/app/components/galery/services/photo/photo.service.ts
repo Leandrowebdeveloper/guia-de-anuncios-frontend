@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class PhotoService {
-    private static _images: LocalFile[] = [];
+    private static image: LocalFile[] = [];
     private imageDir: string;
 
     private readonly configPhoto = {
@@ -38,11 +38,11 @@ export class PhotoService {
     }
 
     public static get images(): LocalFile[] {
-        return PhotoService._images;
+        return PhotoService.image;
     }
 
     public static set images(value: LocalFile[]) {
-        PhotoService._images = value;
+        PhotoService.image = value;
     }
 
     public async loadFiles(): Promise<any[] | (() => Promise<void>)> {
@@ -55,13 +55,15 @@ export class PhotoService {
         }
     }
 
-    public async selectImage(): Promise<void> {
+    public async selectImage(): Promise<boolean> {
         try {
             const image = await Camera.getPhoto(this.configPhoto);
             if (image) {
-                this.saveImage(image);
+                return this.saveImage(image);
             }
-        } catch (error) {}
+        } catch (error) {
+            return false;
+        }
     }
 
     public isPageUser() {
@@ -83,7 +85,6 @@ export class PhotoService {
             ? 'stored_user'
             : 'stored_advert');
     }
-
 
     private async loadFileData(fileNames: string[]): Promise<void> {
         for (const f of fileNames) {
@@ -114,16 +115,21 @@ export class PhotoService {
         };
     }
 
-    private async saveImage(photo: Photo): Promise<void> {
-        const base64Data = await this.readAsBase64(photo);
+    private async saveImage(photo: Photo): Promise<boolean> {
+        try {
+            const base64Data = await this.readAsBase64(photo);
 
-        const fileName = new Date().getTime() + '.jpeg';
-        const savedFile = await Filesystem.writeFile({
-            path: `${this.imageDir}/${fileName}`,
-            data: base64Data,
-            directory: Directory.Data,
-        });
-        this.loadFiles();
+            const fileName = new Date().getTime() + '.jpeg';
+            const savedFile = await Filesystem.writeFile({
+                path: `${this.imageDir}/${fileName}`,
+                data: base64Data,
+                directory: Directory.Data,
+            });
+            this.loadFiles();
+            return true;
+        } catch (error) {
+            return false;
+        }
     }
 
     private async readAsBase64(photo: Photo): Promise<string> {

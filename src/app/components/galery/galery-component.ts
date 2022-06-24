@@ -42,11 +42,16 @@ export class GaleryComponent implements OnInit {
 
     public loadFiles(): void {
         this.photoService.loadFiles();
-        this.images = PhotoService.images;
+        this.setImages();
     }
 
+
     public async selectImage() {
-        return await this.photoService.selectImage();
+        return this.photoService.selectImage().then((res: boolean)=> {
+            if(res) {
+                this.setImages();
+            }
+        });
     }
 
     public async startUpload(file: LocalFile, index: any): Promise<void> {
@@ -67,6 +72,10 @@ export class GaleryComponent implements OnInit {
         this.userService.setToken();
         this.userService.setCsrf(this._csrf);
         return this.sendFile(formData);
+    }
+
+    private setImages() {
+        this.images = PhotoService.images;
     }
 
     private startLoading(index: any) {

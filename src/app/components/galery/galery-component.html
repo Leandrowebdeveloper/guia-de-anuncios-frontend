@@ -3,8 +3,8 @@
 
     <h3 *ngIf="images.length === 0" class="ion-padding ion-text-center">Por favor, selecione a imagem!</h3>
 
-    <ion-list>
-        <ion-item *ngFor="let file of images; let i = index" class="fadein">
+    <ion-list class="d-flex">
+        <ion-item *ngFor="let file of images; let i = index" class="fadein" [ngClass]="{order: !(file.name === avatar)}">
 
                 <ion-label [hidden]="!(file.name === avatar)"> Imagem do usuário</ion-label>
                 <ion-spinner [hidden]="!(spinner === i)" name="crescent"></ion-spinner>

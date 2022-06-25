@@ -13,21 +13,18 @@ export class DashboardPage implements OnInit {
       title: 'Manutenção do usuário.',
       router: ['/painel-de-controle', 'usuarios'],
       icon: 'person',
-      label: 'Página do usuário',
     },
     {
       name: 'Anúncios',
       title: 'Manutenção do anúncio.',
       router: ['/painel-de-controle', 'anuncios'],
       icon: 'newspaper',
-      label: 'Página de anúncio',
     },
     {
       name: 'Extatísticas',
       title: 'Manutenção do anúncios.',
       router: ['/painel-de-controle', 'extatistica'],
       icon: 'analytics',
-      label: 'Página de extatística',
     },
   ];
 

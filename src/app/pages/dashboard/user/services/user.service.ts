@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { catchError, tap } from 'rxjs/operators';
 import { Location } from '@angular/common';
+import { BreadcrumbsService } from 'src/app/header/breadcrumbs/service/breadcrumbs.service';
 
 @Injectable({
     providedIn: 'root',
@@ -20,7 +21,8 @@ export class UserService extends HttpService<User> {
         http: HttpClient,
         private messageService: MessageService,
         private storageService: StorageService,
-        private location: Location
+        private location: Location,
+        private breadcrumbsService: BreadcrumbsService
     ) {
         super(http, `${environment.api}api/users`);
     }
@@ -50,7 +52,7 @@ export class UserService extends HttpService<User> {
     }
 
     public getLastName() {
-       return this.$user.value.lastName;
+        return this.$user.value.lastName;
     }
 
     public setLastName(user: User) {
@@ -121,7 +123,9 @@ export class UserService extends HttpService<User> {
         );
     }
 
-    private updateUrl() {
-        this.location.replaceState(`/painel-de-controle/usuarios/${this.getSlug()}`);
+    private updateUrl(): void {
+        const url = `/painel-de-controle/usuarios/${this.getSlug()}`;
+        this.breadcrumbsService.setEvent(url);
+        this.location.replaceState(url);
     }
 }

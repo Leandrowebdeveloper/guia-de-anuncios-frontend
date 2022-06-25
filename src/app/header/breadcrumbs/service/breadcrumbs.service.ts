@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Breadcrumb } from 'src/app/interface';
 
@@ -8,44 +8,48 @@ import { Breadcrumb } from 'src/app/interface';
     providedIn: 'root',
 })
 export class BreadcrumbsService {
-    private _breadcrumbs = new BehaviorSubject<Breadcrumb[]>([]);
-    private readonly _breadcrumbs$ = this._breadcrumbs.asObservable();
+    private breadcrumbEvent = new EventEmitter<string>(null);
+    private breadcrumb = new BehaviorSubject<Breadcrumb[]>([]);
+    private readonly breadcrumb$ = this.breadcrumb.asObservable();
 
-    private _url: string;
     constructor(private router: Router) {
         this.init();
     }
 
     public get breadcrumbs$() {
-        return this._breadcrumbs$;
+        return this.breadcrumb$;
     }
 
-    private get url(): string {
-        return (this._url = this.router.url);
+    public getEvent(): Observable<string> {
+       return this.breadcrumbEvent.asObservable();
     }
 
-    private set url(value: string) {
-        this._url = value;
+    public setEvent(value: string): void {
+        this.breadcrumbEvent.emit(value);
     }
 
-    private convertUrlToArray(): string[] {
-        const size = this.urlSize();
-        return this.url.split(/[\/]/g).splice(1, size);
+    public update(url: string): void {
+       return this.createBreadcrumbs(url);
     }
 
-    private urlSize() {
-        return this.url.length - 1;
+    private convertUrlToArray(url: string): string[] {
+        const size = this.urlSize(url);
+        return url.split(/[\/]/g).splice(1, size);
     }
 
-    private breadcrumbs(value: Breadcrumb[]) {
-        this._breadcrumbs.next(value);
+    private urlSize(url: string): number {
+        return url.length - 1;
     }
 
-    private convertUrlSlugToPhrase(): string[] {
-        const url = this.convertUrlToArray().map((item: string) =>
+    private breadcrumbs(value: Breadcrumb[]): void {
+        this.breadcrumb.next(value);
+    }
+
+    private convertUrlSlugToPhrase(url: string): string[] {
+        const result = this.convertUrlToArray(url).map((item: string) =>
             item.replace(/[-]/g, ' ')
         );
-        return this.convertSlugEndTitle(url);
+        return this.convertSlugEndTitle(result);
     }
 
     private init(): void {
@@ -54,21 +58,20 @@ export class BreadcrumbsService {
             .subscribe((activeRoute: NavigationEnd) => this.start(activeRoute));
     }
 
-    private start(activeRoute: NavigationEnd) {
-        if (activeRoute.url) {
-            this.url = activeRoute.url;
-            this.createBreadcrumbs();
+    private start(activeRoute: NavigationEnd): void {
+        if (activeRoute instanceof NavigationEnd) {
+            this.createBreadcrumbs(activeRoute.url);
         }
     }
 
-    private convertSlugEndTitle(slug: string[]) {
+    private convertSlugEndTitle(slug: string[]): string[] {
         const result = slug
             .map(this.filterSlug())
             .filter((item) => item !== undefined);
         return this.newSlug(slug, result);
     }
 
-    private newSlug(slug: string[], result: string[]) {
+    private newSlug(slug: string[], result: string[]): string[] {
         if (result.length > 0) {
             slug.pop();
             slug.push(result[0]);
@@ -89,13 +92,14 @@ export class BreadcrumbsService {
         };
     }
 
-    private createBreadcrumbs(): void {
+    private createBreadcrumbs(url: string): void {
         const breadcrumb: Breadcrumb[] = [];
-        this.convertUrlSlugToPhrase().forEach((item: string, index: number) =>
-            breadcrumb.push({
-                label: this.filterLabel(item),
-                link: this.buildLink(index),
-            })
+        this.convertUrlSlugToPhrase(url).forEach(
+            (item: string, index: number) =>
+                breadcrumb.push({
+                    label: this.filterLabel(item),
+                    link: this.buildLink(url, index),
+                })
         );
         this.breadcrumbs(breadcrumb);
     }
@@ -115,14 +119,14 @@ export class BreadcrumbsService {
         }
     }
 
-    private buildLink(index: number): string {
+    private buildLink(url: string, index: number): string {
         switch (index) {
             case 1:
-                return this.url;
+                return url;
             case 2:
-                return this.url;
+                return url;
             default:
-                return `/${this.convertUrlToArray[index]}`;
+                return `/${this.convertUrlToArray(url)[index]}`;
         }
     }
 }

@@ -11,8 +11,10 @@ import { AvatarComponent } from './components/avatar/avatar.component';
 import { StatusComponent } from './components/status/status.component';
 import { HeaderModalModule } from 'src/app/components/header-modal/header-modal.module';
 import { FormComponentModule } from 'src/app/components/form/form.module';
-import { FormComponent } from './components/name/form/form.component';
+import { FormNameComponent } from './components/name/form/form.component';
 import { NameComponent } from './components/name/name.component';
+import { PasswordComponent } from './components/password/password.component';
+import { FormPasswordComponent } from './components/password/form/form.component';
 
 @NgModule({
   imports: [
@@ -25,6 +27,6 @@ import { NameComponent } from './components/name/name.component';
     HeaderModalModule,
     GaleryComponentModule
   ],
-  declarations: [UserPage, AvatarComponent, StatusComponent, NameComponent, FormComponent]
+  declarations: [UserPage, AvatarComponent, StatusComponent, NameComponent, FormNameComponent, PasswordComponent, FormPasswordComponent]
 })
 export class UserPageModule {}

@@ -46,6 +46,7 @@ export class FormServices {
                 ),
             ],
         ],
+        passwordCurrent: ['', [Validators.required]],
         passwordConfirmation: [
             null,
             [
@@ -89,7 +90,6 @@ export class FormServices {
         }
         return inputs;
     }
-
 
     private buildTheControllers() {
         const controls = {};

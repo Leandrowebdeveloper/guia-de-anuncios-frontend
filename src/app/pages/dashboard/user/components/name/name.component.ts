@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { User } from 'src/app/interface';
 import { ModalController } from '@ionic/angular';
-import { FormComponent } from './form/form.component';
+import { FormNameComponent } from './form/form.component';
 
 @Component({
     selector: 'app-name',
@@ -16,7 +16,7 @@ export class NameComponent {
     public async updateName() {
         const { _csrf, firstName, lastName, slug } = this.user;
         const modal = await this.modalController.create({
-            component: FormComponent,
+            component: FormNameComponent,
             componentProps: {
                 user: { _csrf, firstName, lastName, slug },
             },

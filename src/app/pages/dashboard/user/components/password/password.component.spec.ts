@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { FormNameComponent } from './form.component';
+import { PasswordComponent } from './password.component';
 
-describe('FormNameComponent', () => {
-  let component: FormNameComponent;
-  let fixture: ComponentFixture<FormNameComponent>;
+describe('PasswordComponent', () => {
+  let component: PasswordComponent;
+  let fixture: ComponentFixture<PasswordComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ FormNameComponent ],
+      declarations: [ PasswordComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(FormNameComponent);
+    fixture = TestBed.createComponent(PasswordComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

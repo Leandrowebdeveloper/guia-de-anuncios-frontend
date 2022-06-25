@@ -68,7 +68,7 @@ export class NavPage implements OnInit, OnDestroy {
      */
 
     private setUser() {
-        return (this.$user = this.userService.userObservable.subscribe(
+        return (this.$user = this.userService.userObservable().subscribe(
             (user: User) => {
                 this.setAvatar(user);
                 this.getName(user);
@@ -92,7 +92,7 @@ export class NavPage implements OnInit, OnDestroy {
     }
 
     private toogleAvatar(): Subscription {
-        return (this.$avatar = this.userService.userObservable.subscribe(
+        return (this.$avatar = this.userService.userObservable().subscribe(
             (user: User) => this.setAvatar(user)
         ));
     }

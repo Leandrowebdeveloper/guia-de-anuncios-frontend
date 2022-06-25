@@ -19,38 +19,29 @@ export class StatusComponent implements OnInit {
         this.setStatus();
     }
 
-    public setUserStatus(user: User) {
-        this.user.state = user.state;
-    }
-
     public setStatus(): void {
         this.status = this.user.state;
     }
 
-    public toggleState() {
+    public toggleState():  Subscription {
+        this.setSlug();
         return (this.$state = this.userService.state(this.user).subscribe(
-            (user: User) => this.successState(user),
+            (user: User) => this.success(user),
             (error: HttpErrorResponse) => this.userService.error(error, this.$state)
         ));
     }
 
-    private successState(user: User): void {
-        this.setState(user);
-        this.userService.messageState(user);
+    private setSlug() {
+        this.user.slug = this.userService.getSlug();
     }
 
-    private setState(user: User): void {
-        this.setUserStatus(user);
+    private success(user: User): void {
         this.updateStatus(user);
-        this.updateUser();
+        this.userService.message(user);
     }
 
     private updateStatus(user: User): void {
         this.status = user.state;
-    }
-
-    private updateUser(): void {
-        this.userService.user = this.user;
     }
 
 }

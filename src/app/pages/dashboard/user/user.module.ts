@@ -10,8 +10,9 @@ import { GaleryComponentModule } from 'src/app/components/galery/galery-componen
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { StatusComponent } from './components/status/status.component';
 import { HeaderModalModule } from 'src/app/components/header-modal/header-modal.module';
-import { NameComponent } from './components/name/name.component';
 import { FormComponentModule } from 'src/app/components/form/form.module';
+import { FormComponent } from './components/name/form/form.component';
+import { NameComponent } from './components/name/name.component';
 
 @NgModule({
   imports: [
@@ -19,11 +20,11 @@ import { FormComponentModule } from 'src/app/components/form/form.module';
     CommonModule,
     FormsModule,
     UserPageRoutingModule,
+    FormComponentModule,
     HeaderPageModule,
     HeaderModalModule,
-    GaleryComponentModule,
-    FormComponentModule
+    GaleryComponentModule
   ],
-  declarations: [UserPage, AvatarComponent, StatusComponent, NameComponent]
+  declarations: [UserPage, AvatarComponent, StatusComponent, NameComponent, FormComponent]
 })
 export class UserPageModule {}

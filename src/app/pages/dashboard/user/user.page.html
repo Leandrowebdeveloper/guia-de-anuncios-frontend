@@ -1,33 +1,30 @@
 <app-header></app-header>
 
 <ion-content [fullscreen]="true">
-  <ion-grid fixed>
+    <ion-grid fixed>
 
-    <app-avatar [user]="user"></app-avatar>
+        <app-avatar [user]="user"></app-avatar>
 
-    <ion-item-group>
-      <ion-item-divider>
-        <ion-icon color="mediun" name="person" slot="start"></ion-icon>
-        <ion-label>Administração do usuário</ion-label>
-      </ion-item-divider>
+        <ion-item-group>
+            <ion-item-divider>
+                <ion-icon color="mediun" name="person" slot="start"></ion-icon>
+                <ion-label>Administração do usuário</ion-label>
+            </ion-item-divider>
 
-     <app-status [user]="user"></app-status>
+            <app-status [user]="user"></app-status>
 
-      <ion-item detail="true" (click)="updateName()" button>
-        <ion-icon name="create" slot="start"></ion-icon>
-        <ion-label>Nome</ion-label>
-      </ion-item>
+            <app-name [user]="user"></app-name>
 
-      <ion-item detail="true" button>
-        <ion-icon name="mail" slot="start"></ion-icon>
-        <ion-label>Email</ion-label>
-      </ion-item>
+            <ion-item detail="true" button>
+                <ion-icon name="mail" slot="start"></ion-icon>
+                <ion-label>Email</ion-label>
+            </ion-item>
 
-      <ion-item detail="true" button>
-        <ion-icon name="key" slot="start"></ion-icon>
-        <ion-label>Senha</ion-label>
-      </ion-item>
-    </ion-item-group>
+            <ion-item detail="true" button>
+                <ion-icon name="key" slot="start"></ion-icon>
+                <ion-label>Senha</ion-label>
+            </ion-item>
+        </ion-item-group>
 
-  </ion-grid>
+    </ion-grid>
 </ion-content>

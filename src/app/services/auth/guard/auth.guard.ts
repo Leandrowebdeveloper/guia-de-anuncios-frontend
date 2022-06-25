@@ -1,3 +1,4 @@
+import { catchError } from 'rxjs/operators';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { Injectable } from '@angular/core';
 import {
@@ -7,10 +8,11 @@ import {
     CanLoad,
     Resolve,
     Route,
+    Router,
     RouterStateSnapshot,
     UrlTree,
 } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, EMPTY } from 'rxjs';
 
 import { User } from 'src/app/interface';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -28,7 +30,8 @@ export class AuthGuard
     constructor(
         private storageService: StorageService,
         private authService: AuthService,
-        private init: InitService
+        private init: InitService,
+        private router: Router
     ) {}
 
     canActivate(
@@ -51,7 +54,12 @@ export class AuthGuard
     }
 
     resolve(): Observable<User> {
-        return this.init.boot();
+        return this.init.boot().pipe(
+            catchError(()=> {
+                this.router.parseUrl('/404');
+                return EMPTY;
+            })
+        );
     }
 
     async canLoad(route: Route) {

@@ -37,7 +37,7 @@ export class GaleryComponent implements OnInit {
     }
 
     public getAvatar(): string {
-        return (this.avatar = this.userService.avatar.filename);
+        return (this.avatar = this.userService.getAvatar().filename);
     }
 
     public loadFiles(): void {
@@ -63,6 +63,7 @@ export class GaleryComponent implements OnInit {
     }
 
     public deleteImage(file: LocalFile): Subscription {
+        // condição a pagina do usuário
         if (this.photoService.isPageUser()) {
             return this.destroyAvatar(file);
         }
@@ -140,7 +141,7 @@ export class GaleryComponent implements OnInit {
                 await this.photoService.deleteFile(file);
                 this.loadFiles();
             },
-            (error) => console.error(error)
+            (error) => this.messageService.error(error)
         );
     }
 }

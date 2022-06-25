@@ -16,7 +16,7 @@ import { UserService } from '../../pages/dashboard/user/services/user.service';
  * @class AuthService
  */
 export class AuthService {
-    private _isLoggedIn = new BehaviorSubject<boolean>(false);
+    private $isLoggedIn = new BehaviorSubject<boolean>(false);
     constructor(
         private storageService: StorageService,
         private router: Router,
@@ -24,25 +24,25 @@ export class AuthService {
         private userService: UserService
     ) {}
 
-    public set setUserAndAuthentication(user: User) {
-        this.userService.user = user;
-        this.isLoggedIn = user.auth;
+    public get user() {
+        return this.userService.getUser();
     }
 
     public get toggleIsLoggedIn(): Observable<boolean> {
-        return this._isLoggedIn.asObservable();
+        return this.$isLoggedIn.asObservable();
     }
 
     public get isLoggedIn() {
-        return this._isLoggedIn.value;
+        return this.$isLoggedIn.value;
     }
 
     public set isLoggedIn(value: boolean) {
-        this._isLoggedIn.next(value);
+        this.$isLoggedIn.next(value);
     }
 
-    public get user() {
-        return this.userService.user;
+    public set setUserAndAuthentication(user: User) {
+        this.userService.setUser(user);
+        this.isLoggedIn = user.auth;
     }
 
     public unauthenticatedUserAllowLoginRoute(): Promise<boolean> {

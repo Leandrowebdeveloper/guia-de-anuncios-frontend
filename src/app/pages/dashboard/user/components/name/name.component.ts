@@ -1,57 +1,26 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { AttrButton } from 'src/app/components/buttons/system-access-page-buttons/interface';
+import { Component, Input } from '@angular/core';
 import { User } from 'src/app/interface';
-import { UserService } from 'src/app/pages/dashboard/user/services/user.service';
-import { HttpErrorResponse } from '@angular/common/http';
+import { ModalController } from '@ionic/angular';
+import { FormComponent } from './form/form.component';
 
 @Component({
     selector: 'app-name',
     templateUrl: './name.component.html',
     styleUrls: ['./name.component.scss'],
 })
-export class NameComponent implements OnInit {
-    @Input() _csrf: string;
-    @Input() firstName: string;
-    @Input() lastName: string;
-    @Input() slug: string;
+export class NameComponent {
+    @Input() user: User;
 
-    public attrButtonPage: AttrButton[];
-    public readonly attrButton: AttrButton = {
-        route: '/entrar',
-        icon: 'cloud-upload',
-        label: 'Salvar',
-        fill: false,
-        aria: 'Salvar nome e sobrenome.',
-        title: 'Salvar nome e sobrenome.',
-    };
+    constructor(private modalController: ModalController) {}
 
-    public config: object;
-    private form: FormGroup;
-
-    constructor(private userService: UserService) {}
-
-    ngOnInit() {
-        this.getData();
-    }
-
-    public importForm(event: FormGroup): FormGroup {
-        return (this.form = event);
-    }
-
-    public onSubmit(event: FormGroup) {
-        this.userService.updateName(event.value).subscribe(
-            (user: User) => console.log(user),
-            (error: HttpErrorResponse) => console.error(error)
-        );
-    }
-
-    private getData() {
-        this.config = {
-            _csrf: this._csrf,
-            firstName: this.firstName,
-            lastName: this.lastName,
-            slug: this.slug,
-        };
+    public async updateName() {
+        const { _csrf, firstName, lastName, slug } = this.user;
+        const modal = await this.modalController.create({
+            component: FormComponent,
+            componentProps: {
+                user: { _csrf, firstName, lastName, slug },
+            },
+        });
+        return await modal.present();
     }
 }

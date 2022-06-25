@@ -1,55 +1,88 @@
 import { MessageService } from 'src/app/utilities/message/message.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from 'src/app/services/http/http.service';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, EMPTY, Subscription } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Image, User } from 'src/app/interface';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { StorageService } from 'src/app/services/storage/storage.service';
-import { ToastService } from 'src/app/utilities/toast/toast.service';
+import { catchError, tap } from 'rxjs/operators';
+import { Location } from '@angular/common';
 
 @Injectable({
     providedIn: 'root',
 })
 export class UserService extends HttpService<User> {
-    private _user = new BehaviorSubject<User>(undefined);
+    private $user = new BehaviorSubject<User>(undefined);
 
     constructor(
         http: HttpClient,
-        private toastService: ToastService,
         private messageService: MessageService,
-        private storageService: StorageService
+        private storageService: StorageService,
+        private location: Location
     ) {
         super(http, `${environment.api}api/users`);
     }
 
-    public get avatar(): Image {
-        return this.user.image;
+    public getAvatar(): Image {
+        return this.$user.value.image;
     }
 
-    public get userObservable(): Observable<User> {
-        return this._user.asObservable();
+    public userObservable(): Observable<User> {
+        return this.$user.asObservable();
     }
-    public get user(): User {
-        return this._user.value;
-    }
-
-    public get slug(): string {
-        return this.user.slug;
+    public getUser(): User {
+        return this.$user.value;
     }
 
-    public get name(): string {
-        return `${this.user.firstName} ${this.user.lastName}`;
+    public getSlug(): string {
+        return this.$user.value.slug;
     }
 
-    public set user(user: User) {
-        this._user.next(user);
+    public getState(): boolean {
+        return this.$user.value.state;
     }
 
-    public set avatar(image: Image) {
-        this.user.image = image;
-        this._user.next(this.user);
+    public setSlug(user: User) {
+        this.$user.value.slug = user.slug;
+        this.setUser(this.$user.value);
+    }
+
+    public getLastName() {
+       return this.$user.value.lastName;
+    }
+
+    public setLastName(user: User) {
+        this.$user.value.lastName = user.lastName;
+        this.setUser(this.$user.value);
+    }
+
+    public getFirstName() {
+        return this.$user.value.firstName;
+    }
+
+    public setFirstName(user: User) {
+        this.$user.value.firstName = user.firstName;
+        this.setUser(this.$user.value);
+    }
+
+    public setState(user: User) {
+        this.$user.value.state = user.state;
+        this.setUser(this.$user.value);
+    }
+
+    public getName(): string {
+        return `${this.$user.value.firstName} ${this.$user.value.lastName}`;
+    }
+
+    public setUser(user: User) {
+        this.$user.next(user);
+    }
+
+    public setAvatar(image: Image) {
+        this.$user.value.image = image;
+        this.setUser(this.$user.value);
     }
 
     public setToken() {
@@ -60,11 +93,7 @@ export class UserService extends HttpService<User> {
         this.csrf = csrf;
     }
 
-    public state(user: User): Observable<User | number[]> {
-        return this.patch(user, 'state');
-    }
-
-    public async messageState(user: User): Promise<number> {
+    public async message(user: User): Promise<number> {
         return await this.messageService.success(user.message, 1000);
     }
 
@@ -74,6 +103,25 @@ export class UserService extends HttpService<User> {
     }
 
     public updateName(user: User): Observable<User | number[]> {
-        return this.patch(user, 'name');
+        return this.patch(user, 'name').pipe(
+            tap((user_: User) => {
+                this.setFirstName(user_);
+                this.setLastName(user_);
+                this.setSlug(user_);
+                this.updateUrl();
+            }),
+            catchError((error) => EMPTY)
+        );
+    }
+
+    public state(user: User): Observable<User | number[]> {
+        return this.patch(user, 'state').pipe(
+            tap((user_: User) => this.setState(user_)),
+            catchError((error) => EMPTY)
+        );
+    }
+
+    private updateUrl() {
+        this.location.replaceState(`/painel-de-controle/usuarios/${this.getSlug()}`);
     }
 }

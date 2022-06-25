@@ -7,7 +7,7 @@ import { AbstractControl, FormGroup, Validators } from '@angular/forms';
  * @class FormServices
  */
 export class FormServices {
-    private _configs: object;
+    private config: object;
 
     private passwordConfirmation = {
         validator: this.mustMatch('password', 'passwordConfirmation'),
@@ -57,14 +57,15 @@ export class FormServices {
         stayConnected: ['', [Validators.required]],
         terms: ['true', [Validators.required, Validators.pattern('true')]],
         _csrf: ['', [Validators.required]],
+        slug: ['', [Validators.required]],
     };
 
     private get configs(): object {
-        return this._configs;
+        return this.config;
     }
 
     private set configs(configs: object) {
-        this._configs = configs;
+        this.config = configs;
     }
 
     public controlsConfig(configs: object) {

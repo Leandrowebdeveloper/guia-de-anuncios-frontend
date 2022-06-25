@@ -1,5 +1,4 @@
 import { UserService } from 'src/app/pages/dashboard/user/services/user.service';
-import { User } from 'src/app/interface/index';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -39,6 +38,6 @@ export class DashboardPage implements OnInit {
   }
 
   private setSlug() {
-    this.nav.map((nav: any, i) => nav.router.push(this.userService.slug));
+    this.nav.map((nav: any, i) => nav.router.push(this.userService.getSlug()));
   }
 }

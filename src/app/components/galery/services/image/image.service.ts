@@ -2,7 +2,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { EMPTY, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Image, LocalFile } from 'src/app/interface';
+import { Image } from 'src/app/interface';
 import { HttpService } from 'src/app/services/http/http.service';
 import { environment } from 'src/environments/environment';
 import { UserService } from 'src/app/pages/dashboard/user/services/user.service';
@@ -24,12 +24,12 @@ export class ImageService extends HttpService<Image> {
 
     public setAvatar(result: Body | Image): Image {
         const avatar: Image = result[1][0];
-        this.userService.avatar = avatar;
+        this.userService.setAvatar(avatar);
         return avatar;
     }
 
     private getDataImage(csrf: string): Image {
-        const { image } = this.userService.user;
+        const image  = this.userService.getAvatar();
         image._csrf = csrf;
         return image;
     }

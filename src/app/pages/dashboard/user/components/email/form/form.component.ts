@@ -10,17 +10,17 @@ import { HttpErrorResponse } from '@angular/common/http';
     templateUrl: './form.component.html',
     styleUrls: ['./form.component.scss'],
 })
-export class FormPasswordComponent implements OnInit {
+export class FormEmailComponent implements OnInit {
     @Input() user: User;
 
     public attrButtonPage: AttrButton[];
     public readonly attrButton: AttrButton = {
-        route: '/new-password',
-        icon: 'key',
-        label: 'Salvar',
+        route: '/email',
+        icon: 'mail',
+        label: 'Enviar',
         fill: false,
-        aria: 'Salvar senha.',
-        title: 'Salvar senha.',
+        aria: 'Enviar novo email.',
+        title: 'Enviar novo email.',
     };
 
     public config: object;

@@ -36,6 +36,7 @@ export class FormComponent implements OnInit {
         this.formBuild();
         this.inputFilter();
         this.isNewPassword();
+        this.isNewEmail();
         this.importForm();
         this.isPageLogin();
         this.disableValidate();
@@ -81,8 +82,14 @@ export class FormComponent implements OnInit {
 
     private isNewPassword() {
         if (this.attrButton.route === '/new-password') {
-            this.buildInputs[1].label = 'Nova Senha';
-            this.buildInputs[2].label = 'Confirme nova Senha';
+            this.buildInputs[1].label = 'Nova senha';
+            this.buildInputs[2].label = 'Confirmar nova senha';
+        }
+    }
+
+    private isNewEmail() {
+        if (this.attrButton.route === '/email') {
+            this.buildInputs[0].label = 'Novo email';
         }
     }
 

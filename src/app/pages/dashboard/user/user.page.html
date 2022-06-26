@@ -15,12 +15,10 @@
 
             <app-name [user]="user"></app-name>
 
-            <ion-item detail="true" button>
-                <ion-icon name="mail" slot="start"></ion-icon>
-                <ion-label>Email</ion-label>
-            </ion-item>
+            <app-email [user]="user"></app-email>
 
            <app-password [user]="user"></app-password>
+
         </ion-item-group>
 
     </ion-grid>

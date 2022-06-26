@@ -74,7 +74,7 @@ export class ConfigForm {
         },
         passwordConfirmation: {
             name: 'passwordConfirmation',
-            label: 'Confirme a senha',
+            label: 'Confirmar senha',
             placeholder: 'Repita sua senha',
             type: 'password',
             actionLabel: 'Repita sua senha',

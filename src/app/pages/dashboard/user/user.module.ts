@@ -15,18 +15,30 @@ import { FormNameComponent } from './components/name/form/form.component';
 import { NameComponent } from './components/name/name.component';
 import { PasswordComponent } from './components/password/password.component';
 import { FormPasswordComponent } from './components/password/form/form.component';
+import { FormEmailComponent } from './components/email/form/form.component';
+import { EmailComponent } from './components/email/email.component';
 
 @NgModule({
-  imports: [
-    IonicModule,
-    CommonModule,
-    FormsModule,
-    UserPageRoutingModule,
-    FormComponentModule,
-    HeaderPageModule,
-    HeaderModalModule,
-    GaleryComponentModule
-  ],
-  declarations: [UserPage, AvatarComponent, StatusComponent, NameComponent, FormNameComponent, PasswordComponent, FormPasswordComponent]
+    imports: [
+        IonicModule,
+        CommonModule,
+        FormsModule,
+        UserPageRoutingModule,
+        FormComponentModule,
+        HeaderPageModule,
+        HeaderModalModule,
+        GaleryComponentModule,
+    ],
+    declarations: [
+        UserPage,
+        AvatarComponent,
+        StatusComponent,
+        NameComponent,
+        FormNameComponent,
+        PasswordComponent,
+        FormPasswordComponent,
+        EmailComponent,
+        FormEmailComponent
+    ],
 })
 export class UserPageModule {}

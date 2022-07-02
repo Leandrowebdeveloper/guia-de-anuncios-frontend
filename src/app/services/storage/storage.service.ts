@@ -20,7 +20,7 @@ export class StorageService implements LocalStorage {
         return this._token.value;
     }
 
-    public set setToken(value: string) {
+    public set setAuthToken(value: string) {
         this._token.next(value);
     }
 
@@ -62,9 +62,9 @@ export class StorageService implements LocalStorage {
     public async isToken(): Promise<string> {
         const session = await this.getSessionStorage();
         if (session) {
-            return (this.setToken = session);
+            return (this.setAuthToken = session);
         }
-        return (this.setToken = await this.find('token'));
+        return (this.setAuthToken = await this.find('token'));
     }
 
     public isJson(value: string): boolean {

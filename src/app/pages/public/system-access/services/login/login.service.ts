@@ -32,20 +32,20 @@ export class LoginService extends HttpService<User> {
     }
 
     private async setTokenDatabase(user: User): Promise<void> {
-        return await this.authService.setToken(user);
+        return await this.authService.setAuthToken(user);
     }
 
-    private setUser(user: User): User {
+    private setAuthUser(user: User): User {
         return (this.authService.setUserAndAuthentication = user);
     }
 
     private setUserAndTokenInSession(user: User): void {
-        this.setUser(user);
+        this.setAuthUser(user);
         this.setTokenSession(user);
     }
 
     private setUserAndTokenInDatabase(user: User): void {
-        this.setUser(user);
+        this.setAuthUser(user);
         this.setTokenDatabase(user);
     }
 }

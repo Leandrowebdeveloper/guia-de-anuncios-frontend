@@ -33,11 +33,11 @@ export class GaleryComponent implements OnInit {
 
     async ngOnInit() {
         this.loadFiles();
-        this.getAvatar();
+        this.getUserAvatar();
     }
 
-    public getAvatar(): string {
-        return (this.avatar = this.userService.getAvatar().filename);
+    public getUserAvatar(): string {
+        return (this.avatar = this.userService.getUserAvatar()?.filename);
     }
 
     public loadFiles(): void {
@@ -70,8 +70,8 @@ export class GaleryComponent implements OnInit {
     }
 
     public async uploadData(formData: FormData): Promise<Subscription> {
-        this.userService.setToken();
-        this.userService.setCsrf(this._csrf);
+        this.userService.setAuthToken();
+        this.userService.setAuthCsrf(this._csrf);
         return this.sendFile(formData);
     }
 
@@ -127,7 +127,7 @@ export class GaleryComponent implements OnInit {
 
     private setUserImage(result: Body): void {
         this.helpsService.delay(() => {
-            const { filename } = this.imageService.setAvatar(result);
+            const { filename } = this.imageService.setAuthAvatar(result);
             this.avatar = filename;
             this.stopLoading();
             this.loadFiles();

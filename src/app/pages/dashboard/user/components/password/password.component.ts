@@ -13,7 +13,7 @@ export class PasswordComponent {
 
     constructor(private modalController: ModalController) {}
 
-    public async updatePassword() {
+    public async updateAuthPassword() {
         const { _csrf, password, slug } = this.user;
         const modal = await this.modalController.create({
             component: FormPasswordComponent,

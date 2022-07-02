@@ -3,6 +3,17 @@
 <ion-content [fullscreen]="true">
     <ion-grid fixed>
 
+        <ion-card>
+            <ion-card-header color="warning">
+                <ion-card-subtitle color="light">
+                &#9679; Insira um email válido.<br>
+                &#9679; Uma menssagem sera sera enviada com um prazo de 10 minutos apartir do seu recebimento.<br>
+                &#9679; Verifique em sua caixa de entrada de emails.<br>
+                &#9679; Clique no link alterar email.
+                </ion-card-subtitle>
+            </ion-card-header>
+        </ion-card>
+
         <app-form
         (submitDataForm)="onSubmit($event)"
         (exportForm)="importForm($event)"

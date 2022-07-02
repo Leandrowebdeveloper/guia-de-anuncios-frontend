@@ -17,7 +17,7 @@ export class HeaderPage implements OnInit {
     public hasIos: boolean;
     public avatar: string;
     public name: string;
-    public state: boolean;
+    public authState: boolean;
 
     constructor(
         private plt: Platform,
@@ -27,7 +27,7 @@ export class HeaderPage implements OnInit {
 
     ngOnInit() {
         this.init();
-        this.getState();
+        this.getAuthState();
         this.isPlatformIos();
     }
 
@@ -44,11 +44,11 @@ export class HeaderPage implements OnInit {
     }
 
     private init() {
-        this.getState();
+        this.getAuthState();
     }
 
-    private getState(): void {
-        this.state = this.authService.isLoggedIn;
+    private getAuthState(): void {
+        this.authState = this.authService.isLoggedIn;
     }
 
     private isPlatformIos(): boolean {

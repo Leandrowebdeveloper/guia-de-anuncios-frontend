@@ -17,19 +17,19 @@ export class ImageService extends HttpService<Image> {
 
     public avatarDestroy(csrf: string): Observable<number | Image> {
         return this.destroy(this.getDataImage(csrf), 'avatar').pipe(
-            tap((image: Image) => this.setAvatar(image)),
+            tap((image: Image) => this.setAuthAvatar(image)),
             catchError((error) => EMPTY)
         );
     }
 
-    public setAvatar(result: Body | Image): Image {
+    public setAuthAvatar(result: Body | Image): Image {
         const avatar: Image = result[1][0];
-        this.userService.setAvatar(avatar);
+        this.userService.setAuthAvatar(avatar);
         return avatar;
     }
 
     private getDataImage(csrf: string): Image {
-        const image  = this.userService.getAvatar();
+        const image  = this.userService.getUserAvatar();
         image._csrf = csrf;
         return image;
     }

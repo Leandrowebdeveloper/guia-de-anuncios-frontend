@@ -13,7 +13,7 @@ export class NameComponent {
 
     constructor(private modalController: ModalController) {}
 
-    public async updateName() {
+    public async updateAuthName() {
         const { _csrf, firstName, lastName, slug } = this.user;
         const modal = await this.modalController.create({
             component: FormNameComponent,

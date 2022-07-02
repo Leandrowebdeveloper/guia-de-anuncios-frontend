@@ -25,7 +25,7 @@ export class FormEmailComponent implements OnInit {
 
     public config: object;
     private form: FormGroup;
-    private $name: Subscription;
+    private $email: Subscription;
     constructor(private userService: UserService) {}
 
     ngOnInit(): void {
@@ -37,11 +37,11 @@ export class FormEmailComponent implements OnInit {
     }
 
     public onSubmit(event: FormGroup): Subscription {
-        event.value.slug = this.userService.getSlug();
-        return (this.$name = this.userService.updateName(event.value).subscribe(
+        event.value.slug = this.userService.getAuthUserSlug();
+        return (this.$email = this.userService.updateAuthEmail(event.value).subscribe(
             (user: User) => this.userService.message(user),
             (error: HttpErrorResponse) =>
-                this.userService.error(error, this.$name)
+                this.userService.error(error, this.$email)
         ));
     }
 

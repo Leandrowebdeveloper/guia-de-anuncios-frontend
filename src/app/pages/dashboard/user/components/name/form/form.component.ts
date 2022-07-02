@@ -37,8 +37,8 @@ export class FormNameComponent implements OnInit {
     }
 
     public onSubmit(event: FormGroup): Subscription {
-        event.value.slug = this.userService.getSlug();
-        return (this.$name = this.userService.updateName(event.value).subscribe(
+        event.value.slug = this.userService.getAuthUserSlug();
+        return (this.$name = this.userService.updateAuthName(event.value).subscribe(
             (user: User) => this.userService.message(user),
             (error: HttpErrorResponse) =>
                 this.userService.error(error, this.$name)

@@ -24,7 +24,7 @@ export class LogoutService extends HttpService<User> {
         private helpsService: HelpsService
     ) {
         super(http, `${environment.api}api/logout`);
-        this.setToken();
+        this.setAuthToken();
     }
 
     public destroySession(): Observable<User> {
@@ -41,7 +41,7 @@ export class LogoutService extends HttpService<User> {
     }
 
     public success(user: User, loading: Promise<HTMLIonLoadingElement>) {
-        this.setUser(user);
+        this.setAuthUser(user);
         this.clearsSessionAndDatabaseStorage();
         this.disableLoadingAndGoToLoginPage(loading);
     }
@@ -67,7 +67,7 @@ export class LogoutService extends HttpService<User> {
         return this.messageService.error(error);
     }
 
-    private setToken(): void {
+    private setAuthToken(): void {
         this.token = this.isGetTokenSessionOrDatabase();
     }
 
@@ -102,7 +102,7 @@ export class LogoutService extends HttpService<User> {
         return this.storageService.clean();
     }
 
-    private setUser(user: User): User {
+    private setAuthUser(user: User): User {
         return (this.authService.setUserAndAuthentication = user);
     }
 

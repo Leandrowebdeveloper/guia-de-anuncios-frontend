@@ -28,7 +28,7 @@ export class AvatarComponent implements OnInit, OnDestroy {
     }
 
     public async addAvatar() {
-        this.setSlug();
+        this.setAuthSlug();
         const { _csrf, slug } = this.user;
         const modal = await this.modalController.create({
             component: GaleryComponent,
@@ -40,17 +40,19 @@ export class AvatarComponent implements OnInit, OnDestroy {
         return await modal.present();
     }
 
-    private setSlug() {
-        this.user.slug = this.userService.getSlug();
+    private setAuthSlug() {
+        this.user.slug = this.userService.getAuthUserSlug();
     }
 
     private toogleAvatar(): Subscription {
-        return (this.$avatar = this.userService.userObservable().subscribe(
-            (user: User) => this.setAvatar(user)
+        return (this.$avatar = this.userService.authUserObservable().subscribe(
+            (user: User) => this.setAuthAvatar(user)
         ));
     }
 
-    private setAvatar(user: User): void {
-        this.avatar = user.image.url || './../../../../assets/avatar.svg';
+    private setAuthAvatar(user: User): void {
+        this.avatar = user.image?.url || './../../../../assets/avatar.svg';
     }
+
+
 }

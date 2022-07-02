@@ -92,7 +92,7 @@ export class FormServices {
     }
 
     private buildTheControllers() {
-        const controls = {};
+        const controls: any = {};
         let count = 0;
         // eslint-disable-next-line guard-for-in
         for (const key in this.configs) {
@@ -101,6 +101,14 @@ export class FormServices {
                 controls[key][0] = this.getValuesConfiguration(count);
             }
             count++;
+        }
+        return this.cleanValue(controls);
+    }
+
+    private cleanValue(controls: any) {
+        if (Object.keys(controls).includes('email')) {
+            // eslint-disable-next-line @typescript-eslint/dot-notation
+            controls['email'][0] = null;
         }
         return controls;
     }

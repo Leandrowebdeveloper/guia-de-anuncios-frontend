@@ -31,10 +31,10 @@ export class DashboardPage implements OnInit {
   constructor(private userService: UserService) {}
 
   ngOnInit() {
-    this.setSlug();
+    this.setAuthSlug();
   }
 
-  private setSlug() {
-    this.nav.map((nav: any, i) => nav.router.push(this.userService.getSlug()));
+  private setAuthSlug() {
+    this.nav.map((nav: any, i) => nav.router.push(this.userService.getAuthUserSlug()));
   }
 }

@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
 import {
-  Resolve,
-  ActivatedRouteSnapshot,
-  Router,
-  UrlTree,
+    Resolve,
+    ActivatedRouteSnapshot,
+    Router,
+    UrlTree,
 } from '@angular/router';
 
 @Injectable()
 export class ActivateAccountResolver implements Resolve<string | UrlTree> {
-  constructor(private router: Router) {}
+    constructor(private router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot): string | UrlTree {
-    if (route.params?.token && typeof route.params?.token === 'string') {
-      return route.params?.token;
+    resolve(route: ActivatedRouteSnapshot): string | UrlTree {
+        const { token } = route.params;
+        if (token && typeof token === 'string') {
+            return token;
+        }
+        return this.router.parseUrl('/');
     }
-    return this.router.parseUrl('/');
-  }
 }

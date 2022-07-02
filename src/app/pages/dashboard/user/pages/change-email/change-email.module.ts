@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { DashboardPageRoutingModule } from './dashboard-routing.module';
+import { ChangeEmailPageRoutingModule } from './change-email-routing.module';
 
-import { DashboardPage } from './dashboard.page';
+import { ChangeEmailPage } from './change-email.page';
 import { HeaderPageModule } from 'src/app/header/header.module';
 
 @NgModule({
@@ -14,9 +14,9 @@ import { HeaderPageModule } from 'src/app/header/header.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    DashboardPageRoutingModule,
+    ChangeEmailPageRoutingModule,
     HeaderPageModule
   ],
-  declarations: [DashboardPage],
+  declarations: [ChangeEmailPage]
 })
-export class DashboardPageModule {}
+export class ChangeEmailPageModule {}

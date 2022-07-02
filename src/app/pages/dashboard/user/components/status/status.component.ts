@@ -12,7 +12,7 @@ import { User } from 'src/app/interface';
 export class StatusComponent implements OnInit {
     @Input() user: User;
     public status: boolean;
-    private $state: Subscription;
+    private $authState: Subscription;
     constructor(private userService: UserService) {}
 
     ngOnInit() {
@@ -20,19 +20,19 @@ export class StatusComponent implements OnInit {
     }
 
     public setStatus(): void {
-        this.status = this.user.state;
+        this.status = this.user.authState;
     }
 
     public toggleState():  Subscription {
-        this.setSlug();
-        return (this.$state = this.userService.state(this.user).subscribe(
+        this.setAuthSlug();
+        return (this.$authState = this.userService.authState(this.user).subscribe(
             (user: User) => this.success(user),
-            (error: HttpErrorResponse) => this.userService.error(error, this.$state)
+            (error: HttpErrorResponse) => this.userService.error(error, this.$authState)
         ));
     }
 
-    private setSlug() {
-        this.user.slug = this.userService.getSlug();
+    private setAuthSlug() {
+        this.user.slug = this.userService.getAuthUserSlug();
     }
 
     private success(user: User): void {
@@ -41,7 +41,7 @@ export class StatusComponent implements OnInit {
     }
 
     private updateStatus(user: User): void {
-        this.status = user.state;
+        this.status = user.authState;
     }
 
 }

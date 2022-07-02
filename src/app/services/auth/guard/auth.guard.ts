@@ -1,4 +1,4 @@
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { Injectable } from '@angular/core';
 import {
@@ -36,26 +36,27 @@ export class AuthGuard
 
     canActivate(
         route: ActivatedRouteSnapshot,
-        state: RouterStateSnapshot
+        authState: RouterStateSnapshot
     ): boolean | UrlTree {
-        const url: string = state.url;
+        const url: string = authState.url;
         return this.authService.checkLogin(url);
     }
 
     canActivateChild(
         route: ActivatedRouteSnapshot,
-        state: RouterStateSnapshot
+        authState: RouterStateSnapshot
     ):
         | Observable<boolean | UrlTree>
         | Promise<boolean | UrlTree>
         | boolean
         | UrlTree {
-        return this.canActivate(route, state);
+        return this.canActivate(route, authState);
     }
 
     resolve(): Observable<User> {
         return this.init.boot().pipe(
-            catchError(()=> {
+            tap((user: User) => this.authService.confirmAuthorization(user)),
+            catchError(() => {
                 this.router.parseUrl('/404');
                 return EMPTY;
             })
@@ -65,7 +66,7 @@ export class AuthGuard
     async canLoad(route: Route) {
         await this.storageService.init();
         const token = await this.storageService.isToken();
-        this.init.setToken = token;
+        this.init.setAuthToken = token;
         this.authService.isLoggedIn = !!token;
         return this.authService.canLoadResult(route);
     }

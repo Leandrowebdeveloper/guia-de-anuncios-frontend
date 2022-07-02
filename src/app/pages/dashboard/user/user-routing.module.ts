@@ -5,19 +5,19 @@ import { UserResolver } from './guard/resolve.guard';
 import { UserPage } from './user.page';
 
 const routes: Routes = [
-  {
-    path: '',
-    canActivate: [AuthGuard],
-    component: UserPage,
-    resolve: {
-      user: UserResolver
-    }
-  }
+    {
+        path: '',
+        canActivate: [AuthGuard],
+        component: UserPage,
+        resolve: {
+            user: UserResolver,
+        },
+    },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-  providers: [UserResolver]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
+    providers: [UserResolver],
 })
 export class UserPageRoutingModule {}

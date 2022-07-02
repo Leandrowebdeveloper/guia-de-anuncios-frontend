@@ -25,13 +25,14 @@ export class ActivateAccountPage implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {}
 
+  private get key(): string {
+    return this.activatedRoute.snapshot.data.activateAccount;
+  }
+
   ngOnInit() {
     this.thereIsKeyForActivateCount();
   }
 
-  private get key(): string {
-    return this.activatedRoute.snapshot.data.activateAccount;
-  }
 
   private thereIsKeyForActivateCount(): Observable<ActivateAccount> {
     return (this.activateCount$ = this.activateCountService

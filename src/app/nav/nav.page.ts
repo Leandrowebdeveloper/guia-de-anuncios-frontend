@@ -15,7 +15,7 @@ import { OnDestroy } from '@angular/core';
 export class NavPage implements OnInit, OnDestroy {
     public auth: boolean;
     public name: string;
-    public state: boolean;
+    public authState: boolean;
     public avatar: string;
     public userRouterPage: string;
     public $user: Subscription;
@@ -41,15 +41,15 @@ export class NavPage implements OnInit, OnDestroy {
     }
 
     private init(): void {
-        this.getUser();
+        this.getAuthUser();
         this.setUserAndAuthentication();
         this.isUserAuthenticated();
-        this.getState();
-        this.setUser();
+        this.getAuthState();
+        this.setAuthUser();
         this.toogleAvatar();
     }
 
-    private getUser(): void {
+    private getAuthUser(): void {
         this.user = this.activatedRoute.snapshot.data?.init;
     }
 
@@ -67,37 +67,37 @@ export class NavPage implements OnInit, OnDestroy {
      * AVATAR
      */
 
-    private setUser() {
-        return (this.$user = this.userService.userObservable().subscribe(
+    private setAuthUser() {
+        return (this.$user = this.userService.authUserObservable().subscribe(
             (user: User) => {
-                this.setAvatar(user);
-                this.getName(user);
-                this.getSlug(user);
+                this.setAuthAvatar(user);
+                this.getAuthUserName(user);
+                this.getAuthUserSlug(user);
             }
         ));
     }
 
-    private getSlug(user: User): void {
+    private getAuthUserSlug(user: User): void {
         if (user.slug) {
             this.userRouterPage = `painel-de-controle/usuarios/${user.slug}`;
         }
     }
 
-    private getState(): void {
-        this.state = this.authService.isLoggedIn;
+    private getAuthState(): void {
+        this.authState = this.authService.isLoggedIn;
     }
 
-    private setAvatar(user: User): void {
-        this.avatar = user.image.url || './../../assets/avatar.svg';
+    private setAuthAvatar(user: User): void {
+        this.avatar = user.image?.url || './../../assets/avatar.svg';
     }
 
     private toogleAvatar(): Subscription {
-        return (this.$avatar = this.userService.userObservable().subscribe(
-            (user: User) => this.setAvatar(user)
+        return (this.$avatar = this.userService.authUserObservable().subscribe(
+            (user: User) => this.setAuthAvatar(user)
         ));
     }
 
-    private getName(user: User): void {
+    private getAuthUserName(user: User): void {
         if (user.firstName && user.lastName) {
             this.name = `${user.firstName} ${user.lastName}`;
         }

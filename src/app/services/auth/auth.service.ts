@@ -25,7 +25,7 @@ export class AuthService {
     ) {}
 
     public get user() {
-        return this.userService.getUser();
+        return this.userService.getAuthUser();
     }
 
     public get toggleIsLoggedIn(): Observable<boolean> {
@@ -41,7 +41,7 @@ export class AuthService {
     }
 
     public set setUserAndAuthentication(user: User) {
-        this.userService.setUser(user);
+        this.userService.setAuthUser(user);
         this.isLoggedIn = user.auth;
     }
 
@@ -52,7 +52,7 @@ export class AuthService {
         }
     }
 
-    public async setToken(user: User): Promise<void> {
+    public async setAuthToken(user: User): Promise<void> {
         return await this.storageService.create('token', user?.token);
     }
 
@@ -67,7 +67,6 @@ export class AuthService {
         const login = this.regex('/entrar');
         const recover = this.regex('/recuperar-senha');
         const register = this.regex('/cadastrar');
-
         if (this.isLoggedIn) {
             if (login.test(url)) {
                 return this.router.parseUrl('/painel-de-controle');
@@ -85,6 +84,14 @@ export class AuthService {
                 return this.router.parseUrl('/entrar');
             }
         }
+    }
+
+    public confirmAuthorization(user: User): void {
+        if (user.auth) {
+            this.isLoggedIn = user.auth;
+        }
+        this.isLoggedIn = false;
+        this.router.parseUrl('/entrar');
     }
 
     private regex(value: string): RegExp {

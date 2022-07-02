@@ -18,7 +18,7 @@ export class InitService extends HttpService<User> {
         super(http, `${environment.api}api/init`);
     }
 
-    public set setToken(token: string) {
+    public set setAuthToken(token: string) {
         this.token = token;
     }
 

@@ -94,7 +94,7 @@ export class FormComponent implements OnInit {
     }
 
     private formBuild(): FormGroup {
-        const data = this.formServices.controlsConfig(this.inputConfig);
+        const data: any = this.formServices.controlsConfig(this.inputConfig);
         const validator = this.formServices.isPasswordConfirmation(
             this.inputConfig
         );

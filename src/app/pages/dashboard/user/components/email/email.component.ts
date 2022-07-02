@@ -13,7 +13,7 @@ export class EmailComponent {
 
     constructor(private modalController: ModalController) {}
 
-    public async updateEmail() {
+    public async updateAuthEmail() {
         const { _csrf, email, slug } = this.user;
         const modal = await this.modalController.create({
             component: FormEmailComponent,

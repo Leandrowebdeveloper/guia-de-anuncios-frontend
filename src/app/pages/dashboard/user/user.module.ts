@@ -38,7 +38,7 @@ import { EmailComponent } from './components/email/email.component';
         PasswordComponent,
         FormPasswordComponent,
         EmailComponent,
-        FormEmailComponent
-    ],
+        FormEmailComponent,
+    ]
 })
 export class UserPageModule {}

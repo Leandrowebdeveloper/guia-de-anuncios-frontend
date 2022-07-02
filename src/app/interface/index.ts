@@ -9,7 +9,7 @@ export interface User {
     password: string;
     level: string;
     slug: string;
-    state: boolean;
+    authState: boolean;
     token: string;
     active: boolean;
     desabled: boolean;

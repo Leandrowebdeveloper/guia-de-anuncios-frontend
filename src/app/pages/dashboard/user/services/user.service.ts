@@ -2,7 +2,7 @@ import { MessageService } from 'src/app/utilities/message/message.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from 'src/app/services/http/http.service';
 import { BehaviorSubject, EMPTY, Subscription } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { Image, User } from 'src/app/interface';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -15,7 +15,7 @@ import { BreadcrumbsService } from 'src/app/header/breadcrumbs/service/breadcrum
     providedIn: 'root',
 })
 export class UserService extends HttpService<User> {
-    private $user = new BehaviorSubject<User>(undefined);
+    private $authUser = new BehaviorSubject<User>(undefined);
 
     constructor(
         http: HttpClient,
@@ -27,71 +27,80 @@ export class UserService extends HttpService<User> {
         super(http, `${environment.api}api/users`);
     }
 
-    public getAvatar(): Image {
-        return this.$user.value.image;
+    public getUserAvatar(): Image {
+        return this.$authUser.value.image;
     }
 
-    public userObservable(): Observable<User> {
-        return this.$user.asObservable();
+    public authUserObservable(): Observable<User> {
+        return this.$authUser.asObservable();
     }
-    public getUser(): User {
-        return this.$user.value;
-    }
-
-    public getSlug(): string {
-        return this.$user.value.slug;
+    public getAuthUser(): User {
+        return this.$authUser.value;
     }
 
-    public getState(): boolean {
-        return this.$user.value.state;
+    public getAuthUserSlug(): string {
+        return this.$authUser.value.slug;
     }
 
-    public setSlug(user: User) {
-        this.$user.value.slug = user.slug;
-        this.setUser(this.$user.value);
+    public getAuthState(): boolean {
+        return this.$authUser.value.authState;
     }
 
-    public getLastName() {
-        return this.$user.value.lastName;
+    public setAuthSlug(user: User) {
+        this.$authUser.value.slug = user.slug;
+        this.setAuthUser(this.$authUser.value);
     }
 
-    public setLastName(user: User) {
-        this.$user.value.lastName = user.lastName;
-        this.setUser(this.$user.value);
+    public getAuthUserLastName() {
+        return this.$authUser.value.lastName;
     }
 
-    public getFirstName() {
-        return this.$user.value.firstName;
+    public setAuthUserLastName(user: User) {
+        this.$authUser.value.lastName = user.lastName;
+        this.setAuthUser(this.$authUser.value);
     }
 
-    public setFirstName(user: User) {
-        this.$user.value.firstName = user.firstName;
-        this.setUser(this.$user.value);
+    public getAuthUserFirstName() {
+        return this.$authUser.value.firstName;
     }
 
-    public setState(user: User) {
-        this.$user.value.state = user.state;
-        this.setUser(this.$user.value);
+    public setAuthUserFirstName(user: User) {
+        this.$authUser.value.firstName = user.firstName;
+        this.setAuthUser(this.$authUser.value);
     }
 
-    public getName(): string {
-        return `${this.$user.value.firstName} ${this.$user.value.lastName}`;
+    public getAuthUserEmail() {
+        return this.$authUser.value.email;
     }
 
-    public setUser(user: User) {
-        this.$user.next(user);
+    public setAuthUserEmail(user: User) {
+        this.$authUser.value.email = user.email;
+        this.setAuthUser(this.$authUser.value);
     }
 
-    public setAvatar(image: Image) {
-        this.$user.value.image = image;
-        this.setUser(this.$user.value);
+    public setAuthUserState(user: User) {
+        this.$authUser.value.authState = user.authState;
+        this.setAuthUser(this.$authUser.value);
     }
 
-    public setToken() {
+    public getAuthUserName(): string {
+        return `${this.$authUser.value.firstName} ${this.$authUser.value.lastName}`;
+    }
+
+    public setAuthUser(user: User) {
+        this.$authUser.next(user);
+    }
+
+    public setAuthAvatar(image: Image) {
+        this.$authUser.value.image = image;
+        this.setAuthUser(this.$authUser.value);
+    }
+
+    public setAuthToken() {
         this.token = this.storageService.getToken;
     }
 
-    public setCsrf(csrf: string) {
+    public setAuthCsrf(csrf: string) {
         this.csrf = csrf;
     }
 
@@ -104,27 +113,44 @@ export class UserService extends HttpService<User> {
         return this.messageService.error(error);
     }
 
-    public updateName(user: User): Observable<User | number[]> {
+    public updateAuthName(user: User): Observable<User | number[]> {
         return this.patch(user, 'name').pipe(
             tap((user_: User) => {
-                this.setFirstName(user_);
-                this.setLastName(user_);
-                this.setSlug(user_);
-                this.updateUrl();
+                this.setAuthUserFirstName(user_);
+                this.setAuthUserLastName(user_);
+                this.setAuthSlug(user_);
+                this.updateAuthUserUrl();
             }),
             catchError((error) => EMPTY)
         );
     }
 
-    public state(user: User): Observable<User | number[]> {
-        return this.patch(user, 'state').pipe(
-            tap((user_: User) => this.setState(user_)),
+    public updateAuthEmail(user: User): Observable<User | number[]> {
+        return this.patch(user, 'email').pipe(
+            tap((user_: User) => {
+                this.setAuthUserEmail(user_);
+            }),
             catchError((error) => EMPTY)
         );
     }
 
-    private updateUrl(): void {
-        const url = `/painel-de-controle/usuarios/${this.getSlug()}`;
+    public emailIsValidToChange(params: string) {
+        return this.findAll(`change-email/${params}`);
+    }
+
+    public updateAuthPassword(user: User): Observable<User | number[]> {
+        return this.patch(user, 'password');
+    }
+
+    public authState(user: User): Observable<User | number[]> {
+        return this.patch(user, 'state').pipe(
+            tap((user_: User) => this.setAuthUserState(user_)),
+            catchError((error) => EMPTY)
+        );
+    }
+
+    private updateAuthUserUrl(): void {
+        const url = `/painel-de-controle/usuarios/${this.getAuthUserSlug()}`;
         this.breadcrumbsService.setEvent(url);
         this.location.replaceState(url);
     }

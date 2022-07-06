@@ -6,131 +6,140 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { RedefinePasswordService } from './services/redefine-password.service';
 import { User } from 'src/app/interface';
 import { FormGroup } from '@angular/forms';
-import { AttrButton } from 'src/app/components/buttons/system-access-page-buttons/interface';
+import { AttrButton } from 'src/app/pages/public/system-access/components/buttons/interface';
 import { Subscription } from 'rxjs';
 import { HelpsService } from 'src/app/services/helps/helps.service';
 
 @Component({
-  selector: 'app-redefine-password',
-  templateUrl: './redefine-password.page.html',
-  styleUrls: ['./redefine-password.page.scss'],
+    selector: 'app-redefine-password',
+    templateUrl: './redefine-password.page.html',
+    styleUrls: ['./redefine-password.page.scss'],
 })
 export class RedefinePasswordPage implements OnInit {
-  public config: User;
-  public active: boolean;
-  public attrButton: AttrButton;
-  public message: string;
-  private form: FormGroup;
-  private urlTree: boolean;
-  private redefine: Subscription;
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private helpsService: HelpsService,
-    private redefinePasswordService: RedefinePasswordService
-  ) {}
+    public user: User;
+    public active: boolean;
+    public attrButton: AttrButton;
+    public message: string;
+    private form: FormGroup;
+    private urlTree: boolean;
+    private redefine: Subscription;
+    constructor(
+        private activatedRoute: ActivatedRoute,
+        private helpsService: HelpsService,
+        private redefinePasswordService: RedefinePasswordService
+    ) {}
 
-  ngOnInit() {
-    this.setConfig();
-    this.setAttrButton();
-    this.isActived();
-    this.setMessageLinkInvalid();
-  }
-
-  private setMessageLinkInvalid() {
-    return (this.message = this.config.message || null);
-  }
-
-  private isActived(): boolean {
-    return (this.active = this.config.active);
-  }
-
-  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean | UrlTree {
-    if (this.authorizeRoute()) {
-      return this.authorizeRoute();
-    } else if (this.canAuthorizeTheRoute()) {
-      return this.canDeactivatedConfirmAlert();
+    ngOnInit() {
+        this.setConfig();
+        this.setAttrButton();
+        this.isActived();
+        this.setMessageLinkInvalid();
     }
-    return true;
-  }
 
-  private disableCanDeactivate(): boolean {
-    return (this.urlTree = true);
-  }
+    canDeactivate():
+        | Observable<boolean>
+        | Promise<boolean>
+        | boolean
+        | UrlTree {
+        if (this.authorizeRoute()) {
+            return this.authorizeRoute();
+        } else if (this.canAuthorizeTheRoute()) {
+            return this.canDeactivatedConfirmAlert();
+        }
+        return true;
+    }
 
-  private authorizeRoute(): boolean {
-    return this.urlTree;
-  }
+    public importForm(event: FormGroup) {
+        this.form = event;
+    }
 
-  private canAuthorizeTheRoute(): boolean {
-    return this.helpsService.isAuthorizeTheRoute(this.form);
-  }
+    public onSubmit(event: FormGroup) {
+        const loading = this.redefinePasswordService.loading();
+        return (this.redefine = this.redefinePasswordService
+            .passwordRecover(event.value)
+            .subscribe(
+                (user: User) => this.success(user, loading),
+                (error: HttpErrorResponse) => this.error(error, loading)
+            ));
+    }
 
-  private canDeactivatedConfirmAlert() {
-    return this.helpsService.messageAuthorizeTheRoute();
-  }
+    private setMessageLinkInvalid() {
+        return (this.message = this.user?.message);
+    }
 
-  public onSubmit(event: FormGroup) {
-    console.log(event.value);
+    private isActived(): boolean {
+        return (this.active = this.user?.state);
+    }
+    private disableCanDeactivate(): boolean {
+        return (this.urlTree = true);
+    }
 
-    const loading = this.redefinePasswordService.loading();
-    return (this.redefine = this.redefinePasswordService
-      .passwordRecover(event.value)
-      .subscribe(
-        (user: User) => this.success(user, loading),
-        (error: HttpErrorResponse) => this.error(error, loading)
-      ));
-  }
+    private authorizeRoute(): boolean {
+        return this.urlTree;
+    }
 
-  private success(user: User, loading: Promise<HTMLIonLoadingElement>): void {
-    this.disableCanDeactivate();
-    this.formUpdate();
-    this.disableLoadingUnsubscribeRegisterVariableTriggerSuccessMessage(
-      user,
-      loading
-    );
-  }
+    private canAuthorizeTheRoute(): boolean {
+        return this.helpsService.isAuthorizeTheRoute(this.form);
+    }
 
-  private disableLoadingUnsubscribeRegisterVariableTriggerSuccessMessage(
-    user: User,
-    loading: Promise<HTMLIonLoadingElement>
-  ) {
-    return this.redefinePasswordService.success(user, loading, this.redefine);
-  }
+    private canDeactivatedConfirmAlert() {
+        return this.helpsService.messageAuthorizeTheRoute();
+    }
 
-  private error(
-    error: HttpErrorResponse,
-    loading: Promise<HTMLIonLoadingElement>
-  ): any {
-    return this.redefinePasswordService.error(error, loading, this.redefine);
-  }
+    private success(user: User, loading: Promise<HTMLIonLoadingElement>): void {
+        this.disableCanDeactivate();
+        this.formUpdate();
+        this.disableLoadingUnsubscribeRegisterVariableTriggerSuccessMessage(
+            user,
+            loading
+        );
+    }
 
-  private formUpdate(): number {
-    return this.helpsService.delay(
-      () =>
-        this.helpsService.correctFormGroupValueRecalculatingStatusControlsAndErrorMessages(
-          this.form,
-          this.config
-        ),
-      2000
-    );
-  }
+    private disableLoadingUnsubscribeRegisterVariableTriggerSuccessMessage(
+        user: User,
+        loading: Promise<HTMLIonLoadingElement>
+    ) {
+        return this.redefinePasswordService.success(
+            user,
+            loading,
+            this.redefine
+        );
+    }
 
-  public importForm(event: FormGroup) {
-    this.form = event;
-  }
+    private error(
+        error: HttpErrorResponse,
+        loading: Promise<HTMLIonLoadingElement>
+    ): any {
+        return this.redefinePasswordService.error(
+            error,
+            loading,
+            this.redefine
+        );
+    }
 
-  private setConfig(): void {
-    this.config = this.activatedRoute.snapshot.data.redefinePassword;
-  }
+    private formUpdate(): number {
+        return this.helpsService.delay(
+            () =>
+                this.helpsService.correctFormGroupValueRecalculatingStatusControlsAndErrorMessages(
+                    this.form,
+                    this.user
+                ),
+            2000
+        );
+    }
 
-  private setAttrButton(): void {
-    this.attrButton = {
-      route: 'redefinir-senha',
-      icon: 'arrow-up-circle',
-      label: 'Redefinir senha',
-      fill: false,
-      aria: 'Redefinir senha.',
-      title: 'Redefinir senha.',
-    };
-  }
+    private setConfig(): void {
+        this.user = this.activatedRoute.snapshot.data.redefinePassword;
+    }
+
+    private setAttrButton(): void {
+        this.attrButton = {
+            route: 'redefinir-senha',
+            icon: 'arrow-up-circle',
+            label: 'Redefinir senha',
+            fill: false,
+            aria: 'Redefinir senha.',
+            title: 'Redefinir senha.',
+        };
+    }
 }

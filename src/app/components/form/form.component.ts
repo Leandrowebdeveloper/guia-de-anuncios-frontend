@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormServices } from './services/form.service';
 import { ConfigForm } from './config';
 import { Attributes } from './interface';
-import { AttrButton } from '../buttons/system-access-page-buttons/interface';
+import { AttrButton } from '../../pages/public/system-access/components/buttons/interface';
 
 @Component({
     selector: 'app-form',
@@ -12,7 +12,7 @@ import { AttrButton } from '../buttons/system-access-page-buttons/interface';
     styleUrls: ['./form.component.scss'],
 })
 export class FormComponent implements OnInit {
-    @Input() inputConfig: object;
+    @Input() inputConfig: any;
     @Input() attrButton: AttrButton;
     @Output() submitDataForm = new EventEmitter<FormGroup>(undefined);
     @Output() exportForm = new EventEmitter<FormGroup>(undefined);
@@ -44,7 +44,7 @@ export class FormComponent implements OnInit {
 
     public onSubmit(): void {
         this.submitted = true;
-        if (this.form.invalid) {
+        if (this.form.pristine || this.form.invalid) {
             return;
         }
         return this.sendDataForm();
@@ -59,7 +59,7 @@ export class FormComponent implements OnInit {
     }
 
     private isPageLogin() {
-        this.isPageTheLogin = this.router.url === '/entrar';
+        this.isPageTheLogin = this.router?.url === '/entrar';
     }
 
     private disableValidate(): void {
@@ -80,15 +80,15 @@ export class FormComponent implements OnInit {
         );
     }
 
-    private isNewPassword() {
-        if (this.attrButton.route === '/new-password') {
+    private isNewPassword(): void {
+        if (this.attrButton?.route === '/new-password' && this.buildInputs[1]?.label && this.buildInputs[2]?.label) {
             this.buildInputs[1].label = 'Nova senha';
             this.buildInputs[2].label = 'Confirmar nova senha';
         }
     }
 
-    private isNewEmail() {
-        if (this.attrButton.route === '/email') {
+    private isNewEmail(): void {
+        if (this.attrButton?.route === '/email' && this.buildInputs[0]?.label) {
             this.buildInputs[0].label = 'Novo email';
         }
     }

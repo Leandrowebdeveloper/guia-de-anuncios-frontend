@@ -21,7 +21,7 @@ export class BreadcrumbsService {
     }
 
     public getEvent(): Observable<string> {
-       return this.breadcrumbEvent.asObservable();
+        return this.breadcrumbEvent.asObservable();
     }
 
     public setEvent(value: string): void {
@@ -29,7 +29,7 @@ export class BreadcrumbsService {
     }
 
     public update(url: string): void {
-       return this.createBreadcrumbs(url);
+        return this.createBreadcrumbs(url);
     }
 
     private convertUrlToArray(url: string): string[] {
@@ -68,15 +68,15 @@ export class BreadcrumbsService {
         const result = slug
             .map(this.filterSlug())
             .filter((item) => item !== undefined);
-        return this.newSlug(slug, result);
+            return this.title(result);
+
     }
 
-    private newSlug(slug: string[], result: string[]): string[] {
-        if (result.length > 0) {
-            slug.pop();
-            slug.push(result[0]);
+    private title(result: string[]): string[] {
+        if (result.length > 0 && result.includes('')) {
+            result.pop();
         }
-        return slug;
+        return result;
     }
 
     private filterSlug(): (
@@ -85,9 +85,12 @@ export class BreadcrumbsService {
         array: string[]
     ) => string {
         return (item, i) => {
-            if (i > 1) {
-                const rejected = item.split(' ').pop();
-                return item.replace(rejected, '').trim();
+            if (i > -1) {
+                if (/[0-9]/g.test(item)) {
+                    const rejected = item.split(' ').pop();
+                    item = item.replace(rejected, '').trim();
+                }
+                return item;
             }
         };
     }
@@ -101,29 +104,36 @@ export class BreadcrumbsService {
                     link: this.buildLink(url, index),
                 })
         );
+        breadcrumb.splice(4, 1);
         this.breadcrumbs(breadcrumb);
     }
 
     private filterLabel(label: string): string {
         switch (label) {
-            case 'usuarios':
-                return 'usuários';
-            case 'anuncios':
-                return 'anúncios';
+            case 'usuario':
+                return 'usuário';
+            case 'anuncio':
+                return 'anúncio';
             case 'inicio':
                 return 'Início';
-            case 'erro-de-pagina-404':
-                return 'Erro de Página 404';
+            case 'erro':
+                return 'Erro';
             default:
                 return label;
         }
     }
 
     private buildLink(url: string, index: number): string {
+        const URL = url.split('/');
+        if(URL.includes('')) {URL.shift();}
         switch (index) {
+            case 0:
+                return `/${URL[0]}`;
             case 1:
-                return url;
+                return `/${URL[0]}/${URL[1]}/${URL[2]}`;
             case 2:
+                return `/${URL[0]}/${URL[1]}/${URL[2]}`;
+            case 3:
                 return url;
             default:
                 return `/${this.convertUrlToArray(url)[index]}`;

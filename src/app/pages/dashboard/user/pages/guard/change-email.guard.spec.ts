@@ -1,13 +1,16 @@
+import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { ChangeEmailGuard } from './change-email.guard';
+import { ChangeEmailResolver } from './change-email.guard';
 
-describe('ChangeEmailGuard', () => {
-  let guard: ChangeEmailGuard;
+describe('ChangeEmailResolver', () => {
+  let guard: ChangeEmailResolver;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    guard = TestBed.inject(ChangeEmailGuard);
+    TestBed.configureTestingModule({
+        imports: [RouterTestingModule]
+    });
+    guard = TestBed.inject(ChangeEmailResolver);
   });
 
   it('should be created', () => {

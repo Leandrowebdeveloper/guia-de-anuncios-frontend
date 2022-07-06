@@ -5,10 +5,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { HeaderPage } from './header.page';
+import { HeaderComponent } from './header.component';
 
-import { BreadcrumpsPageModule } from './breadcrumbs/breadcrumbs.module';
-import { MenuComponent } from './menu/menu.component';
+import { BreadcrumpsComponentModule } from './breadcrumbs/breadcrumbs.component.module';
 
 @NgModule({
   imports: [
@@ -16,9 +15,9 @@ import { MenuComponent } from './menu/menu.component';
     FormsModule,
     IonicModule,
     RouterModule,
-    BreadcrumpsPageModule
+    BreadcrumpsComponentModule
   ],
-  declarations: [HeaderPage, MenuComponent],
-  exports: [HeaderPage]
+  declarations: [HeaderComponent],
+  exports: [HeaderComponent]
 })
-export class HeaderPageModule {}
+export class HeaderComponentModule {}

@@ -5,7 +5,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { HttpService } from 'src/app/services/http/http.service';
-import { environment } from 'src/environments/environment';
 import { User } from 'src/app/interface';
 
 @Injectable()
@@ -15,7 +14,8 @@ export class RegisterService extends HttpService<User> {
         private navCtrl: NavController,
         private helpsService: HelpsService
     ) {
-        super(http, `${environment.api}api/register`);
+        super(http);
+        this.api = `register`;
     }
 
     public register(user: User): Observable<User> {

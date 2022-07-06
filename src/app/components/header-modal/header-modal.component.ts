@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-header-modal',
+  selector: 'app-header-component-modal',
   templateUrl: './header-modal.component.html',
   styleUrls: ['./header-modal.component.scss'],
 })

@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/interface';
 import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
+import { StorageService } from 'src/app/services/storage/storage.service';
 
 @Component({
     selector: 'app-change-email',
@@ -20,6 +21,7 @@ export class ChangeEmailPage implements OnInit {
     private user: User;
 
     constructor(
+        private storageService: StorageService,
         private authService: AuthService,
         private userService: UserService,
         private activatedRoute: ActivatedRoute
@@ -44,7 +46,7 @@ export class ChangeEmailPage implements OnInit {
 
     private changeEmail() {
         return (this.user$ = this.userService
-            .emailIsValidToChange(`${this.user.token}/${this.user.slug}`)
+            .emailIsValidToChange(`${this.user?.token}/${this.user?.slug}`)
             .pipe(
                 tap((user: User) => this.success(user)),
                 catchError((error: HttpErrorResponse) => this.setErrors(error))
@@ -53,7 +55,7 @@ export class ChangeEmailPage implements OnInit {
 
     private success(user: User): void {
         this.userService.setAuthUserEmail(user);
-        this.authService.setAuthToken(user);
+        this.storageService.setAuthUserToken(user);
     }
 
     private setErrors(error: HttpErrorResponse): Observable<never> {

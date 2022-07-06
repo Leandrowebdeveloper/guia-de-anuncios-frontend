@@ -19,7 +19,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-  providers: [SystemAccessResolver, DeactivateGuard]
+  exports: [RouterModule]
 })
 export class LoginPageRoutingModule {}

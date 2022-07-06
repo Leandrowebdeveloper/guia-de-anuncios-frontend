@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { TermsOfUsePageRoutingModule } from './terms-of-use-routing.module';
 
 import { TermsOfUsePage } from './terms-of-use.page';
-import { HeaderPageModule } from 'src/app/header/header.module';
+import { HeaderComponentModule } from 'src/app/header/header.component.module';
 
 @NgModule({
   imports: [
@@ -15,7 +15,7 @@ import { HeaderPageModule } from 'src/app/header/header.module';
     FormsModule,
     IonicModule,
     TermsOfUsePageRoutingModule,
-    HeaderPageModule
+    HeaderComponentModule
   ],
   declarations: [TermsOfUsePage]
 })

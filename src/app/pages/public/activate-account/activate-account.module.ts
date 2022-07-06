@@ -7,8 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { ActivateAccountPageRoutingModule } from './activate-account-routing.module';
 
 import { ActivateAccountPage } from './activate-account.page';
+import { HeaderComponentModule } from 'src/app/header/header.component.module';
 import { ActivateAccountService } from './services/activate-account.service';
-import { HeaderPageModule } from 'src/app/header/header.module';
 
 @NgModule({
   imports: [
@@ -16,7 +16,7 @@ import { HeaderPageModule } from 'src/app/header/header.module';
     FormsModule,
     IonicModule,
     ActivateAccountPageRoutingModule,
-    HeaderPageModule
+    HeaderComponentModule
   ],
   declarations: [ActivateAccountPage],
   providers: [ActivateAccountService]

@@ -16,7 +16,7 @@ import {
 import { LocalFile } from 'src/app/interface';
 import { Router } from '@angular/router';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class PhotoService {
     private static image: LocalFile[] = [];
     private imageDir: string;

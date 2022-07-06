@@ -1,50 +1,50 @@
 import { BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage-angular';
-import { LocalStorage } from 'src/app/interface';
+import { Storage } from '@ionic/storage';
+import { LocalStorage, User } from 'src/app/interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
 })
 export class StorageService implements LocalStorage {
-    private _storage: Storage | null = null;
-    private _token = new BehaviorSubject<string>(undefined);
-    constructor(private storage: Storage) {}
+    private $storage: Storage | null = null;
+    private $token = new BehaviorSubject<string>(undefined);
+    constructor(private storage: Storage) { }
 
     public get getAsObservableToken(): Observable<string> {
-        return this._token.asObservable();
+        return this.$token.asObservable();
     }
 
     public get getToken(): string {
-        return this._token.value;
+        return this.$token.value;
     }
 
     public set setAuthToken(value: string) {
-        this._token.next(value);
+        this.$token.next(value);
     }
 
     public async init(): Promise<void> {
         const storage = await this.storage.create();
-        this._storage = storage;
+        this.$storage = storage;
     }
 
     public create(key: string, value: string | object): Promise<any> {
         if (typeof value === 'string') {
-            return this._storage?.set(key, value);
+            return this.$storage?.set(key, value);
         }
-        return this._storage?.set(key, JSON.stringify(value, null, ' '));
+        return this.$storage?.set(key, JSON.stringify(value, null, ' '));
     }
 
     public update(key: string, value: string | object): Promise<any> {
         if (typeof value === 'string') {
-            return this._storage?.set(key, value);
+            return this.$storage?.set(key, value);
         }
-        return this._storage?.set(key, JSON.stringify(value, null, ' '));
+        return this.$storage?.set(key, JSON.stringify(value, null, ' '));
     }
 
     public async find(key: string): Promise<any> {
-        const result = await this._storage?.get(key);
+        const result = await this.$storage?.get(key);
         if (this.isJson(result)) {
             return JSON.parse(result);
         }
@@ -52,12 +52,13 @@ export class StorageService implements LocalStorage {
     }
 
     public destroy(key: string): Promise<void> {
-        return this._storage?.remove(key);
+        return this.$storage?.remove(key);
     }
 
     public clean(): Promise<void> {
-        return this._storage?.clear();
+        return this.$storage?.clear();
     }
+
 
     public async isToken(): Promise<string> {
         const session = await this.getSessionStorage();
@@ -74,6 +75,10 @@ export class StorageService implements LocalStorage {
             return false;
         }
         return true;
+    }
+
+    public async setAuthUserToken(user: User): Promise<void> {
+        return await this.create('token', user?.token);
     }
 
     private async getSessionStorage(): Promise<string> {

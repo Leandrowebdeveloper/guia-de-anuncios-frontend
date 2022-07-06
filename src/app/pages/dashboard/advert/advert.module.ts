@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { AdvertPageRoutingModule } from './advert-routing.module';
 
 import { AdvertPage } from './advert.page';
-import { HeaderPageModule } from 'src/app/header/header.module';
+import { HeaderComponentModule } from 'src/app/header/header.component.module';
 
 @NgModule({
   imports: [
@@ -15,7 +15,7 @@ import { HeaderPageModule } from 'src/app/header/header.module';
     FormsModule,
     IonicModule,
     AdvertPageRoutingModule,
-    HeaderPageModule
+    HeaderComponentModule
   ],
   declarations: [AdvertPage]
 })

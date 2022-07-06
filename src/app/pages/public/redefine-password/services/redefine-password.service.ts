@@ -1,11 +1,9 @@
 import { HttpService } from 'src/app/services/http/http.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
 import { User } from 'src/app/interface';
-import { AlertService } from 'src/app/utilities/alert/alert.service';
 import { NavController } from '@ionic/angular';
 import { HelpsService } from 'src/app/services/helps/helps.service';
 import { Subscription } from 'rxjs';
@@ -21,7 +19,8 @@ export class RedefinePasswordService extends HttpService<User> {
         private helpsService: HelpsService,
         private messageService: MessageService
     ) {
-        super(http, `${environment.api}api/redefine-password`);
+        super(http);
+        this.api = `redefine-password`;
     }
 
     public passwordRecover(user: User): Observable<User> {

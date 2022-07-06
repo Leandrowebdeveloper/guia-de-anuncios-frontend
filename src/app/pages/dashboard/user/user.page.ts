@@ -1,4 +1,3 @@
-import { UserService } from 'src/app/pages/dashboard/user/services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/interface';

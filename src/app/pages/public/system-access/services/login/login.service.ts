@@ -4,20 +4,28 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpService } from 'src/app/services/http/http.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
+import { UserService } from 'src/app/pages/dashboard/user/services/user.service';
 
 @Injectable()
 export class LoginService extends HttpService<User> {
-    private _stayConnected: boolean;
-    constructor(public http: HttpClient, private authService: AuthService) {
-        super(http, `${environment.api}api/login`);
+    private $stayConnected: boolean;
+    constructor(
+        public http: HttpClient,
+        private storageService: StorageService,
+        private userService: UserService,
+        private authService: AuthService
+    ) {
+        super(http);
+        this. api = `${environment.api}api/login`;
     }
 
     public get stayConnected() {
-        return this._stayConnected;
+        return this.$stayConnected;
     }
 
     public set stayConnected(value: boolean) {
-        this._stayConnected = value;
+        this.$stayConnected = value;
     }
 
     public storesTokenDatabaseOrSession(user: User): void {
@@ -32,10 +40,11 @@ export class LoginService extends HttpService<User> {
     }
 
     private async setTokenDatabase(user: User): Promise<void> {
-        return await this.authService.setAuthToken(user);
+        return await this.storageService.setAuthUserToken(user);
     }
 
     private setAuthUser(user: User): User {
+        this.userService.setAuthUser(user);
         return (this.authService.setUserAndAuthentication = user);
     }
 

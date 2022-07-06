@@ -75,7 +75,8 @@ export class FormServices {
     }
 
     public isPasswordConfirmation(configs: object) {
-        return this.getObjectKeys(configs).includes('passwordConfirmation')
+        const data = configs || {};
+        return this.getObjectKeys(data).includes('passwordConfirmation')
             ? this.passwordConfirmation
             : {};
     }
@@ -84,7 +85,7 @@ export class FormServices {
         const KEYS = this.getObjectKeys(configs);
         const inputs = [];
         for (const key in inputName) {
-            if (KEYS.includes(key) && inputName[key] !== null) {
+            if (KEYS && KEYS.includes(key) && inputName[key] !== null) {
                 inputs.push(inputName[key]);
             }
         }
@@ -142,11 +143,11 @@ export class FormServices {
     }
 
     private getObjectKeys(object: object): string[] {
-        return Object.keys(object);
+        return object && Object.keys(object);
     }
 
     private getObjectValues(object: object): string[] {
-        return Object.values(object);
+        return object && Object.values(object);
     }
 
     private mustMatch(

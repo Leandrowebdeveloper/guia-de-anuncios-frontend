@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { LoginService } from './login/login.service';
 import { RecoverService } from './recover/recover.service';
-import { AttrButton } from 'src/app/components/buttons/system-access-page-buttons/interface';
+import { AttrButton } from 'src/app/pages/public/system-access/components/buttons/interface';
 import { RegisterService } from './register/register.service';
 import { LoadingService } from 'src/app/utilities/loading/loading.service';
 import { MessageService } from 'src/app/utilities/message/message.service';
@@ -42,7 +42,7 @@ export class SystemAccessService {
         },
     ];
 
-    private _activeRoute: string = 'login' || 'recover' || 'register';
+    private $activeRoute: string = 'login' || 'recover' || 'register';
     constructor(
         public http: HttpClient,
         private loadingService: LoadingService,
@@ -55,10 +55,10 @@ export class SystemAccessService {
     ) {}
 
     public get activeRoute(): string {
-        return this._activeRoute;
+        return this.$activeRoute;
     }
     public set activeRoute(value: string) {
-        this._activeRoute = value;
+        this.$activeRoute = value;
     }
 
     public passwordRecover(user: User): Observable<User> {

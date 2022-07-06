@@ -6,7 +6,7 @@ import {
     UrlTree,
 } from '@angular/router';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ActivateAccountResolver implements Resolve<string | UrlTree> {
     constructor(private router: Router) {}
 

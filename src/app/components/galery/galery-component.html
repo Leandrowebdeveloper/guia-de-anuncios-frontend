@@ -1,31 +1,35 @@
-<app-header-modal label="Galeria de imagens"></app-header-modal>
+<app-header-component-modal label="Galeria de imagens"></app-header-component-modal>
 <ion-content>
 
-    <h3 *ngIf="images.length === 0" class="ion-padding ion-text-center">Por favor, selecione a imagem!</h3>
 
     <ion-list class="d-flex">
-        <ion-item *ngFor="let file of images; let i = index" class="fadein" [ngClass]="{order: !(file?.name === avatar)}">
 
-                <ion-label [hidden]="!(file?.name === avatar)"> Imagem do usuário</ion-label>
-                <ion-spinner [hidden]="!(spinner === i)" name="crescent"></ion-spinner>
+        <h3 class="ion-padding ion-text-center">Por favor, selecione a imagem!</h3>
 
-                <ion-avatar class="ion-margin-horizontal" *ngIf="file?.name === avatar" slot="start">
-                    <ion-img [src]="file?.data"></ion-img>
-                </ion-avatar>
+        <ion-item *ngFor="let file of images; let i = index" class="fadein"
+        [ngClass]="{order: !(file?.name === avatar)}">
 
-                <ion-thumbnail *ngIf="file?.name !== avatar" slot="start">
-                    <ion-img [src]="file?.data"></ion-img>
-                </ion-thumbnail>
+            <ion-label [hidden]="!(file?.name === avatar)"> Imagem do usuário</ion-label>
+            <ion-spinner [hidden]="!(spinner === i)" name="crescent"></ion-spinner>
 
-                <ion-button [hidden]="file?.name === avatar" slot="end" fill="clear" (click)="startUpload(file, i)"
-                    attr.aria-label="Salvar imagem do usuário.">
-                    <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
-                </ion-button>
-                <ion-button slot="end" fill="clear" (click)="deleteImage(file)"
-                    attr.aria-label="Excluir imagem do usuário.">
-                    <ion-icon slot="icon-only" name="trash"></ion-icon>
-                </ion-button>
-            </ion-item>
+
+            <ion-avatar class="ion-margin-horizontal" *ngIf="file?.name === avatar" slot="start">
+                <ion-img [src]="file?.data" alt="Imagem do usuário"></ion-img>
+            </ion-avatar>
+
+            <ion-thumbnail *ngIf="file?.name !== avatar" slot="start">
+                <ion-img [src]="file?.data" alt="Imagem "></ion-img>
+            </ion-thumbnail>
+
+            <ion-button [hidden]="file?.name === avatar" slot="end" fill="clear" (click)="startUpload(file, i)"
+                attr.aria-label="Salvar imagem do usuário.">
+                <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
+            </ion-button>
+            <ion-button [hidden]="file?.name === null"  slot="end" fill="clear" (click)="deleteImage(file, (file?.name === avatar))"
+                attr.aria-label="Excluir imagem do usuário.">
+                <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-button>
+        </ion-item>
     </ion-list>
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">

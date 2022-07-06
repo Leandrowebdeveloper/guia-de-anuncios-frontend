@@ -29,30 +29,38 @@ export class AvatarComponent implements OnInit, OnDestroy {
 
     public async addAvatar() {
         this.setAuthSlug();
-        const { _csrf, slug } = this.user;
+        const { _csrf, slug, image } = this.user;
         const modal = await this.modalController.create({
             component: GaleryComponent,
             componentProps: {
                 _csrf,
                 slug,
+                image,
             },
         });
         return await modal.present();
     }
 
-    private setAuthSlug() {
+    private setAuthSlug(): void {
         this.user.slug = this.userService.getAuthUserSlug();
     }
 
     private toogleAvatar(): Subscription {
-        return (this.$avatar = this.userService.authUserObservable().subscribe(
-            (user: User) => this.setAuthAvatar(user)
-        ));
+        return (this.$avatar = this.userService
+            .authUserObservable()
+            .subscribe((user: User) => this.setAuthAvatar(user)));
     }
 
     private setAuthAvatar(user: User): void {
-        this.avatar = user.image?.url || './../../../../assets/avatar.svg';
+        if (user) {
+            this.avatar = user?.image?.url || './../../../../assets/avatar.svg';
+            this.updateImage(user);
+        }
     }
 
-
+    private updateImage(user: User): void {
+        if (user) {
+            this.user.image = user.image;
+        }
+    }
 }

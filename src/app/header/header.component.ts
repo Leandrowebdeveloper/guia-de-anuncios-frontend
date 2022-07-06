@@ -1,19 +1,19 @@
-import { AuthService } from 'src/app/services/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Platform, PopoverController } from '@ionic/angular';
 import { MenuComponent } from './menu/menu.component';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
-    selector: 'app-header',
-    templateUrl: './header.page.html',
-    styleUrls: ['./header.page.scss'],
+    selector: 'app-header-component',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss'],
 })
 
 /**
- * @class HeaderPage
+ * @class HeaderComponent
  * @implements OnInit
  */
-export class HeaderPage implements OnInit {
+export class HeaderComponent implements OnInit {
     public hasIos: boolean;
     public avatar: string;
     public name: string;

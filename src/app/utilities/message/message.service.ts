@@ -17,9 +17,15 @@ export class MessageService {
 
     /**
      * @param message string
-     * @param time 3000 | 1000 | 1500 | 2000 | 2500 | 3500): number
+     * @param time 350 | 500 | 1000 | 1500 | 2000 | 2500 | 3000 | 3500
      */
-    public async success(message: string, time: any = 3000): Promise<number> {
+    public async success(
+        message: string,
+        loading?: Promise<HTMLIonLoadingElement>,
+        subscribe?: Subscription,
+        time: any = 3000
+    ): Promise<number> {
+        this.disableLoadingUnsubscribeVariable(loading, subscribe);
         return this.helpsService.delay(
             async () =>
                 await this.toastService.show(
@@ -67,6 +73,6 @@ export class MessageService {
         loading: Promise<HTMLIonLoadingElement>,
         subscribe: Subscription
     ) {
-       return await this.disableLoadingUnsubscribeVariable(loading, subscribe);
+        return await this.disableLoadingUnsubscribeVariable(loading, subscribe);
     }
 }

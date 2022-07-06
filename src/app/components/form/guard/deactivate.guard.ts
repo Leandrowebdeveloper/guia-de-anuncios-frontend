@@ -13,7 +13,7 @@ export interface OnComponentDeactivate {
     | UrlTree;
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class DeactivateGuard implements CanDeactivate<OnComponentDeactivate> {
   canDeactivate(
     component: OnComponentDeactivate

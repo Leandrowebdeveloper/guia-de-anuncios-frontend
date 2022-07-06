@@ -7,7 +7,7 @@ import {
 } from '@angular/router';
 import { User } from 'src/app/interface';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ChangeEmailResolver implements Resolve<User | UrlTree> {
     constructor(private router: Router) {}
 

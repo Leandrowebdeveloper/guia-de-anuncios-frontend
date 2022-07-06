@@ -1,7 +1,8 @@
+import { StorageService } from 'src/app/services/storage/storage.service';
 import { HelpsService } from 'src/app/services/helps/helps.service';
 import { PhotoService } from './services/photo/photo.service';
 import { ImageService } from './services/image/image.service';
-import { HttpResponse, LocalFile } from 'src/app/interface/index';
+import { HttpResponse, Image, LocalFile } from 'src/app/interface';
 import { UserService } from 'src/app/pages/dashboard/user/services/user.service';
 import { Component, Input, OnInit } from '@angular/core';
 
@@ -17,39 +18,50 @@ import { MessageService } from 'src/app/utilities/message/message.service';
 export class GaleryComponent implements OnInit {
     @Input() _csrf: string;
     @Input() slug: string;
+    @Input() image: Image;
     public spinner: number;
     public images: LocalFile[] = [];
 
     public avatar: string;
     private upload: Subscription;
+    private destroy: Subscription;
 
     constructor(
         private photoService: PhotoService,
-        private userService: UserService,
+        private userService: UserService ,
         private imageService: ImageService,
         private helpsService: HelpsService,
         private messageService: MessageService
     ) {}
 
-    async ngOnInit() {
+    ngOnInit() {
         this.loadFiles();
-        this.getUserAvatar();
+        this.getUserAvatarName();
     }
 
-    public getUserAvatar(): string {
+    public getUserAvatarName(): string {
         return (this.avatar = this.userService.getUserAvatar()?.filename);
+    }
+
+    public getUserAvatarUrl(): void {
+        const urlEmpty = './../../../assets/avatar.svg';
+        const file: LocalFile = this.buildAvatarEmpty(urlEmpty);
+        if (!this.userService.getUserAvatar()?.url) {
+            this.images.unshift(file);
+         }
     }
 
     public loadFiles(): void {
         this.photoService.loadFiles();
         this.setImages();
+        this.getUserAvatarUrl();
     }
 
-
     public async selectImage() {
-        return this.photoService.selectImage().then((res: boolean)=> {
-            if(res) {
+        return this.photoService.selectImage().then((res: boolean) => {
+            if (res) {
                 this.setImages();
+                this.getUserAvatarUrl();
             }
         });
     }
@@ -62,21 +74,35 @@ export class GaleryComponent implements OnInit {
         this.uploadData(formData);
     }
 
-    public deleteImage(file: LocalFile): Subscription {
+    public async deleteImage(
+        file: LocalFile,
+        isAvatar: boolean
+    ): Promise<void | Subscription> {
         // condição a pagina do usuário
         if (this.photoService.isPageUser()) {
+            if (!isAvatar) {
+                await this.photoService.deleteFile(file);
+                return this.refresh();
+            }
             return this.destroyAvatar(file);
         }
     }
 
     public async uploadData(formData: FormData): Promise<Subscription> {
-        this.userService.setAuthToken();
         this.userService.setAuthCsrf(this._csrf);
         return this.sendFile(formData);
     }
 
     private setImages() {
         this.images = PhotoService.images;
+    }
+
+    private buildAvatarEmpty(urlEmpty: string): LocalFile {
+        return {
+            path: urlEmpty,
+            data: urlEmpty,
+            name: null,
+        };
     }
 
     private startLoading(index: any) {
@@ -102,46 +128,68 @@ export class GaleryComponent implements OnInit {
             return (this.upload = this.userService
                 .upload('upload', formData)
                 .subscribe(
-                    (response: any) => this.success(response, response),
-                    (error: HttpErrorResponse) => this.messageService.error(error),
-                    () => setTimeout(() => this.upload.unsubscribe(), 2000)
+                    (response: any) =>
+                        this.success(response, response, this.upload),
+                    (error: HttpErrorResponse) =>
+                        this.messageService.error(error, null, this.upload)
                 ));
         }
     }
 
     private success(
         httpHeaderResponse: HttpHeaderResponse,
-        httpResponse: HttpResponse
+        httpResponse: HttpResponse,
+        subscription: Subscription
     ): void {
         if (httpHeaderResponse.ok && httpHeaderResponse.status === 200) {
-            return this.complete(httpResponse);
+            return this.complete(httpResponse, subscription);
         }
     }
 
-    private complete(httpResponse: HttpResponse): void {
+    private complete(
+        httpResponse: HttpResponse,
+        subscription: Subscription
+    ): void {
         const result = httpResponse.body;
         if (!!result && result[0] === 1) {
-            this.setUserImage(result);
+            this.setUserImage(result, subscription);
         }
     }
 
-    private setUserImage(result: Body): void {
+    private setUserImage(result: Body, subscription: Subscription): void {
         this.helpsService.delay(() => {
             const { filename } = this.imageService.setAuthAvatar(result);
             this.avatar = filename;
             this.stopLoading();
             this.loadFiles();
+            this.getUserAvatarUrl();
         }, 2500);
-        this.messageService.success('Imagem alterada com sucesso.', 3000);
+        this.messageService.success(
+            'Imagem alterada com sucesso.',
+            null,
+            subscription,
+            3000
+        );
     }
 
     private destroyAvatar(file: LocalFile): Subscription {
-        return this.imageService.avatarDestroy(this._csrf).subscribe(
-            async () => {
-                await this.photoService.deleteFile(file);
-                this.loadFiles();
-            },
-            (error) => this.messageService.error(error)
-        );
+        return (this.destroy = this.imageService
+            .avatarDestroy(this._csrf)
+            .subscribe(
+                async () => this.refresh(true),
+                (error) => this.messageService.error(error, null, this.destroy),
+                () =>
+                    this.helpsService.delay(
+                        () => this.destroy.unsubscribe(),
+                        1500
+                    )
+            ));
+    }
+
+    private refresh(action?: boolean) {
+        this.loadFiles();
+        if(action) {
+            this.avatar = null;
+        }
     }
 }

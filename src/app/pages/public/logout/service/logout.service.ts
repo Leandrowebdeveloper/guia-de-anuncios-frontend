@@ -1,3 +1,4 @@
+import { UserService } from 'src/app/pages/dashboard/user/services/user.service';
 import { MessageService } from 'src/app/utilities/message/message.service';
 import { HelpsService } from 'src/app/services/helps/helps.service';
 import { NavController } from '@ionic/angular';
@@ -7,23 +8,25 @@ import { Injectable } from '@angular/core';
 import { HttpService } from 'src/app/services/http/http.service';
 import { User } from 'src/app/interface/index';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { LoadingService } from 'src/app/utilities/loading/loading.service';
 
 @Injectable()
+
 export class LogoutService extends HttpService<User> {
     constructor(
         public http: HttpClient,
         private authService: AuthService,
+        private userService: UserService,
         private storageService: StorageService,
         private navCtrl: NavController,
         private loadingService: LoadingService,
         private messageService: MessageService,
         private helpsService: HelpsService
     ) {
-        super(http, `${environment.api}api/logout`);
+        super(http);
+        this.api = `logout`;
         this.setAuthToken();
     }
 
@@ -103,6 +106,7 @@ export class LogoutService extends HttpService<User> {
     }
 
     private setAuthUser(user: User): User {
+        this.userService.setAuthUser(user);
         return (this.authService.setUserAndAuthentication = user);
     }
 

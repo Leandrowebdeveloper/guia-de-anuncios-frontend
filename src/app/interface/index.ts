@@ -11,7 +11,8 @@ export interface User {
     slug: string;
     authState: boolean;
     token: string;
-    active: boolean;
+    // active: boolean;
+    state: boolean;
     desabled: boolean;
     key: string;
     passwordConfirmation: string;
@@ -34,13 +35,15 @@ export interface RequisitionLimit {
 }
 
 export interface ActivateAccount {
-    user_id: number;
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+   readonly user_id: number;
     activation: boolean;
     message: string;
 }
 
 export interface Image {
-    user_id: number;
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    readonly user_id: number;
     filename: string;
     url: string;
     _csrf: string;

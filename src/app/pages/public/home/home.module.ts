@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
-import { HeaderPageModule } from 'src/app/header/header.module';
+import { HeaderComponentModule } from 'src/app/header/header.component.module';
 
 @NgModule({
   imports: [
@@ -13,7 +13,7 @@ import { HeaderPageModule } from 'src/app/header/header.module';
     CommonModule,
     FormsModule,
     HomePageRoutingModule,
-    HeaderPageModule
+    HeaderComponentModule
   ],
   declarations: [HomePage]
 })

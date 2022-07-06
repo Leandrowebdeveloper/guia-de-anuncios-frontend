@@ -4,7 +4,6 @@ import { HttpService } from 'src/app/services/http/http.service';
 import { Observable } from 'rxjs';
 
 import { User } from 'src/app/interface';
-import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root',
@@ -15,7 +14,8 @@ import { environment } from 'src/environments/environment';
  */
 export class InitService extends HttpService<User> {
     constructor(public http: HttpClient) {
-        super(http, `${environment.api}api/init`);
+        super(http);
+        this.api = `init`;
     }
 
     public set setAuthToken(token: string) {

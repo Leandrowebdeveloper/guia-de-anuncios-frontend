@@ -5,7 +5,7 @@ import { Observable, EMPTY } from 'rxjs';
 import { User } from 'src/app/interface';
 import { UserService } from 'src/app/pages/dashboard/user/services/user.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class UserResolver implements Resolve<User> {
     constructor(
         private router: Router,

@@ -7,7 +7,7 @@ import { LoginService } from '../services/login/login.service';
 import { RecoverService } from '../services/recover/recover.service';
 import { RegisterService } from '../services/register/register.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class SystemAccessResolver implements Resolve<User> {
   constructor(
     private recoverService: RecoverService,

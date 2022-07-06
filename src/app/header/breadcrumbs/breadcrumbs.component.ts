@@ -6,10 +6,10 @@ import { BreadcrumbsService } from './service/breadcrumbs.service';
 
 @Component({
     selector: 'app-breadcrumbs',
-    templateUrl: './breadcrumbs.page.html',
-    styleUrls: ['./breadcrumbs.page.scss'],
+    templateUrl: './breadcrumbs.component.html',
+    styleUrls: ['./breadcrumbs.component.scss'],
 })
-export class BreadcrumpsPage implements OnInit, OnDestroy {
+export class BreadcrumpsComponent implements OnInit, OnDestroy {
     public breadcrumbs$: Observable<Breadcrumb[]>;
     public hasIos: boolean;
 

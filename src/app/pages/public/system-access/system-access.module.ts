@@ -1,4 +1,4 @@
-import { HeaderPageModule } from 'src/app/header/header.module';
+import { HeaderComponentModule } from 'src/app/header/header.component.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -8,13 +8,12 @@ import { LoginPageRoutingModule } from './system-access-routing.module';
 
 import { SystemAccessPage } from './system-access.page';
 import { FormComponentModule } from 'src/app/components/form/form.module';
-import { SystemAccessPageButtonsModule } from 'src/app/components/buttons/system-access-page-buttons/system-access-page-buttons.module';
-import { SystemAccessService } from './services/system-access.service';
 import { RequisitionLimitComponentModule } from 'src/app/components/requisitionLimit/requisition-limit.module';
-import { SystemAccessResolver } from './guard/resolve.guard';
+import { RegisterService } from './services/register/register.service';
 import { RecoverService } from './services/recover/recover.service';
 import { LoginService } from './services/login/login.service';
-import { RegisterService } from './services/register/register.service';
+import { SystemAccessService } from './services/system-access.service';
+import { ButtonsAccessComponent } from './components/buttons/buttons-sccess-component';
 
 
 @NgModule({
@@ -22,12 +21,11 @@ import { RegisterService } from './services/register/register.service';
     CommonModule,
     IonicModule,
     LoginPageRoutingModule,
-    HeaderPageModule,
+    HeaderComponentModule,
     FormComponentModule,
-    SystemAccessPageButtonsModule,
     RequisitionLimitComponentModule
   ],
-  declarations: [SystemAccessPage],
-  providers: [SystemAccessService, LoginService, RecoverService, RegisterService,  SystemAccessResolver]
+  declarations: [SystemAccessPage, ButtonsAccessComponent],
+  providers: [SystemAccessService, RegisterService, RecoverService, LoginService, ButtonsAccessComponent]
 })
 export class LoginPageModule {}

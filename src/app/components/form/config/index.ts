@@ -1,9 +1,12 @@
+import { Injectable } from '@angular/core';
 import { InputName } from '../interface';
 
 /**
  * @class ConfigForm
  * @readonly Configuração dos atributos de formulários
  */
+@Injectable({ providedIn: 'root'})
+
 export class ConfigForm {
     public readonly input: InputName = {
         id: null,

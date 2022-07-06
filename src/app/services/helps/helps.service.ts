@@ -9,8 +9,8 @@ export class HelpsService {
 
     public delay(
         callback: any,
-        time: 1000 | 1500 | 2000 | 2500 | 3000 | 3500
-    ): number {
+        time: 350 | 500 | 1000 | 1500 | 2000 | 2500 | 3000 | 3500
+    ): any {
         return setTimeout(callback, time);
     }
 

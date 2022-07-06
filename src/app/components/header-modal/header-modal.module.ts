@@ -4,13 +4,12 @@ import { CommonModule } from '@angular/common';
 import { HeaderModalComponent } from './header-modal.component';
 
 
-
 @NgModule({
   declarations: [HeaderModalComponent],
   imports: [
     IonicModule,
     CommonModule
   ],
-  exports: [HeaderModalComponent]
+  exports: [HeaderModalComponent],
 })
 export class HeaderModalModule { }

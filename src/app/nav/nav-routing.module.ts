@@ -16,7 +16,7 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'erro-de-pagina-404',
+        path: 'erro',
         loadChildren: () =>
           import('../pages/public/not-found/not-found.module').then(
             (m) => m.NotFoundPageModule
@@ -110,7 +110,7 @@ const routes: Routes = [
           import('../pages/public/not-found/not-found.module').then(
             (m) => m.NotFoundPageModule
           ),
-        redirectTo: '/erro-de-pagina-404',
+        redirectTo: '/erro',
         pathMatch: 'full',
       },
     ],

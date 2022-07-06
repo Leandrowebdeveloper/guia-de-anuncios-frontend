@@ -1,7 +1,7 @@
-<app-header></app-header>
+<app-header-component></app-header-component>
 
 <ion-content [fullscreen]="true">
-    <ion-grid  fixed>
+    <ion-grid fixed>
 
         <app-avatar [user]="user"></app-avatar>
 
@@ -11,13 +11,13 @@
                 <ion-label>Administração do usuário</ion-label>
             </ion-item-divider>
 
-            <app-status [user]="user"></app-status>
+            <app-state [user]="user"></app-state>
 
             <app-name [user]="user"></app-name>
 
             <app-email [user]="user"></app-email>
 
-           <app-password [user]="user"></app-password>
+            <app-password [user]="user"></app-password>
 
         </ion-item-group>
 

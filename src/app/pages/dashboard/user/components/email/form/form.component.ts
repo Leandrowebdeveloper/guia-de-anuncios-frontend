@@ -2,9 +2,11 @@ import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/pages/dashboard/user/services/user.service';
 import { FormGroup } from '@angular/forms';
 import { Component, Input, OnInit } from '@angular/core';
-import { AttrButton } from 'src/app/components/buttons/system-access-page-buttons/interface';
+import { AttrButton } from 'src/app/pages/public/system-access/components/buttons/interface';
 import { User } from 'src/app/interface';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ModalController } from '@ionic/angular';
+import { HelpsService } from 'src/app/services/helps/helps.service';
 
 @Component({
     templateUrl: './form.component.html',
@@ -26,7 +28,11 @@ export class FormEmailComponent implements OnInit {
     public config: object;
     private form: FormGroup;
     private $email: Subscription;
-    constructor(private userService: UserService) {}
+    constructor(
+        private helpService: HelpsService,
+        private modalController: ModalController,
+        private userService: UserService
+    ) {}
 
     ngOnInit(): void {
         this.getData();
@@ -37,12 +43,23 @@ export class FormEmailComponent implements OnInit {
     }
 
     public onSubmit(event: FormGroup): Subscription {
+        const loading = this.userService.showLoading('Alterando email...');
         event.value.slug = this.userService.getAuthUserSlug();
-        return (this.$email = this.userService.updateAuthEmail(event.value).subscribe(
-            (user: User) => this.userService.message(user),
-            (error: HttpErrorResponse) =>
-                this.userService.error(error, this.$email)
-        ));
+        return (this.$email = this.userService
+            .updateAuthEmail(event.value)
+            .subscribe(
+                (user: User) => this.messsage(user, loading),
+                (error: HttpErrorResponse) =>
+                    this.userService.error(error, loading, this.$email)
+            ));
+    }
+
+    private messsage(
+        user: User,
+        loading: Promise<HTMLIonLoadingElement>
+    ): Promise<number> {
+        this.helpService.delay(() => this.modalController.dismiss(), 2500);
+        return this.userService.message(user, loading, this.$email);
     }
 
     private getData(): void {

@@ -1,12 +1,11 @@
+import { LoadingService } from 'src/app/utilities/loading/loading.service';
 import { MessageService } from 'src/app/utilities/message/message.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from 'src/app/services/http/http.service';
 import { BehaviorSubject, EMPTY, Subscription } from 'rxjs';
-import { Injectable, Output, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Image, User } from 'src/app/interface';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { StorageService } from 'src/app/services/storage/storage.service';
 import { catchError, tap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { BreadcrumbsService } from 'src/app/header/breadcrumbs/service/breadcrumbs.service';
@@ -16,19 +15,20 @@ import { BreadcrumbsService } from 'src/app/header/breadcrumbs/service/breadcrum
 })
 export class UserService extends HttpService<User> {
     private $authUser = new BehaviorSubject<User>(undefined);
-
     constructor(
         http: HttpClient,
         private messageService: MessageService,
-        private storageService: StorageService,
         private location: Location,
-        private breadcrumbsService: BreadcrumbsService
+        private breadcrumbsService: BreadcrumbsService,
+        private loadingService: LoadingService
+
     ) {
-        super(http, `${environment.api}api/users`);
+        super(http);
+        this.api = `users`;
     }
 
     public getUserAvatar(): Image {
-        return this.$authUser.value.image;
+        return this.$authUser.value?.image;
     }
 
     public authUserObservable(): Observable<User> {
@@ -39,11 +39,11 @@ export class UserService extends HttpService<User> {
     }
 
     public getAuthUserSlug(): string {
-        return this.$authUser.value.slug;
+        return this.$authUser.value?.slug;
     }
 
     public getAuthState(): boolean {
-        return this.$authUser.value.authState;
+        return this.$authUser.value?.authState;
     }
 
     public setAuthSlug(user: User) {
@@ -52,7 +52,7 @@ export class UserService extends HttpService<User> {
     }
 
     public getAuthUserLastName() {
-        return this.$authUser.value.lastName;
+        return this.$authUser.value?.lastName;
     }
 
     public setAuthUserLastName(user: User) {
@@ -61,7 +61,7 @@ export class UserService extends HttpService<User> {
     }
 
     public getAuthUserFirstName() {
-        return this.$authUser.value.firstName;
+        return this.$authUser.value?.firstName;
     }
 
     public setAuthUserFirstName(user: User) {
@@ -70,7 +70,7 @@ export class UserService extends HttpService<User> {
     }
 
     public getAuthUserEmail() {
-        return this.$authUser.value.email;
+        return this.$authUser.value?.email;
     }
 
     public setAuthUserEmail(user: User) {
@@ -84,7 +84,7 @@ export class UserService extends HttpService<User> {
     }
 
     public getAuthUserName(): string {
-        return `${this.$authUser.value.firstName} ${this.$authUser.value.lastName}`;
+        return `${this.$authUser.value?.firstName} ${this.$authUser.value?.lastName}`;
     }
 
     public setAuthUser(user: User) {
@@ -96,21 +96,34 @@ export class UserService extends HttpService<User> {
         this.setAuthUser(this.$authUser.value);
     }
 
-    public setAuthToken() {
-        this.token = this.storageService.getToken;
+    public setAuthToken(token: string) {
+        this.token = token;
     }
 
     public setAuthCsrf(csrf: string) {
         this.csrf = csrf;
     }
 
-    public async message(user: User): Promise<number> {
-        return await this.messageService.success(user.message, 1000);
+    public async message(
+        user: User,
+        loading: Promise<HTMLIonLoadingElement>,
+        subscribe?: Subscription,
+        time?: number
+    ): Promise<number> {
+        return await this.messageService.success(
+            user.message,
+            loading,
+            subscribe,
+            time
+        );
     }
 
-    public error(error: HttpErrorResponse, subscribe: Subscription) {
-        subscribe.unsubscribe();
-        return this.messageService.error(error);
+    public async error(
+        error: HttpErrorResponse,
+        loading: Promise<HTMLIonLoadingElement>,
+        subscribe: Subscription
+    ) {
+        return this.messageService.error(error, loading, subscribe);
     }
 
     public updateAuthName(user: User): Observable<User | number[]> {
@@ -147,6 +160,10 @@ export class UserService extends HttpService<User> {
             tap((user_: User) => this.setAuthUserState(user_)),
             catchError((error) => EMPTY)
         );
+    }
+
+    public async showLoading(message: string): Promise<HTMLIonLoadingElement> {
+        return await this.loadingService.show(message);
     }
 
     private updateAuthUserUrl(): void {

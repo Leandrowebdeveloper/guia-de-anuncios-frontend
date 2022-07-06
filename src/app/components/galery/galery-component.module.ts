@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { GaleryComponent } from './galery-component';
-import { PhotoService } from './services/photo/photo.service';
 import { HeaderModalModule } from '../header-modal/header-modal.module';
 
 @NgModule({
@@ -16,6 +15,6 @@ import { HeaderModalModule } from '../header-modal/header-modal.module';
     HeaderModalModule
   ],
   declarations: [GaleryComponent],
-  providers: [PhotoService]
+  providers: [GaleryComponent]
 })
 export class GaleryComponentModule {}

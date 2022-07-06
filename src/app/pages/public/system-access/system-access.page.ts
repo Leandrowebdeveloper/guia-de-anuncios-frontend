@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AttrButton } from 'src/app/components/buttons/system-access-page-buttons/interface';
+import { AttrButton } from 'src/app/pages/public/system-access/components/buttons/interface';
 import { OnComponentDeactivate } from 'src/app/components/form/guard/deactivate.guard';
 import { RequisitionLimit, User } from 'src/app/interface';
 import { Subscription } from 'rxjs';
@@ -42,7 +42,7 @@ export class SystemAccessPage implements OnInit, OnComponentDeactivate {
     }
 
     public activeRoute(): string {
-        return this.activatedRoute.snapshot.parent.routeConfig.path;
+        return this.activatedRoute.snapshot.parent?.routeConfig?.path;
     }
 
     canDeactivate():
@@ -214,7 +214,7 @@ export class SystemAccessPage implements OnInit, OnComponentDeactivate {
     }
 
     private addRequirement() {
-        this.requiriment = this.config.requisitionLimit;
+        this.requiriment = this.config?.requisitionLimit;
     }
 
     private addConfig() {

@@ -5,8 +5,6 @@ import { Route, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { BehaviorSubject } from 'rxjs';
-import { StorageService } from 'src/app/services/storage/storage.service';
-import { UserService } from '../../pages/dashboard/user/services/user.service';
 
 @Injectable({
     providedIn: 'root',
@@ -18,15 +16,10 @@ import { UserService } from '../../pages/dashboard/user/services/user.service';
 export class AuthService {
     private $isLoggedIn = new BehaviorSubject<boolean>(false);
     constructor(
-        private storageService: StorageService,
         private router: Router,
         private navCtrl: NavController,
-        private userService: UserService
     ) {}
 
-    public get user() {
-        return this.userService.getAuthUser();
-    }
 
     public get toggleIsLoggedIn(): Observable<boolean> {
         return this.$isLoggedIn.asObservable();
@@ -41,8 +34,9 @@ export class AuthService {
     }
 
     public set setUserAndAuthentication(user: User) {
-        this.userService.setAuthUser(user);
-        this.isLoggedIn = user.auth;
+        if(user) {
+            this.isLoggedIn = user?.auth;
+        }
     }
 
     public unauthenticatedUserAllowLoginRoute(): Promise<boolean> {
@@ -50,10 +44,6 @@ export class AuthService {
         if (this.isLoggedIn && url.toLowerCase() === '/entrar') {
             return this.navCtrl.navigateForward('/painel-de-controle');
         }
-    }
-
-    public async setAuthToken(user: User): Promise<void> {
-        return await this.storageService.create('token', user?.token);
     }
 
     public canLoadResult(route: Route): true | UrlTree {

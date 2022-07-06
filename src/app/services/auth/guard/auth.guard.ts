@@ -1,3 +1,4 @@
+import { UserService } from 'src/app/pages/dashboard/user/services/user.service';
 import { catchError, tap } from 'rxjs/operators';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { Injectable } from '@angular/core';
@@ -30,6 +31,7 @@ export class AuthGuard
     constructor(
         private storageService: StorageService,
         private authService: AuthService,
+        private userService: UserService,
         private init: InitService,
         private router: Router
     ) {}
@@ -55,7 +57,8 @@ export class AuthGuard
 
     resolve(): Observable<User> {
         return this.init.boot().pipe(
-            tap((user: User) => this.authService.confirmAuthorization(user)),
+            tap((user: User) => this.confirmAuthenticationAndSetUser(user)
+            ),
             catchError(() => {
                 this.router.parseUrl('/404');
                 return EMPTY;
@@ -69,5 +72,10 @@ export class AuthGuard
         this.init.setAuthToken = token;
         this.authService.isLoggedIn = !!token;
         return this.authService.canLoadResult(route);
+    }
+
+    private confirmAuthenticationAndSetUser(user: User) {
+        this.authService.confirmAuthorization(user);
+        this.userService.setAuthUser(user);
     }
 }

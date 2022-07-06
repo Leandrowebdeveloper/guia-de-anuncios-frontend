@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ChangeEmailPageRoutingModule } from './change-email-routing.module';
 
 import { ChangeEmailPage } from './change-email.page';
-import { HeaderPageModule } from 'src/app/header/header.module';
+import { HeaderComponentModule } from 'src/app/header/header.component.module';
 
 @NgModule({
   imports: [
@@ -15,7 +15,7 @@ import { HeaderPageModule } from 'src/app/header/header.module';
     FormsModule,
     IonicModule,
     ChangeEmailPageRoutingModule,
-    HeaderPageModule
+    HeaderComponentModule
   ],
   declarations: [ChangeEmailPage]
 })

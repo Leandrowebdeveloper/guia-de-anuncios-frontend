@@ -15,14 +15,12 @@ import { OnDestroy } from '@angular/core';
 export class NavPage implements OnInit, OnDestroy {
     public auth: boolean;
     public name: string;
-    public authState: boolean;
     public avatar: string;
     public userRouterPage: string;
     public $user: Subscription;
 
     private $avatar: Subscription;
     private user: User;
-    private $auth: Subscription;
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -35,7 +33,6 @@ export class NavPage implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.$auth.unsubscribe();
         this.$user.unsubscribe();
         this.$avatar.unsubscribe();
     }
@@ -43,7 +40,6 @@ export class NavPage implements OnInit, OnDestroy {
     private init(): void {
         this.getAuthUser();
         this.setUserAndAuthentication();
-        this.isUserAuthenticated();
         this.getAuthState();
         this.setAuthUser();
         this.toogleAvatar();
@@ -57,11 +53,6 @@ export class NavPage implements OnInit, OnDestroy {
         this.authService.setUserAndAuthentication = this.user;
     }
 
-    private isUserAuthenticated(): Subscription {
-        return (this.$auth = this.authService.toggleIsLoggedIn.subscribe(
-            (auth: boolean) => (this.auth = auth)
-        ));
-    }
 
     /**
      * AVATAR
@@ -78,17 +69,19 @@ export class NavPage implements OnInit, OnDestroy {
     }
 
     private getAuthUserSlug(user: User): void {
-        if (user.slug) {
+        if (user && user?.slug) {
             this.userRouterPage = `painel-de-controle/usuarios/${user.slug}`;
         }
     }
 
     private getAuthState(): void {
-        this.authState = this.authService.isLoggedIn;
+        this.auth = this.authService.isLoggedIn;
     }
 
     private setAuthAvatar(user: User): void {
-        this.avatar = user.image?.url || './../../assets/avatar.svg';
+        if(user) {
+            this.avatar = user.image?.url || './../../assets/avatar.svg';
+        }
     }
 
     private toogleAvatar(): Subscription {
@@ -98,7 +91,7 @@ export class NavPage implements OnInit, OnDestroy {
     }
 
     private getAuthUserName(user: User): void {
-        if (user.firstName && user.lastName) {
+        if (user && user?.firstName && user?.lastName) {
             this.name = `${user.firstName} ${user.lastName}`;
         }
     }

@@ -1,20 +1,21 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
+import { BreadcrumpsComponentModule } from './breadcrumbs/breadcrumbs.component.module';
 
-import { HeaderModalComponent } from './header-modal.component';
+import { HeaderComponent } from './header.component';
 
-describe('HeaderModalComponent', () => {
-  let component: HeaderModalComponent;
-  let fixture: ComponentFixture<HeaderModalComponent>;
+describe('HeaderComponent', () => {
+  let component: HeaderComponent;
+  let fixture: ComponentFixture<HeaderComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeaderModalComponent ],
-      imports: [IonicModule.forRoot(), RouterTestingModule],
+      declarations: [ HeaderComponent ],
+      imports: [IonicModule.forRoot(), BreadcrumpsComponentModule, RouterTestingModule],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(HeaderModalComponent);
+    fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

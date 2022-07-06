@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Http } from 'src/app/interface';
-import { Inject } from '@angular/core';
 
 @Injectable({
     providedIn: 'root',
@@ -13,6 +14,8 @@ import { Inject } from '@angular/core';
  * @implements Http
  */
 export class HttpService<T> implements Http<T> {
+    private $api = `${environment.api}api/`;
+
     private httpOptions = {
         headers: new HttpHeaders({
             Accept: '*/*',
@@ -24,9 +27,15 @@ export class HttpService<T> implements Http<T> {
     };
 
     constructor(
-        protected http: HttpClient,
-        @Inject(String) protected api: string
+        protected http: HttpClient
     ) {}
+
+    public get api(): string {
+        return this.$api;
+    }
+    public set api(value: string) {
+        this.$api = `${this.$api}${value}`;
+    }
 
     public set csrf(csrf: string) {
         this.httpOptions.headers = this.httpOptions.headers.set(

@@ -3,18 +3,18 @@ import { Component, OnInit } from '@angular/core';
 import { AttrButton } from './interface';
 
 @Component({
-  selector: 'app-system-access-page-buttons',
-  templateUrl: './system-access-page-buttons.page.html',
-  styleUrls: ['./system-access-page-buttons.page.scss'],
+  selector: 'app-buttons-sccess-component',
+  templateUrl: './buttons-sccess-component.html',
+  styleUrls: ['./buttons-sccess-component.scss'],
 })
 
-export class SystemAccessPageButtons implements OnInit {
+export class ButtonsAccessComponent implements OnInit {
   @Input() dataButtons: AttrButton[];
-  @Input() router: string;
+  @Input() route: string;
   constructor() {}
 
   ngOnInit() {
-    switch (this.router) {
+    switch (this.route) {
       case 'entrar':
         this.dataButtons[1].fill = true;
         return this.dataButtons.splice(0, 1);

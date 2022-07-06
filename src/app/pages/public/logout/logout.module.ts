@@ -1,3 +1,4 @@
+import { LoginService } from './../system-access/services/login/login.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -7,8 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { LogoutPageRoutingModule } from './logout-routing.module';
 
 import { LogoutPage } from './logout.page';
-import { HeaderPageModule } from 'src/app/header/header.module';
-import { LogoutService } from './service/logout.service';
+import { HeaderComponentModule } from 'src/app/header/header.component.module';
 
 @NgModule({
   imports: [
@@ -16,9 +16,9 @@ import { LogoutService } from './service/logout.service';
     FormsModule,
     IonicModule,
     LogoutPageRoutingModule,
-    HeaderPageModule
+    HeaderComponentModule
   ],
   declarations: [LogoutPage],
-  providers: [LogoutService]
+  providers: [LoginService]
 })
 export class LogoutPageModule {}

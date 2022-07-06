@@ -1,4 +1,4 @@
-<app-header></app-header>
+<app-header-component></app-header-component>
 
 <ion-content [fullscreen]="true">
   <ion-grid fixed>
@@ -19,7 +19,7 @@
 
     </ng-template>
 
-    <app-system-access-page-buttons [dataButtons]="attrButtonPage" [router]="activeRoute()"></app-system-access-page-buttons>
+    <app-buttons-sccess-component [dataButtons]="attrButtonPage" [route]="activeRoute()"></app-buttons-sccess-component>
 
   </ion-grid>
 </ion-content>

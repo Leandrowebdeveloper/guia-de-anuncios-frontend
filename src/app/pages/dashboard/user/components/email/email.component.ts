@@ -1,3 +1,4 @@
+import { UserService } from 'src/app/pages/dashboard/user/services/user.service';
 import { Component, Input } from '@angular/core';
 import { User } from 'src/app/interface';
 import { ModalController } from '@ionic/angular';
@@ -11,9 +12,13 @@ import { FormEmailComponent } from './form/form.component';
 export class EmailComponent {
     @Input() user: User;
 
-    constructor(private modalController: ModalController) {}
+    constructor(
+        private userService: UserService,
+        private modalController: ModalController) {}
 
     public async updateAuthEmail() {
+        this.setAuthSlug();
+        this.setAuthEmail();
         const { _csrf, email, slug } = this.user;
         const modal = await this.modalController.create({
             component: FormEmailComponent,
@@ -22,5 +27,13 @@ export class EmailComponent {
             },
         });
         return await modal.present();
+    }
+
+    private setAuthSlug(): void {
+        this.user.slug = this.userService.getAuthUserSlug();
+    }
+
+    private setAuthEmail(): void {
+        this.user.email = this.userService.getAuthUserEmail();
     }
 }

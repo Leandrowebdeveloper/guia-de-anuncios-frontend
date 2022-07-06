@@ -1,3 +1,6 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Storage } from '@ionic/storage-angular';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
@@ -10,7 +13,8 @@ describe('MenuComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ MenuComponent ],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
+      providers: [Storage]
     }).compileComponents();
 
     fixture = TestBed.createComponent(MenuComponent);

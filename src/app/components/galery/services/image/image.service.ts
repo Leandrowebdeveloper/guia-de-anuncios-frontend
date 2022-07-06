@@ -4,7 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Image } from 'src/app/interface';
 import { HttpService } from 'src/app/services/http/http.service';
-import { environment } from 'src/environments/environment';
 import { UserService } from 'src/app/pages/dashboard/user/services/user.service';
 
 @Injectable({
@@ -12,7 +11,8 @@ import { UserService } from 'src/app/pages/dashboard/user/services/user.service'
 })
 export class ImageService extends HttpService<Image> {
     constructor(public http: HttpClient, private userService: UserService) {
-        super(http, `${environment.api}api/images`);
+        super(http);
+        this.api = `images`;
     }
 
     public avatarDestroy(csrf: string): Observable<number | Image> {

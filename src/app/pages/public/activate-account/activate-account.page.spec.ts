@@ -7,10 +7,14 @@ import { ActivateAccountPage } from './activate-account.page';
 import { ActivateAccountResolver } from './guard/resolve.guard';
 import { ActivateAccountService } from './services/activate-account.service';
 import { HeaderComponentModule } from 'src/app/header/header.component.module';
+import { HeaderComponent } from 'src/app/header/header.component';
 
 describe('ActivateAccountPage, ActivateAccountResolver', () => {
     let component: ActivateAccountPage;
     let fixture: ComponentFixture<ActivateAccountPage>;
+
+    let headerComponent: HeaderComponent;
+    let headerComponentFixture: ComponentFixture<HeaderComponent>;
 
     let guard: ActivateAccountResolver;
     let service: ActivateAccountService;
@@ -30,6 +34,10 @@ describe('ActivateAccountPage, ActivateAccountResolver', () => {
         fixture = TestBed.createComponent(ActivateAccountPage);
         component = fixture.componentInstance;
         fixture.detectChanges();
+
+        headerComponentFixture = TestBed.createComponent(HeaderComponent);
+        headerComponent = headerComponentFixture.componentInstance;
+        headerComponentFixture.detectChanges();
     }));
 
     beforeEach(() => {
@@ -47,5 +55,9 @@ describe('ActivateAccountPage, ActivateAccountResolver', () => {
 
     it('should create component', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('should create headerComponent', () => {
+        expect(headerComponent).toBeTruthy();
     });
 });

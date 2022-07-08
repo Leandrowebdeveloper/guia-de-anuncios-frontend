@@ -9,27 +9,28 @@ import * as moment from 'moment';
     styleUrls: ['./requisition-limit.component.scss'],
 })
 export class RequisitionLimitComponent implements OnInit {
-    @Input() route: string;
-    @Input() time: string;
-    @Output() desable = new EventEmitter<boolean>();
+    @Input() route!: string;
+    @Input() time!: string;
+    @Output() desable = new EventEmitter<boolean>(false);
     public timeRunningOut: string;
     private closed: any;
 
-    ngOnInit(): void {
-        this.init();
-        console.log(this.route);
+   async ngOnInit() {
+        await this.init();
     }
 
-    public init(): void {
-        const timeDifference = this.getTime();
-        const duration = this.getDuration(timeDifference);
-        const minutes = this.getMinutes(duration);
-        const seconds = this.getSeconds(duration);
-        this.startTimer(minutes, seconds);
+    public init(): Promise<() => void> {
+       return Promise.resolve(()=> {
+            const timeDifference = this.getTime();
+            const duration = this.getDuration(timeDifference);
+            const minutes = this.getMinutes(duration);
+            const seconds = this.getSeconds(duration);
+            this.startTimer(minutes, seconds);
+        });
     }
 
     private getTime() {
-        return moment().diff(this.time);
+        return this.time&&moment().diff(this.time);
     }
 
     private startTimer(minutes: number, seconds: number): void {

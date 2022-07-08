@@ -5,33 +5,49 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { SystemAccessPage } from './system-access.page';
-import { RegisterService } from './services/register/register.service';
 import { RecoverService } from './services/recover/recover.service';
 import { LoginService } from './services/login/login.service';
 import { SystemAccessService } from './services/system-access.service';
 import { SystemAccessResolver } from './guard/resolve.guard';
 import { ButtonsAccessComponent } from './components/buttons/buttons-sccess-component';
+import { RegisterService } from './services/register/register.service';
+import { RequisitionLimitComponent } from './components/requisitionLimit/requisition-limit.component';
+import { HeaderComponentModule } from 'src/app/header/header.component.module';
+import { FormComponentModule } from 'src/app/components/form/form.module';
+import { HeaderComponent } from 'src/app/header/header.component';
 
-describe('SystemAccessPage, ButtonsAccessComponent', () => {
+describe('SystemAccessPage', () => {
     let component: SystemAccessPage;
     let fixture: ComponentFixture<SystemAccessPage>;
 
-    let componentButton: ButtonsAccessComponent;
-    let fixtureButton: ComponentFixture<ButtonsAccessComponent>;
+    let buttonsAccessComponent: ButtonsAccessComponent;
+    let buttonsAccessComponentFixture: ComponentFixture<ButtonsAccessComponent>;
 
+    let requisitionLimitComponent: RequisitionLimitComponent;
+    let requisitionLimitComponentFixture: ComponentFixture<RequisitionLimitComponent>;
+
+    let registerService: RegisterService;
     let systemAccessService: SystemAccessService;
     let recoverService: RecoverService;
-    let registerService: RegisterService;
     let loginService: LoginService;
     let guard: SystemAccessResolver;
 
+    let headerComponent: HeaderComponent;
+    let headerComponentFixture: ComponentFixture<HeaderComponent>;
+
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
-            declarations: [SystemAccessPage, ButtonsAccessComponent],
+            declarations: [
+                SystemAccessPage,
+                ButtonsAccessComponent,
+                RequisitionLimitComponent,
+            ],
             imports: [
                 IonicModule.forRoot(),
                 RouterTestingModule,
                 HttpClientTestingModule,
+                HeaderComponentModule,
+                FormComponentModule,
             ],
             providers: [
                 Storage,
@@ -47,9 +63,18 @@ describe('SystemAccessPage, ButtonsAccessComponent', () => {
         component = fixture.componentInstance;
         fixture.detectChanges();
 
-        fixtureButton = TestBed.createComponent(ButtonsAccessComponent);
-        componentButton = fixtureButton.componentInstance;
-        fixtureButton.detectChanges();
+
+        buttonsAccessComponentFixture = TestBed.createComponent(ButtonsAccessComponent);
+        buttonsAccessComponent = buttonsAccessComponentFixture.componentInstance;
+        buttonsAccessComponentFixture.detectChanges();
+
+        requisitionLimitComponentFixture = TestBed.createComponent(RequisitionLimitComponent);
+        requisitionLimitComponent = requisitionLimitComponentFixture.componentInstance;
+        requisitionLimitComponentFixture.detectChanges();
+
+        headerComponentFixture = TestBed.createComponent(HeaderComponent);
+        headerComponent = headerComponentFixture.componentInstance;
+        headerComponentFixture.detectChanges();
     }));
 
     beforeEach(() => {
@@ -60,31 +85,40 @@ describe('SystemAccessPage, ButtonsAccessComponent', () => {
         guard = TestBed.inject(SystemAccessResolver);
     });
 
-    it('should create componentButton', () => {
-        expect(componentButton).toBeTruthy();
-      });
+    it('should create component', () => {
+        expect(component).toBeTruthy();
+    });
 
-    it('should be created', () => {
+    it('buttonsAccessComponent', () => {
+        expect(buttonsAccessComponent).toBeTruthy();
+    });
+
+    it('requisitionLimitComponent', () => {
+        expect(requisitionLimitComponent).toBeTruthy();
+    });
+
+    it('recoverService', () => {
         expect(recoverService).toBeTruthy();
     });
 
-    it('should be created', () => {
+    it('recoverService', () => {
         expect(recoverService).toBeTruthy();
     });
 
-    it('should be created', () => {
+    it('loginService', () => {
         expect(loginService).toBeTruthy();
     });
 
-    it('should be created', () => {
+    it('systemAccessService', () => {
         expect(systemAccessService).toBeTruthy();
     });
 
-    it('should be created', () => {
+    it('guard', () => {
         expect(guard).toBeTruthy();
     });
 
-    it('should create', () => {
-        expect(component).toBeTruthy();
+    it('should create headerComponent', () => {
+        expect(headerComponent).toBeTruthy();
     });
+
 });

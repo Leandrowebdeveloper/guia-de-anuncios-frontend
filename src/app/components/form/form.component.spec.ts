@@ -1,6 +1,6 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormBuilder, FormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ConfigForm } from './config';
 
@@ -17,7 +17,7 @@ describe('FormComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ FormComponent ],
-      imports: [IonicModule.forRoot(), FormsModule, RouterTestingModule],
+      imports: [IonicModule.forRoot(), FormsModule, RouterTestingModule, ReactiveFormsModule],
       providers: [ConfigForm, FormBuilder, FormServices],
     }).compileComponents();
 

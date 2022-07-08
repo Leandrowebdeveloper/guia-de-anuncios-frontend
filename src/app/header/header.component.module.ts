@@ -7,7 +7,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { HeaderComponent } from './header.component';
 
-import { BreadcrumpsComponentModule } from './breadcrumbs/breadcrumbs.component.module';
+import { BreadcrumpsComponentRoutingModule } from './breadcrumbs/breadcrumbs-routing.module';
+import { BreadcrumpsComponent } from './breadcrumbs/breadcrumbs.component';
 
 @NgModule({
   imports: [
@@ -15,9 +16,9 @@ import { BreadcrumpsComponentModule } from './breadcrumbs/breadcrumbs.component.
     FormsModule,
     IonicModule,
     RouterModule,
-    BreadcrumpsComponentModule
+    BreadcrumpsComponentRoutingModule,
   ],
-  declarations: [HeaderComponent],
-  exports: [HeaderComponent]
+  declarations: [HeaderComponent, BreadcrumpsComponent],
+  exports: [HeaderComponent],
 })
 export class HeaderComponentModule {}

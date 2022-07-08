@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
     private async init(): Promise<void> {
         await this.statusBar();
         setTimeout(async () => {
-            await SplashScreen.hide({ fadeOutDuration: 300 });
+            await SplashScreen.hide({ fadeOutDuration: 5000 });
         }, 100);
     }
 

@@ -37,8 +37,9 @@ export class SystemAccessPage implements OnInit, OnComponentDeactivate {
 
     ngOnInit() {
         this.setConfig();
+        this.setAttrButtonPage();
         this.hasDesable();
-        this.initattrButton();
+        this.initAttrButton();
     }
 
     public activeRoute(): string {
@@ -81,8 +82,7 @@ export class SystemAccessPage implements OnInit, OnComponentDeactivate {
         this.time = this.requiriment?.delay;
     }
 
-    private initattrButton(): void {
-        this.setAttrButtonPage();
+    private initAttrButton(): void {
         switch (this.activeRoute()) {
             case 'entrar':
                 this.attrButton = this.systemAccessService.attrButton[0];

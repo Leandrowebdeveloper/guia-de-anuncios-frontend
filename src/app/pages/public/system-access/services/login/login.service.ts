@@ -1,4 +1,3 @@
-import { environment } from '../../../../../../environments/environment';
 import { User } from 'src/app/interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -17,7 +16,7 @@ export class LoginService extends HttpService<User> {
         private authService: AuthService
     ) {
         super(http);
-        this. api = `${environment.api}api/login`;
+        this.api = `login`;
     }
 
     public get stayConnected() {

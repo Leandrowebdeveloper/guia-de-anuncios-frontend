@@ -12,11 +12,11 @@ import { AttrButton } from '../../pages/public/system-access/components/buttons/
     styleUrls: ['./form.component.scss'],
 })
 export class FormComponent implements OnInit {
-    @Input() inputConfig: any;
-    @Input() attrButton: AttrButton;
+    @Input() inputConfig!: any;
+    @Input() attrButton!: AttrButton;
     @Output() submitDataForm = new EventEmitter<FormGroup>(undefined);
     @Output() exportForm = new EventEmitter<FormGroup>(undefined);
-    public form: FormGroup;
+    public form!: FormGroup;
     public buildInputs: Attributes[];
     public submitted = false;
     public visiblePassword: boolean;

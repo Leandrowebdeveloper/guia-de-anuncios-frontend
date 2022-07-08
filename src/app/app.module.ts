@@ -1,3 +1,4 @@
+import { HeaderComponentModule } from 'src/app/header/header.component.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -18,6 +19,7 @@ import { environment } from '../environments/environment';
   entryComponents: [],
   imports: [
     BrowserModule,
+    HeaderComponentModule,
     HttpClientModule,
     IonicModule.forRoot(),
     AppRoutingModule,

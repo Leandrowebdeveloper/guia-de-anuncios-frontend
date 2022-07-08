@@ -2,6 +2,7 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
+import { HeaderComponentModule } from './header/header.component.module';
 
 describe('AppComponent', () => {
 
@@ -9,6 +10,7 @@ describe('AppComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [AppComponent],
+      imports: [HeaderComponentModule],
     }).compileComponents();
   }));
 

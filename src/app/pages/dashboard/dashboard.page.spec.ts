@@ -6,16 +6,14 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { DashboardPage } from './dashboard.page';
-import { HeaderComponentModule } from 'src/app/header/header.component.module';
-import { HeaderComponent } from 'src/app/header/header.component';
+
 import { HeaderModalComponent } from 'src/app/components/header-modal/header-modal.component';
 
 describe('DashboardPage', () => {
     let component: DashboardPage;
     let fixture: ComponentFixture<DashboardPage>;
 
-    let headerComponent: HeaderComponent;
-    let headerComponentFixture: ComponentFixture<HeaderComponent>;
+
 
     let headerModalComponent: HeaderModalComponent;
     let headerModalComponentFixture: ComponentFixture<HeaderModalComponent>;
@@ -27,7 +25,6 @@ describe('DashboardPage', () => {
                 IonicModule.forRoot(),
                 HttpClientTestingModule,
                 RouterTestingModule,
-                HeaderComponentModule,
                 HeaderModalModule
             ],
             providers: [Storage],
@@ -37,9 +34,7 @@ describe('DashboardPage', () => {
         component = fixture.componentInstance;
         fixture.detectChanges();
 
-        headerComponentFixture = TestBed.createComponent(HeaderComponent);
-        headerComponent = headerComponentFixture.componentInstance;
-        headerComponentFixture.detectChanges();
+
 
         headerModalComponentFixture =
             TestBed.createComponent(HeaderModalComponent);
@@ -51,9 +46,7 @@ describe('DashboardPage', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should create headerComponent', () => {
-        expect(headerComponent).toBeTruthy();
-    });
+
 
     it('should create', () => {
         expect(headerModalComponent).toBeTruthy();

@@ -7,8 +7,7 @@ import { RedefinePasswordPage } from './redefine-password.page';
 import { RedefinePasswordService } from './services/redefine-password.service';
 import { RedefinePasswordResolver } from './guard/resolve.guard';
 import { FormComponentModule } from 'src/app/components/form/form.module';
-import { HeaderComponentModule } from 'src/app/header/header.component.module';
-import { HeaderComponent } from 'src/app/header/header.component';
+
 
 describe('RedefinePasswordPage', () => {
     let component: RedefinePasswordPage;
@@ -17,10 +16,6 @@ describe('RedefinePasswordPage', () => {
     let guard: RedefinePasswordResolver;
     let service: RedefinePasswordService;
 
-    let headerComponent: HeaderComponent;
-    let headerComponentFixture: ComponentFixture<HeaderComponent>;
-
-
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [RedefinePasswordPage],
@@ -28,7 +23,6 @@ describe('RedefinePasswordPage', () => {
                 IonicModule.forRoot(),
                 RouterTestingModule,
                 HttpClientTestingModule,
-                HeaderComponentModule,
                 FormComponentModule
             ],
             providers: [RedefinePasswordService, RedefinePasswordResolver],
@@ -38,9 +32,7 @@ describe('RedefinePasswordPage', () => {
         component = fixture.componentInstance;
         fixture.detectChanges();
 
-        headerComponentFixture = TestBed.createComponent(HeaderComponent);
-        headerComponent = headerComponentFixture.componentInstance;
-        headerComponentFixture.detectChanges();
+
     }));
 
     beforeEach(() => {
@@ -60,7 +52,5 @@ describe('RedefinePasswordPage', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should create headerComponent', () => {
-        expect(headerComponent).toBeTruthy();
-    });
+
 });

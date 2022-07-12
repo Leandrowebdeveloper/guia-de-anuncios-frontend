@@ -1,3 +1,4 @@
+import { StorageService } from './../../../../services/storage/storage.service';
 import { LoadingService } from 'src/app/utilities/loading/loading.service';
 import { MessageService } from 'src/app/utilities/message/message.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -18,10 +19,10 @@ export class UserService extends HttpService<User> {
     constructor(
         http: HttpClient,
         private messageService: MessageService,
+        private storageService: StorageService,
         private location: Location,
         private breadcrumbsService: BreadcrumbsService,
         private loadingService: LoadingService
-
     ) {
         super(http);
         this.api = `users`;
@@ -44,6 +45,10 @@ export class UserService extends HttpService<User> {
 
     public getAuthState(): boolean {
         return this.$authUser.value?.authState;
+    }
+
+    public getAuthToken(): string {
+        return this.$authUser.value?.token;
     }
 
     public setAuthSlug(user: User) {
@@ -110,6 +115,7 @@ export class UserService extends HttpService<User> {
         subscribe?: Subscription,
         time?: number
     ): Promise<number> {
+        this.setAuthToken(user.token);
         return await this.messageService.success(
             user.message,
             loading,
@@ -126,24 +132,23 @@ export class UserService extends HttpService<User> {
         return this.messageService.error(error, loading, subscribe);
     }
 
-    public updateAuthName(user: User): Observable<User | number[]> {
+    public updateAuthName(user: User): Observable<User> {
+        this.setAuthorization(user);
         return this.patch(user, 'name').pipe(
             tap((user_: User) => {
                 this.setAuthUserFirstName(user_);
                 this.setAuthUserLastName(user_);
                 this.setAuthSlug(user_);
                 this.updateAuthUserUrl();
-            }),
-            catchError((error) => EMPTY)
+            })
         );
     }
 
-    public updateAuthEmail(user: User): Observable<User | number[]> {
+    public updateAuthEmail(user: User): Observable<User> {
         return this.patch(user, 'email').pipe(
             tap((user_: User) => {
                 this.setAuthUserEmail(user_);
-            }),
-            catchError((error) => EMPTY)
+            })
         );
     }
 
@@ -157,13 +162,16 @@ export class UserService extends HttpService<User> {
 
     public authState(user: User): Observable<User | number[]> {
         return this.patch(user, 'state').pipe(
-            tap((user_: User) => this.setAuthUserState(user_)),
-            catchError((error) => EMPTY)
+            tap((user_: User) => this.setAuthUserState(user_))
         );
     }
 
     public async showLoading(message: string): Promise<HTMLIonLoadingElement> {
         return await this.loadingService.show(message);
+    }
+
+    private setAuthorization(user: User) {
+        this.token = user?.token;
     }
 
     private updateAuthUserUrl(): void {

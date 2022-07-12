@@ -20,6 +20,7 @@ export class NavPage implements OnInit, OnDestroy {
     public $user: Subscription;
 
     private $avatar: Subscription;
+    private $auth: Subscription;
     private user: User;
 
     constructor(
@@ -35,14 +36,15 @@ export class NavPage implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.$user.unsubscribe();
         this.$avatar.unsubscribe();
+        this.$auth.unsubscribe();
     }
 
     private init(): void {
         this.getAuthUser();
         this.setUserAndAuthentication();
-        this.getAuthState();
         this.setAuthUser();
         this.toogleAvatar();
+        this.toogleAuth();
     }
 
     private getAuthUser(): void {
@@ -74,8 +76,8 @@ export class NavPage implements OnInit, OnDestroy {
         }
     }
 
-    private getAuthState(): void {
-        this.auth = this.authService.isLoggedIn;
+    private toogleAuth(): void {
+        this.$auth = this.authService.toggleIsLoggedIn.subscribe((auth: boolean)=> this.auth = auth);
     }
 
     private setAuthAvatar(user: User): void {

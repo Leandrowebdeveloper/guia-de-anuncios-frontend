@@ -1,4 +1,4 @@
-import { HeaderComponentModule } from 'src/app/header/header.component.module';
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -15,7 +15,7 @@ import { NotFoundPage } from './not-found.page';
     FormsModule,
     IonicModule,
     NotFoundPageRoutingModule,
-    HeaderComponentModule
+
   ],
   declarations: [NotFoundPage]
 })

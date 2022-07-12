@@ -18,7 +18,7 @@ export class ConfigForm {
             actionLabel: 'Entre com seu nome',
             msg: {
                 invalid: 'Digite nome próprio ou todas letras em maiuscúlo.',
-                empty: 'Nome obrigatório!',
+                empty: 'obrigatório!',
                 min: null,
                 max: null,
             },
@@ -31,7 +31,7 @@ export class ConfigForm {
             actionLabel: 'Entre com seu sobrenome',
             msg: {
                 invalid: 'Digite nome próprio ou todas letras em maiuscúlo.',
-                empty: 'Nome obrigatório!',
+                empty: 'obrigatório!',
                 min: null,
                 max: null,
             },
@@ -43,8 +43,8 @@ export class ConfigForm {
             type: 'email',
             actionLabel: 'Entre com seu email',
             msg: {
-                invalid: 'Email inválido!',
-                empty: 'Email obrigatório!',
+                invalid: 'inválido!',
+                empty: 'obrigatório!',
                 min: null,
                 max: null,
             },
@@ -57,7 +57,7 @@ export class ConfigForm {
             actionLabel: 'Entre com sua senha atual',
             msg: {
                 invalid: '',
-                empty: 'Senha obrigatório!',
+                empty: 'obrigatório!',
                 min: '',
                 max: '',
             },
@@ -69,10 +69,10 @@ export class ConfigForm {
             type: 'password',
             actionLabel: 'Entre com sua senha',
             msg: {
-                invalid: 'Senha inválida!',
-                empty: 'Senha obrigatório!',
-                min: 'Senha mínimo 8.',
-                max: 'Senha maxímo 20.',
+                invalid: 'inválida!',
+                empty: 'obrigatório!',
+                min: 'mínimo 8.',
+                max: 'maxímo 20.',
             },
         },
         passwordConfirmation: {
@@ -82,10 +82,10 @@ export class ConfigForm {
             type: 'password',
             actionLabel: 'Repita sua senha',
             msg: {
-                invalid: 'Confirmação de senha inválida!',
-                empty: 'Confirmação de senha obrigatório!',
-                min: 'Senha mínimo 8.',
-                max: 'Senha maxímo 20.',
+                invalid: 'senha inválida!',
+                empty: 'obrigatório!',
+                min: 'mínimo 8.',
+                max: 'maxímo 20.',
             },
         },
         stayConnected: {

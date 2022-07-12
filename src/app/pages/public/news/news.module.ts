@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { NewsPage } from './news.page';
 
 import { NewsPageRoutingModule } from './news-routing.module';
-import { HeaderComponentModule } from 'src/app/header/header.component.module';
+
 
 @NgModule({
   imports: [
@@ -13,7 +13,7 @@ import { HeaderComponentModule } from 'src/app/header/header.component.module';
     CommonModule,
     FormsModule,
     NewsPageRoutingModule,
-    HeaderComponentModule
+
   ],
   declarations: [NewsPage]
 })

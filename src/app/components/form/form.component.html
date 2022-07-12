@@ -2,7 +2,26 @@
     <div *ngFor="let input of buildInputs">
         <div *ngIf="input?.type !== 'checkbox'">
             <ion-item>
-                <ion-label position="floating" [color]="f[input?.name].valid&&'success'">{{ input?.label }}</ion-label>
+                <ion-label position="floating" [color]="f[input?.name].valid&&'success'">
+                    {{ input?.label }}
+
+
+                    <ion-text color="danger" *ngIf="submitted && f[input?.name].errors">
+                        <span *ngIf="f[input?.name].errors.pattern" [attr.aria-errormessage]="input.msg?.invalid">{{
+                            input.msg?.invalid }}&nbsp;</span>
+                        <span *ngIf="f[input?.name].errors.email" [attr.aria-errormessage]="input.msg?.invalid">{{
+                            input.msg?.invalid }}&nbsp;</span>
+                        <span *ngIf="f[input?.name].errors.required" [attr.aria-errormessage]="input.msg?.empty">{{
+                            input.msg?.empty }}&nbsp;</span>
+                        <span *ngIf="f[input?.name].errors.maxlength" [attr.aria-errormessage]="input?.msg?.max">{{
+                            input?.msg?.max }}&nbsp;</span>
+                        <span *ngIf="f[input?.name].errors.minlength" [attr.aria-errormessage]="input?.msg?.min">{{
+                            input?.msg?.min }}&nbsp;</span>
+                    </ion-text>
+
+
+
+                </ion-label>
                 <ion-input [type]="visiblePassword ? 'text' : input?.type" [formControlName]="input?.name"
                     [inputmode]="input?.type" [placeholder]="input?.placeholder" [attr.aria-invalid]="submitted"
                     [attr.aria-placeholder]="input?.actionLabel">
@@ -18,18 +37,6 @@
                 </ion-button>
             </ion-item>
 
-            <ion-text color="danger" *ngIf="submitted && f[input?.name].errors">
-                <small *ngIf="f[input?.name].errors.pattern" [attr.aria-errormessage]="input.msg?.invalid">{{
-                    input.msg?.invalid }}&nbsp;</small>
-                <small *ngIf="f[input?.name].errors.email" [attr.aria-errormessage]="input.msg?.invalid">{{
-                    input.msg?.invalid }}&nbsp;</small>
-                <small *ngIf="f[input?.name].errors.required" [attr.aria-errormessage]="input.msg?.empty">{{
-                    input.msg?.empty }}&nbsp;</small>
-                <small *ngIf="f[input?.name].errors.maxlength" [attr.aria-errormessage]="input?.msg?.max">{{
-                    input?.msg?.max }}&nbsp;</small>
-                <small *ngIf="f[input?.name].errors.minlength" [attr.aria-errormessage]="input?.msg?.min">{{
-                    input?.msg?.min }}&nbsp;</small>
-            </ion-text>
 
             <app-password-strength *ngIf="
           input?.name === 'passwordConfirmation' ||

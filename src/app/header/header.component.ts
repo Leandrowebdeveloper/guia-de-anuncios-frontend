@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Platform, PopoverController } from '@ionic/angular';
 import { MenuComponent } from './menu/menu.component';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-header-component',
@@ -13,11 +14,13 @@ import { AuthService } from 'src/app/services/auth/auth.service';
  * @class HeaderComponent
  * @implements OnInit
  */
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
+    public auth: boolean;
     public hasIos: boolean;
     public avatar: string;
     public name: string;
-    public authState: boolean;
+
+    private $auth: Subscription;
 
     constructor(
         private plt: Platform,
@@ -27,8 +30,11 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit() {
         this.init();
-        this.getAuthState();
         this.isPlatformIos();
+    }
+
+    ngOnDestroy(): void {
+        this.$auth.unsubscribe();
     }
 
     public async menuShow(ev: any) {
@@ -44,11 +50,13 @@ export class HeaderComponent implements OnInit {
     }
 
     private init() {
-        this.getAuthState();
+        this.toogleAuth();
     }
 
-    private getAuthState(): void {
-        this.authState = this.authService.isLoggedIn;
+    private toogleAuth() {
+        this.$auth = this.authService.toggleIsLoggedIn.subscribe(
+            (auth: boolean) => (this.auth = auth)
+        );
     }
 
     private isPlatformIos(): boolean {

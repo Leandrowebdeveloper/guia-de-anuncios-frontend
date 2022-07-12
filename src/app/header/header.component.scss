@@ -5,6 +5,7 @@ ion-toolbar > div {
     align-items: center;
     height: 30px;
 }
+
 .ion-icons {
     display: inline;
     cursor: pointer;
@@ -15,4 +16,9 @@ ion-toolbar > div {
 
 .margin-bottom {
     margin-bottom: 6px;
+}
+
+
+ion-content {
+    --padding-top: 0px !important;
 }

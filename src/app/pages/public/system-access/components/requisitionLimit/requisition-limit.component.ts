@@ -15,22 +15,22 @@ export class RequisitionLimitComponent implements OnInit {
     public timeRunningOut: string;
     private closed: any;
 
-   async ngOnInit() {
-        await this.init();
+    ngOnInit() {
+       this.init();
     }
 
-    public init(): Promise<() => void> {
-       return Promise.resolve(()=> {
+    public init() {
+    //    return Promise.resolve(()=> {
             const timeDifference = this.getTime();
             const duration = this.getDuration(timeDifference);
             const minutes = this.getMinutes(duration);
             const seconds = this.getSeconds(duration);
             this.startTimer(minutes, seconds);
-        });
+        // });
     }
 
     private getTime() {
-        return this.time&&moment().diff(this.time);
+        return this.time && moment().diff(this.time);
     }
 
     private startTimer(minutes: number, seconds: number): void {

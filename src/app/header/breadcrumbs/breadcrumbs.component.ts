@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Observable, Subscription } from 'rxjs';
 import { Breadcrumb } from 'src/app/interface';
@@ -9,7 +9,7 @@ import { BreadcrumbsService } from './service/breadcrumbs.service';
     templateUrl: './breadcrumbs.component.html',
     styleUrls: ['./breadcrumbs.component.scss'],
 })
-export class BreadcrumpsComponent implements OnInit, OnDestroy {
+export class BreadcrumpsComponent implements OnInit {
     public breadcrumbs$: Observable<Breadcrumb[]>;
     public hasIos: boolean;
 
@@ -24,10 +24,6 @@ export class BreadcrumpsComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.update();
-    }
-
-    ngOnDestroy(): void {
-        this.$breadcrumb.unsubscribe();
     }
 
     private isPlatformIos(): boolean {

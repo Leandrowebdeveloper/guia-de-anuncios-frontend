@@ -1,4 +1,3 @@
-import { AuthService } from 'src/app/services/auth/auth.service';
 import { Observable, Subject, EMPTY } from 'rxjs';
 import { UserService } from 'src/app/pages/dashboard/user/services/user.service';
 import { ActivatedRoute } from '@angular/router';
@@ -22,7 +21,6 @@ export class ChangeEmailPage implements OnInit {
 
     constructor(
         private storageService: StorageService,
-        private authService: AuthService,
         private userService: UserService,
         private activatedRoute: ActivatedRoute
     ) {}
@@ -40,6 +38,7 @@ export class ChangeEmailPage implements OnInit {
             this.userService.getAuthUserSlug(),
         ]);
     }
+
     private getUser() {
         this.user = this.activatedRoute.snapshot.data.changeEmail;
     }

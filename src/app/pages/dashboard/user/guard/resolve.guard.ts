@@ -7,16 +7,16 @@ import { UserService } from 'src/app/pages/dashboard/user/services/user.service'
 
 @Injectable({ providedIn: 'root' })
 export class UserResolver implements Resolve<User> {
-    constructor(
-        private router: Router,
-        private userService: UserService
-        ) {}
+    constructor(private router: Router, private userService: UserService) {}
 
     resolve(route: ActivatedRouteSnapshot): Observable<User> {
+        this.userService.setAuthToken(this.userService.getAuthToken());
         const id = route.params?.id;
-        return this.userService.requirement(id).pipe(catchError((): Observable<never>=> {
-            this.router.parseUrl('/404');
-             return EMPTY;
-            }));;
+        return this.userService.requirement(id).pipe(
+            catchError((): Observable<never> => {
+                this.router.parseUrl('/404');
+                return EMPTY;
+            })
+        );
     }
 }

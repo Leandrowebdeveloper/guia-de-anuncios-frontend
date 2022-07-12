@@ -32,3 +32,7 @@
 ion-icon {
   pointer-events: none !important;
 }
+
+ion-content {
+    --padding-top: 96px !important;
+}

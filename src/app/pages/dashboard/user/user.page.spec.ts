@@ -4,7 +4,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { UserPage } from './user.page';
 import { FormComponentModule } from 'src/app/components/form/form.module';
-import { HeaderComponentModule } from 'src/app/header/header.component.module';
+
 import { HeaderModalModule } from 'src/app/components/header-modal/header-modal.module';
 import { GaleryComponentModule } from 'src/app/components/galery/galery-component.module';
 import { FormEmailComponent } from './components/email/form/form.component';
@@ -65,7 +65,6 @@ describe('UserPage', () => {
                 HttpClientTestingModule,
                 RouterTestingModule,
                 FormComponentModule,
-                HeaderComponentModule,
                 HeaderModalModule,
                 GaleryComponentModule,
             ],

@@ -28,7 +28,7 @@ export class GaleryComponent implements OnInit {
 
     constructor(
         private photoService: PhotoService,
-        private userService: UserService ,
+        private userService: UserService,
         private imageService: ImageService,
         private helpsService: HelpsService,
         private messageService: MessageService
@@ -43,12 +43,27 @@ export class GaleryComponent implements OnInit {
         return (this.avatar = this.userService.getUserAvatar()?.filename);
     }
 
-    public getUserAvatarUrl(): void {
-        const urlEmpty = './../../../assets/avatar.svg';
-        const file: LocalFile = this.buildAvatarEmpty(urlEmpty);
-        if (!this.userService.getUserAvatar()?.url) {
-            this.images.unshift(file);
-         }
+    public getUserAvatarUrl() {
+        setTimeout(() => {
+            if (
+                this.userService.getUserAvatar()?.url &&
+                this.images.length === 0
+            ) {
+                return this.images.unshift({
+                    path: this.userService.getUserAvatar()?.url,
+                    data: this.userService.getUserAvatar()?.url,
+                    name: this.userService.getUserAvatar()?.filename,
+                });
+            }
+            const icon = './../../../assets/avatar.svg';
+            if (!this.userService.getUserAvatar()?.url) {
+                return this.images.unshift({
+                    path: icon,
+                    data: icon,
+                    name: null,
+                });
+            }
+        }, 200);
     }
 
     public loadFiles(): void {
@@ -68,7 +83,7 @@ export class GaleryComponent implements OnInit {
 
     public async startUpload(file: LocalFile, index: any): Promise<void> {
         this.startLoading(index);
-        const response = await fetch(file.data);
+        const response = await fetch(file?.data);
         const blob = await response.blob();
         const formData = this.buildDataForm(blob, file);
         this.uploadData(formData);
@@ -78,7 +93,6 @@ export class GaleryComponent implements OnInit {
         file: LocalFile,
         isAvatar: boolean
     ): Promise<void | Subscription> {
-        // condição a pagina do usuário
         if (this.photoService.isPageUser()) {
             if (!isAvatar) {
                 await this.photoService.deleteFile(file);
@@ -95,14 +109,6 @@ export class GaleryComponent implements OnInit {
 
     private setImages() {
         this.images = PhotoService.images;
-    }
-
-    private buildAvatarEmpty(urlEmpty: string): LocalFile {
-        return {
-            path: urlEmpty,
-            data: urlEmpty,
-            name: null,
-        };
     }
 
     private startLoading(index: any) {
@@ -188,7 +194,7 @@ export class GaleryComponent implements OnInit {
 
     private refresh(action?: boolean) {
         this.loadFiles();
-        if(action) {
+        if (action) {
             this.avatar = null;
         }
     }

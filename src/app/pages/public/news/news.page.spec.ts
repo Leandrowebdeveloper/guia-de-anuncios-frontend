@@ -5,14 +5,13 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { NewsPage } from './news.page';
-import { HeaderComponent } from 'src/app/header/header.component';
+
 
 describe('NewsPage', () => {
     let component: NewsPage;
     let fixture: ComponentFixture<NewsPage>;
 
-    let headerComponent: HeaderComponent;
-    let headerComponentFixture: ComponentFixture<HeaderComponent>;
+
 
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
@@ -29,16 +28,12 @@ describe('NewsPage', () => {
         component = fixture.componentInstance;
         fixture.detectChanges();
 
-        headerComponentFixture = TestBed.createComponent(HeaderComponent);
-        headerComponent = headerComponentFixture.componentInstance;
-        headerComponentFixture.detectChanges();
+
     }));
 
     it('should create', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should create headerComponent', () => {
-        expect(headerComponent).toBeTruthy();
-    });
+
 });

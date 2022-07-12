@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ActivateAccountPageRoutingModule } from './redefine-password-routing.module';
 
 import { RedefinePasswordPage } from './redefine-password.page';
-import { HeaderComponentModule } from 'src/app/header/header.component.module';
+
 import { FormComponentModule } from 'src/app/components/form/form.module';
 import { RedefinePasswordResolver } from './guard/resolve.guard';
 import { RedefinePasswordService } from './services/redefine-password.service';
@@ -18,7 +18,6 @@ import { RedefinePasswordService } from './services/redefine-password.service';
     FormsModule,
     IonicModule,
     ActivateAccountPageRoutingModule,
-    HeaderComponentModule,
     FormComponentModule
   ],
   declarations: [RedefinePasswordPage],

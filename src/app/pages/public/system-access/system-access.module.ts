@@ -1,4 +1,4 @@
-import { HeaderComponentModule } from 'src/app/header/header.component.module';
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -20,7 +20,6 @@ import { RequisitionLimitComponent } from './components/requisitionLimit/requisi
         CommonModule,
         IonicModule,
         LoginPageRoutingModule,
-        HeaderComponentModule,
         FormComponentModule,
     ],
     declarations: [

@@ -47,6 +47,7 @@ export class LoginService extends HttpService<User> {
         return (this.authService.setUserAndAuthentication = user);
     }
 
+
     private setUserAndTokenInSession(user: User): void {
         this.setAuthUser(user);
         this.setTokenSession(user);

@@ -11,7 +11,7 @@ export interface User {
     slug: string;
     authState: boolean;
     token: string;
-    // active: boolean;
+    active: boolean;
     state: boolean;
     desabled: boolean;
     key: string;

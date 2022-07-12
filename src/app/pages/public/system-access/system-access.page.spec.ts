@@ -12,9 +12,8 @@ import { SystemAccessResolver } from './guard/resolve.guard';
 import { ButtonsAccessComponent } from './components/buttons/buttons-sccess-component';
 import { RegisterService } from './services/register/register.service';
 import { RequisitionLimitComponent } from './components/requisitionLimit/requisition-limit.component';
-import { HeaderComponentModule } from 'src/app/header/header.component.module';
+
 import { FormComponentModule } from 'src/app/components/form/form.module';
-import { HeaderComponent } from 'src/app/header/header.component';
 
 describe('SystemAccessPage', () => {
     let component: SystemAccessPage;
@@ -32,8 +31,7 @@ describe('SystemAccessPage', () => {
     let loginService: LoginService;
     let guard: SystemAccessResolver;
 
-    let headerComponent: HeaderComponent;
-    let headerComponentFixture: ComponentFixture<HeaderComponent>;
+
 
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
@@ -46,7 +44,6 @@ describe('SystemAccessPage', () => {
                 IonicModule.forRoot(),
                 RouterTestingModule,
                 HttpClientTestingModule,
-                HeaderComponentModule,
                 FormComponentModule,
             ],
             providers: [
@@ -72,9 +69,7 @@ describe('SystemAccessPage', () => {
         requisitionLimitComponent = requisitionLimitComponentFixture.componentInstance;
         requisitionLimitComponentFixture.detectChanges();
 
-        headerComponentFixture = TestBed.createComponent(HeaderComponent);
-        headerComponent = headerComponentFixture.componentInstance;
-        headerComponentFixture.detectChanges();
+
     }));
 
     beforeEach(() => {
@@ -117,8 +112,6 @@ describe('SystemAccessPage', () => {
         expect(guard).toBeTruthy();
     });
 
-    it('should create headerComponent', () => {
-        expect(headerComponent).toBeTruthy();
-    });
+
 
 });

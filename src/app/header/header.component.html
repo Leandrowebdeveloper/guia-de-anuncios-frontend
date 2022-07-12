@@ -9,12 +9,12 @@
 
             <div class="ion-icons">
 
-                <span bottom *ngIf="authState" routerLink="/painel-de-controle" title="Painel de controle"
+                <span bottom *ngIf="auth" routerLink="/painel-de-controle" title="Painel de controle"
                     attr.data-label="Painel de controle">
                     <ion-icon size="large" slot="end" name="options" color="light"></ion-icon>
                 </span>
 
-                <span *ngIf="authState" class="ion-margin-horizontal cursor-pointer" routerLink="/sair"
+                <span *ngIf="auth" class="ion-margin-horizontal cursor-pointer" routerLink="/sair"
                     title="Sair do sistema" attr.data-label="Sair do sistema">
                     <ion-icon size="large" slot="end" name="log-out" color="light"></ion-icon>
                 </span>

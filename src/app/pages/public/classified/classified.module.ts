@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { ClassifiedPage } from './classified.page';
 
 import { ClassifiedPageRoutingModule } from './classified-routing.module';
-import { HeaderComponentModule } from 'src/app/header/header.component.module';
 
 @NgModule({
   imports: [
@@ -13,7 +12,6 @@ import { HeaderComponentModule } from 'src/app/header/header.component.module';
     CommonModule,
     FormsModule,
     ClassifiedPageRoutingModule,
-    HeaderComponentModule
   ],
   declarations: [ClassifiedPage]
 })

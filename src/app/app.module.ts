@@ -1,4 +1,3 @@
-import { HeaderComponentModule } from 'src/app/header/header.component.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -12,14 +11,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { BreadcrumpsComponent } from './header/breadcrumbs/breadcrumbs.component';
+import { HeaderComponent } from './header/header.component';
 
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, HeaderComponent, BreadcrumpsComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
-    HeaderComponentModule,
     HttpClientModule,
     IonicModule.forRoot(),
     AppRoutingModule,

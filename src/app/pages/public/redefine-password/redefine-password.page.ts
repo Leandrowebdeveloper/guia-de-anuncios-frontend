@@ -16,9 +16,9 @@ import { HelpsService } from 'src/app/services/helps/helps.service';
     styleUrls: ['./redefine-password.page.scss'],
 })
 export class RedefinePasswordPage implements OnInit {
-    public user: User;
+    public user!: User;
     public active: boolean;
-    public attrButton: AttrButton;
+    public attrButton!: AttrButton;
     public message: string;
     private form: FormGroup;
     private urlTree: boolean;
@@ -68,7 +68,7 @@ export class RedefinePasswordPage implements OnInit {
     }
 
     private isActived(): boolean {
-        return (this.active = this.user?.state);
+        return (this.active = this.user?.active);
     }
     private disableCanDeactivate(): boolean {
         return (this.urlTree = true);

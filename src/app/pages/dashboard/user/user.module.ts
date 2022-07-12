@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { UserPage } from './user.page';
 
 import { UserPageRoutingModule } from './user-routing.module';
-import { HeaderComponentModule } from 'src/app/header/header.component.module';
+
 import { GaleryComponentModule } from 'src/app/components/galery/galery-component.module';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { StateComponent } from './components/status/state.component';
@@ -27,7 +27,6 @@ import { HttpClientModule } from '@angular/common/http';
         HttpClientModule,
         UserPageRoutingModule,
         FormComponentModule,
-        HeaderComponentModule,
         HeaderModalModule,
         GaleryComponentModule,
     ],

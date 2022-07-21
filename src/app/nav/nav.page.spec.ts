@@ -1,3 +1,4 @@
+import { Storage } from '@ionic/storage';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -12,6 +13,7 @@ describe('NavPage', () => {
         TestBed.configureTestingModule({
             declarations: [NavPage],
             imports: [RouterTestingModule, HttpClientTestingModule],
+            providers: [Storage],
             schemas: [CUSTOM_ELEMENTS_SCHEMA],
         }).compileComponents();
     }));

@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+     > div {
+      align-self: center;
+      position: relative;
+      cursor: pointer;
+
+     > ion-avatar {
+        width: 80px;
+        height: 80px;
+      }
+
+     > ion-icon {
+        position: absolute;
+        right: -10px;
+        bottom: -5px;
+      }
+    }
+  }

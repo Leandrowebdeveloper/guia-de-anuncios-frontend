@@ -11,9 +11,10 @@ import { SystemAccessService } from './services/system-access.service';
 import { SystemAccessResolver } from './guard/resolve.guard';
 import { ButtonsAccessComponent } from './components/buttons/buttons-sccess-component';
 import { RegisterService } from './services/register/register.service';
-import { RequisitionLimitComponent } from './components/requisitionLimit/requisition-limit.component';
+import { RequisitionLimitComponent } from '../../../components/requisitionLimit/requisition-limit.component';
 
 import { FormComponentModule } from 'src/app/components/form/form.module';
+import { SystemAccessAdminResolver } from '../system-access-admin/guard/resolve.guard';
 
 describe('SystemAccessPage', () => {
     let component: SystemAccessPage;
@@ -22,8 +23,6 @@ describe('SystemAccessPage', () => {
     let buttonsAccessComponent: ButtonsAccessComponent;
     let buttonsAccessComponentFixture: ComponentFixture<ButtonsAccessComponent>;
 
-    let requisitionLimitComponent: RequisitionLimitComponent;
-    let requisitionLimitComponentFixture: ComponentFixture<RequisitionLimitComponent>;
 
     let registerService: RegisterService;
     let systemAccessService: SystemAccessService;
@@ -38,13 +37,13 @@ describe('SystemAccessPage', () => {
             declarations: [
                 SystemAccessPage,
                 ButtonsAccessComponent,
-                RequisitionLimitComponent,
             ],
             imports: [
                 IonicModule.forRoot(),
                 RouterTestingModule,
                 HttpClientTestingModule,
                 FormComponentModule,
+                SystemAccessAdminResolver
             ],
             providers: [
                 Storage,
@@ -65,10 +64,6 @@ describe('SystemAccessPage', () => {
         buttonsAccessComponent = buttonsAccessComponentFixture.componentInstance;
         buttonsAccessComponentFixture.detectChanges();
 
-        requisitionLimitComponentFixture = TestBed.createComponent(RequisitionLimitComponent);
-        requisitionLimitComponent = requisitionLimitComponentFixture.componentInstance;
-        requisitionLimitComponentFixture.detectChanges();
-
 
     }));
 
@@ -86,10 +81,6 @@ describe('SystemAccessPage', () => {
 
     it('buttonsAccessComponent', () => {
         expect(buttonsAccessComponent).toBeTruthy();
-    });
-
-    it('requisitionLimitComponent', () => {
-        expect(requisitionLimitComponent).toBeTruthy();
     });
 
     it('recoverService', () => {
@@ -111,7 +102,5 @@ describe('SystemAccessPage', () => {
     it('guard', () => {
         expect(guard).toBeTruthy();
     });
-
-
 
 });

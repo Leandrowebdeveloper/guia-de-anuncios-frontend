@@ -8,7 +8,6 @@ import {
     CanActivateChild,
     CanLoad,
     Resolve,
-    Route,
     Router,
     RouterStateSnapshot,
     UrlTree,
@@ -28,6 +27,7 @@ import { InitService } from 'src/app/services/init/init.service';
 export class AuthGuard
     implements CanLoad, CanActivate, CanActivateChild, Resolve<User>
 {
+    private url: string;
     constructor(
         private storageService: StorageService,
         private authService: AuthService,
@@ -40,8 +40,8 @@ export class AuthGuard
         route: ActivatedRouteSnapshot,
         authState: RouterStateSnapshot
     ): boolean | UrlTree {
-        const url: string = authState.url;
-        return this.authService.checkLogin(url);
+        this.url = authState?.url;
+        return this.authService.checkLogin(this.url);
     }
 
     canActivateChild(
@@ -60,22 +60,30 @@ export class AuthGuard
             tap((user: User) => this.confirmAuthenticationAndSetUser(user)
             ),
             catchError(() => {
-                this.router.parseUrl('/404');
+                this.router.navigate(['/erro']);
                 return EMPTY;
             })
         );
     }
 
-    async canLoad(route: Route) {
+    async canLoad(): Promise<boolean> {
         await this.storageService.init();
-        const token = await this.storageService.isToken();
-        this.init.setAuthToken = token;
-        this.authService.isLoggedIn = !!token;
-        return this.authService.canLoadResult(route);
+        await this.storageService.isToken();
+        this.authService.isLoggedIn = !!this.storageService.getToken;
+        return true;
     }
 
-    private confirmAuthenticationAndSetUser(user: User) {
-        this.authService.confirmAuthorization(user);
+    private confirmAuthenticationAndSetUser(user: User): void {
+        this.confirmAuthorization(user);
         this.userService.setAuthUser(user);
+    }
+
+    private confirmAuthorization(user: User): boolean |  UrlTree {
+        if (!user?.auth) {
+            this.authService.isLoggedIn = false;
+            this.storageService.destroy('token');
+            return this.router.parseUrl('/inicio');
+        }
+        return this.authService.checkLogin(this.url);
     }
 }

@@ -17,22 +17,21 @@ import { LoadingService } from 'src/app/utilities/loading/loading.service';
 export class LogoutService extends HttpService<User> {
     constructor(
         public http: HttpClient,
+        public storageService: StorageService,
         private authService: AuthService,
         private userService: UserService,
-        private storageService: StorageService,
         private navCtrl: NavController,
         private loadingService: LoadingService,
         private messageService: MessageService,
         private helpsService: HelpsService
     ) {
-        super(http);
+        super(http, storageService);
         this.api = `logout`;
-        this.setAuthToken();
     }
 
     public destroySession(): Observable<User> {
         const loading = this.loading();
-        return this.index().pipe(
+        return this.findAll().pipe(
             tap(
                 (user: User) => this.success(user, loading),
                 catchError((error: HttpErrorResponse) => {
@@ -68,14 +67,6 @@ export class LogoutService extends HttpService<User> {
     ) {
         await this.disableLoading(loading);
         return this.messageService.error(error);
-    }
-
-    private setAuthToken(): void {
-        this.token = this.isGetTokenSessionOrDatabase();
-    }
-
-    private isGetTokenSessionOrDatabase(): string {
-        return sessionStorage.getItem('token') || this.storageService.getToken;
     }
 
     private async disableLoadingAndGoToLoginPage(

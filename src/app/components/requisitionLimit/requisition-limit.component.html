@@ -13,14 +13,16 @@
                 Você já efetuou 3 tentativas, esse e o limite.
             </p>
             <p>Por favor aguarde por 5 minútos para tentar novamente.</p>
-            <p class="d-flex">&#9203; {{ timeRunningOut }} <ion-spinner class="ion-no-margin" [hidden]="timeRunningOut" name="dots"></ion-spinner>
+            <p class="d-flex">&#9203; {{ timeRunningOut }} <ion-spinner class="ion-no-margin" [hidden]="timeRunningOut"
+                    name="dots"></ion-spinner>
             </p>
         </ion-text>
 
         <ng-template #Message>
-            <p>Você acabol de enviar um email.</p>
+            <p>Você acabou de enviar um email.</p>
             <p>Por favor aguarde por 5 minútos para enviar outro.</p>
-            <p class="d-flex">&#9203; {{ timeRunningOut }} <ion-spinner class="ion-no-margin" [hidden]="timeRunningOut" name="dots"></ion-spinner>
+            <p class="d-flex">&#9203; {{ timeRunningOut }} <ion-spinner class="ion-no-margin" [hidden]="timeRunningOut"
+                    name="dots"></ion-spinner>
             </p>
         </ng-template>
 

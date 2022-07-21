@@ -58,8 +58,9 @@ export class FormComponent implements OnInit {
         return this.submitDataForm.emit(this.form);
     }
 
-    private isPageLogin() {
-        this.isPageTheLogin = this.router?.url === '/entrar';
+    private isPageLogin(): void {
+        const { url } = this.router;
+        this.isPageTheLogin = url === '/entrar' || url === '/entrar/admin';
     }
 
     private disableValidate(): void {
@@ -81,7 +82,11 @@ export class FormComponent implements OnInit {
     }
 
     private isNewPassword(): void {
-        if (this.attrButton?.route === '/new-password' && this.buildInputs[1]?.label && this.buildInputs[2]?.label) {
+        if (
+            this.attrButton?.route === '/new-password' &&
+            this.buildInputs[1]?.label &&
+            this.buildInputs[2]?.label
+        ) {
             this.buildInputs[1].label = 'Nova senha';
             this.buildInputs[2].label = 'Confirmar nova senha';
         }

@@ -29,14 +29,24 @@ export class ChangeEmailPage implements OnInit {
         this.getUser();
         this.changeEmail();
         this.getLocation();
+        this.filterUrl();
     }
+
+
 
     public getLocation() {
         return (this.location = [
             '/painel-de-controle',
-            'usuarios',
+            'admin',
+            'usuario',
             this.userService.getAuthUserSlug(),
         ]);
+    }
+
+    private filterUrl(): void {
+        if(this.userService.getAuthUserLevel() === '2') {
+            this.location.splice(1, 1);
+        }
     }
 
     private getUser() {

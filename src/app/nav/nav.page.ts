@@ -55,46 +55,50 @@ export class NavPage implements OnInit, OnDestroy {
         this.authService.setUserAndAuthentication = this.user;
     }
 
-
     /**
      * AVATAR
      */
 
     private setAuthUser() {
-        return (this.$user = this.userService.authUserObservable().subscribe(
-            (user: User) => {
+        return (this.$user = this.userService
+            .authUserObservable()
+            .subscribe((user: User) => {
                 this.setAuthAvatar(user);
                 this.getAuthUserName(user);
                 this.getAuthUserSlug(user);
-            }
-        ));
+            }));
     }
 
     private getAuthUserSlug(user: User): void {
         if (user && user?.slug) {
-            this.userRouterPage = `painel-de-controle/usuarios/${user.slug}`;
+            this.userRouterPage =
+                user.level === '1'
+                    ? `painel-de-controle/admin/usuario/${user.slug}`
+                    : `painel-de-controle/usuario/${user.slug}`;
         }
     }
 
     private toogleAuth(): void {
-        this.$auth = this.authService.toggleIsLoggedIn.subscribe((auth: boolean)=> this.auth = auth);
+        this.$auth = this.authService.toggleIsLoggedIn.subscribe(
+            (auth: boolean) => (this.auth = auth)
+        );
     }
 
     private setAuthAvatar(user: User): void {
-        if(user) {
+        if (user) {
             this.avatar = user.image?.url || './../../assets/avatar.svg';
         }
     }
 
     private toogleAvatar(): Subscription {
-        return (this.$avatar = this.userService.authUserObservable().subscribe(
-            (user: User) => this.setAuthAvatar(user)
-        ));
+        return (this.$avatar = this.userService
+            .authUserObservable()
+            .subscribe((user: User) => this.setAuthAvatar(user)));
     }
 
     private getAuthUserName(user: User): void {
         if (user && user?.firstName && user?.lastName) {
-            this.name = `${user.firstName} ${user.lastName}`;
+            this.name = `${user?.firstName} ${user?.lastName}`;
         }
     }
 }

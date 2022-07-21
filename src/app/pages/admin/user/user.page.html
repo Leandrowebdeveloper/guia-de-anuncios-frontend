@@ -1,0 +1,25 @@
+
+
+<ion-content [fullscreen]="true">
+    <ion-grid fixed>
+
+        <app-avatar [user]="user"></app-avatar>
+
+        <ion-item-group>
+            <ion-item-divider>
+                <ion-icon color="mediun" name="person" slot="start"></ion-icon>
+                <ion-label>Administração do usuário</ion-label>
+            </ion-item-divider>
+
+            <app-state [user]="user"></app-state>
+
+            <app-name [user]="user"></app-name>
+
+            <app-email [user]="user"></app-email>
+
+            <app-password [user]="user"></app-password>
+
+        </ion-item-group>
+
+    </ion-grid>
+</ion-content>

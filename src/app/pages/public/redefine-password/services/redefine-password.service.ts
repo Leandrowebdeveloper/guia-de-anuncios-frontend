@@ -9,17 +9,19 @@ import { HelpsService } from 'src/app/services/helps/helps.service';
 import { Subscription } from 'rxjs';
 import { LoadingService } from 'src/app/utilities/loading/loading.service';
 import { MessageService } from 'src/app/utilities/message/message.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
 
 @Injectable()
 export class RedefinePasswordService extends HttpService<User> {
     constructor(
         public http: HttpClient,
+        public storageService: StorageService,
         private loadingService: LoadingService,
         private navCtrl: NavController,
         private helpsService: HelpsService,
         private messageService: MessageService
     ) {
-        super(http);
+        super(http, storageService);
         this.api = `redefine-password`;
     }
 

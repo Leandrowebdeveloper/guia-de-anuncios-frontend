@@ -1,0 +1,7 @@
+<ion-item>
+    <ion-label>{{ state ? 'Conectado' : 'Desligado'}}</ion-label>
+    <ion-toggle slot="end" (ionChange)="toggleState()" [checked]="state"
+        title="Alternar entre usuário conectado ou desligado."
+        aria-label="Clique para alternar entre usuário conectado ou desligado."></ion-toggle>
+    <ion-icon slot="start" [name]="state  ? 'eye': 'eye-off'"></ion-icon>
+</ion-item>

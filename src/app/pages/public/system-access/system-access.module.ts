@@ -13,7 +13,7 @@ import { RecoverService } from './services/recover/recover.service';
 import { LoginService } from './services/login/login.service';
 import { SystemAccessService } from './services/system-access.service';
 import { ButtonsAccessComponent } from './components/buttons/buttons-sccess-component';
-import { RequisitionLimitComponent } from './components/requisitionLimit/requisition-limit.component';
+import { RequisitionLimitComponentModule } from 'src/app/components/requisitionLimit/requisition-limit.module';
 
 @NgModule({
     imports: [
@@ -21,11 +21,11 @@ import { RequisitionLimitComponent } from './components/requisitionLimit/requisi
         IonicModule,
         LoginPageRoutingModule,
         FormComponentModule,
+        RequisitionLimitComponentModule
     ],
     declarations: [
         SystemAccessPage,
         ButtonsAccessComponent,
-        RequisitionLimitComponent,
     ],
     providers: [
         SystemAccessService,
@@ -34,4 +34,4 @@ import { RequisitionLimitComponent } from './components/requisitionLimit/requisi
         LoginService,
     ]
 })
-export class LoginPageModule {}
+export class SystemAccessPageModule {}

@@ -186,8 +186,6 @@ export class SystemAccessPage implements OnInit, OnComponentDeactivate {
     }
 
     private requisitionLimit(error: HttpErrorResponse): void {
-        console.log(error);
-
         if (error.status === 403) {
             this.helpsService.delay(() => {
                 this.setError(error);

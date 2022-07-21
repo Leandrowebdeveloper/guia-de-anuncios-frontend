@@ -56,7 +56,7 @@ export interface Breadcrumb {
 
 // Interface de funções
 export interface Http<T> {
-    index: () => Observable<T>;
+    index: () => Observable<T[]>;
     findAll: (url?: string) => Observable<T>;
     create: (data: T, url?: string) => Observable<T>;
     update: (data: T) => Observable<T | number[]>;

@@ -11,7 +11,8 @@ const routes: Routes = [
         component: DashboardPage,
     },
     {
-        path: 'usuarios/:id/alterar-email/:token',
+        path: 'usuario/:id/alterar-email/:token',
+        canActivate: [AuthGuard],
         loadChildren: () =>
             import('./user/pages/change-email/change-email.module').then(
                 (m) => m.ChangeEmailPageModule
@@ -21,7 +22,7 @@ const routes: Routes = [
             }
     },
     {
-        path: 'usuarios/:id',
+        path: 'usuario/:id',
         canActivate: [AuthGuard],
         loadChildren: () =>
             import('../dashboard/user/user.module').then(
@@ -29,7 +30,7 @@ const routes: Routes = [
             ),
     },
     {
-        path: 'anuncios/:id',
+        path: 'anuncio/:id',
         canActivate: [AuthGuard],
         loadChildren: () =>
             import('../dashboard/advert/advert.module').then(

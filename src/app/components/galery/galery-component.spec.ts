@@ -1,3 +1,4 @@
+import { Storage } from '@ionic/storage';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
@@ -15,6 +16,7 @@ describe('GaleryComponent', () => {
                 RouterTestingModule,
                 HttpClientTestingModule,
             ],
+            providers: [Storage]
         }).compileComponents();
 
         fixture = TestBed.createComponent(GaleryComponent);

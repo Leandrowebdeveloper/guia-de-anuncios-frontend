@@ -7,7 +7,7 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./header-modal.component.scss'],
 })
 export class HeaderModalComponent implements OnInit {
-  @Input() label: string;
+  @Input() label!: string;
   constructor(private modalController: ModalController) { }
 
   ngOnInit() {}

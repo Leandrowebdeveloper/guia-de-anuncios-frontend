@@ -112,6 +112,8 @@ export class BreadcrumbsService {
         switch (label) {
             case 'usuario':
                 return 'usuário';
+            case 'usuarios':
+                return 'usuários';
             case 'anuncio':
                 return 'anúncio';
             case 'inicio':

@@ -6,15 +6,17 @@ import { Observable } from 'rxjs';
 
 import { HttpService } from 'src/app/services/http/http.service';
 import { User } from 'src/app/interface';
+import { StorageService } from 'src/app/services/storage/storage.service';
 
 @Injectable()
 export class RegisterService extends HttpService<User> {
     constructor(
         public http: HttpClient,
+        public storageService: StorageService,
         private navCtrl: NavController,
         private helpsService: HelpsService
     ) {
-        super(http);
+        super(http, storageService);
         this.api = `register`;
     }
 

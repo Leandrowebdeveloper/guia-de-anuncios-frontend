@@ -121,9 +121,9 @@ export class GaleryComponent implements OnInit {
 
     private buildDataForm(blob: Blob, file: LocalFile): FormData {
         const formData = new FormData();
-        formData.append('id', this.slug);
+        formData.append('slug', this.slug);
         formData.append('_csrf', this._csrf);
-        formData.append('filename', blob, file.name);
+        formData.append('filename', blob, file?.name);
         return formData;
     }
 

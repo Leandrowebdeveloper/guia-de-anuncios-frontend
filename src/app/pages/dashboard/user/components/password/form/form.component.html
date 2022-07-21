@@ -1,13 +1,10 @@
-<app-header-component-modal label="Editar"></app-header-component-modal>
+<app-header-component-modal></app-header-component-modal>
 
 <ion-content [fullscreen]="true">
     <ion-grid fixed>
 
-        <app-form
-        (submitDataForm)="onSubmit($event)"
-        (exportForm)="importForm($event)"
-        [inputConfig]="config"
-        [attrButton]="attrButton"></app-form>
+        <app-form (submitDataForm)="onSubmit($event)" (exportForm)="importForm($event)" [inputConfig]="config"
+            [attrButton]="attrButton"></app-form>
 
     </ion-grid>
-  </ion-content>
+</ion-content>

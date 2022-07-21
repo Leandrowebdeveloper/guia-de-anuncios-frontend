@@ -15,11 +15,7 @@ import { BehaviorSubject } from 'rxjs';
  */
 export class AuthService {
     private $isLoggedIn = new BehaviorSubject<boolean>(false);
-    constructor(
-        private router: Router,
-        private navCtrl: NavController,
-    ) {}
-
+    constructor(private router: Router, private navCtrl: NavController) {}
 
     public get toggleIsLoggedIn(): Observable<boolean> {
         return this.$isLoggedIn.asObservable();
@@ -34,7 +30,7 @@ export class AuthService {
     }
 
     public set setUserAndAuthentication(user: User) {
-        if(user) {
+        if (user) {
             this.isLoggedIn = user?.auth;
         }
     }
@@ -43,32 +39,47 @@ export class AuthService {
         const url = this.router.url;
         if (this.isLoggedIn && url.toLowerCase() === '/entrar') {
             return this.navCtrl.navigateForward('/painel-de-controle');
+        } else {
+            return this.navCtrl.navigateForward('/painel-de-controle/admin');
         }
     }
 
-    public canLoadResult(route: Route): true | UrlTree {
+    public canLoadResult(route: Route): boolean | UrlTree {
         if (route?.path) {
             return this.checkLogin(`/${route.path}`);
         }
         return true;
     }
 
-    public checkLogin(url: string): true | UrlTree {
+    public checkLogin(url: string, user?: User): boolean | UrlTree {
+        const toogleDashboard = this.toogleDashboard(user);
         const login = this.regex('/entrar');
+        const admin = this.regex('/entrar/admin');
+        const adminDashboard = this.regex('/painel-de-controle/admin');
+        const dashboard = this.regex('/painel-de-controle');
         const recover = this.regex('/recuperar-senha');
         const register = this.regex('/cadastrar');
+
         if (this.isLoggedIn) {
-            if (login.test(url)) {
-                return this.router.parseUrl('/painel-de-controle');
+            if (user?.level === '1' && adminDashboard.test(url)) {
+                return true;
+            } else if (user?.level === '1' && dashboard.test(url)) {
+                this.navCtrl.navigateForward(toogleDashboard);
+                return false;
+            } else if (user?.level === '2' && adminDashboard.test(url)) {
+                this.navCtrl.navigateForward(toogleDashboard);
+                return false;
+            }
+
+            if (login.test(url) || admin.test(url)) {
+                return this.router.parseUrl(toogleDashboard);
             } else if (
-                !login.test(url) ||
-                !recover.test(url) ||
-                !register.test(url)
+                this.denyIncomingURL(login, url, recover, admin, register)
             ) {
                 return true;
             }
         } else {
-            if (login.test(url) || recover.test(url) || register.test(url)) {
+            if (this.acceptIncomingURL(login, url, admin, recover, register)) {
                 return true;
             } else {
                 return this.router.parseUrl('/entrar');
@@ -76,12 +87,42 @@ export class AuthService {
         }
     }
 
-    public confirmAuthorization(user: User): void {
-        if (user.auth) {
-            this.isLoggedIn = user.auth;
-        }
-        this.isLoggedIn = false;
-        this.router.parseUrl('/entrar');
+    private acceptIncomingURL(
+        login: RegExp,
+        url: string,
+        admin: RegExp,
+        recover: RegExp,
+        register: RegExp
+    ): boolean {
+        return (
+            login.test(url) ||
+            admin.test(url) ||
+            recover.test(url) ||
+            register.test(url)
+        );
+    }
+
+    private denyIncomingURL(
+        login: RegExp,
+        url: string,
+        recover: RegExp,
+        admin: RegExp,
+        register: RegExp
+    ): boolean {
+        return (
+            !login.test(url) ||
+            !recover.test(url) ||
+            !admin.test(url) ||
+            !register.test(url)
+        );
+    }
+
+    private toogleDashboard(
+        user: User
+    ): '/painel-de-controle/admin' | '/painel-de-controle' {
+        return user?.level === '1'
+            ? '/painel-de-controle/admin'
+            : '/painel-de-controle';
     }
 
     private regex(value: string): RegExp {

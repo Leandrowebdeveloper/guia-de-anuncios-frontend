@@ -9,35 +9,48 @@ import { RegisterService } from '../services/register/register.service';
 
 @Injectable()
 export class SystemAccessResolver implements Resolve<User> {
-  constructor(
-    private recoverService: RecoverService,
-    private loginService: LoginService,
-    private registerService: RegisterService,
-    private router: Router
-  ) {}
+    constructor(
+        private recoverService: RecoverService,
+        private loginService: LoginService,
+        private registerService: RegisterService,
+        private router: Router
+    ) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<User> {
-    const router = this.activeRoute(route);
-    switch (router) {
-      case 'entrar':
-        return this.loginService.requirement().pipe(catchError((): Observable<never>=> {
-            this.router.parseUrl('/404');
-             return EMPTY;
-            }));
-      case 'recuperar-senha':
-        return this.recoverService.requirement().pipe(catchError((): Observable<never>=> {
-            this.router.parseUrl('/404');
-             return EMPTY;
-            }));
-      case 'cadastrar':
-        return this.registerService.requirement().pipe(catchError((): Observable<never>=> {
-            this.router.parseUrl('/404');
-             return EMPTY;
-            }));
+    resolve(route: ActivatedRouteSnapshot): Observable<User> {
+        const router = this.activeRoute(route);
+        switch (router) {
+            case 'entrar/admin':
+                return this.loginService.requirement().pipe(
+                    catchError((): Observable<never> => {
+                        this.router.parseUrl('/404');
+                        return EMPTY;
+                    })
+                );
+            case 'entrar':
+                return this.loginService.requirement().pipe(
+                    catchError((): Observable<never> => {
+                        this.router.parseUrl('/404');
+                        return EMPTY;
+                    })
+                );
+            case 'recuperar-senha':
+                return this.recoverService.requirement().pipe(
+                    catchError((): Observable<never> => {
+                        this.router.parseUrl('/404');
+                        return EMPTY;
+                    })
+                );
+            case 'cadastrar':
+                return this.registerService.requirement().pipe(
+                    catchError((): Observable<never> => {
+                        this.router.parseUrl('/404');
+                        return EMPTY;
+                    })
+                );
+        }
     }
-  }
 
-  private activeRoute(route: ActivatedRouteSnapshot): string {
-    return route.parent.routeConfig.path;
-  }
+    private activeRoute(route: ActivatedRouteSnapshot): string {
+        return route.parent.routeConfig.path;
+    }
 }

@@ -9,7 +9,7 @@
 
             <div class="ion-icons">
 
-                <span bottom *ngIf="auth" routerLink="/painel-de-controle" title="Painel de controle"
+                <span bottom *ngIf="auth" [routerLink]="url" title="Painel de controle"
                     attr.data-label="Painel de controle">
                     <ion-icon size="large" slot="end" name="options" color="light"></ion-icon>
                 </span>

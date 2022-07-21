@@ -19,13 +19,21 @@ import { FormComponent } from 'src/app/components/form/form.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { Storage } from '@ionic/storage';
+import { UserResolver } from './guard/resolve.guard';
+import { UserService } from './services/user.service';
+import { DeleteComponent } from './components/delete/delete.component';
 
 describe('UserPage', () => {
     let component: UserPage;
     let fixture: ComponentFixture<UserPage>;
 
+    let userService: UserService;
+
     let avatarComponent: AvatarComponent;
     let componentFixtureAvatar: ComponentFixture<AvatarComponent>;
+
+    let deleteComponent: DeleteComponent;
+    let deleteComponentFixture: ComponentFixture<DeleteComponent>;
 
     let emailComponent: EmailComponent;
     let componentFixtureEmail: ComponentFixture<EmailComponent>;
@@ -46,6 +54,8 @@ describe('UserPage', () => {
     let stateComponentFixture: ComponentFixture<StateComponent>;
 
     let storageService: StorageService;
+
+    let guard: UserResolver;
 
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
@@ -68,7 +78,7 @@ describe('UserPage', () => {
                 HeaderModalModule,
                 GaleryComponentModule,
             ],
-            providers: [FormComponent, StorageService, Storage],
+            providers: [FormComponent, StorageService, Storage, UserResolver, UserService],
         }).compileComponents();
 
         fixture = TestBed.createComponent(UserPage);
@@ -108,10 +118,24 @@ describe('UserPage', () => {
         stateComponentFixture = TestBed.createComponent(StateComponent);
         stateComponent = stateComponentFixture.componentInstance;
         stateComponentFixture.detectChanges();
+
+        deleteComponentFixture = TestBed.createComponent(DeleteComponent);
+        deleteComponent = deleteComponentFixture.componentInstance;
+        deleteComponentFixture.detectChanges();
     }));
 
     beforeEach(() => {
+        userService = TestBed.inject(UserService);
         storageService = TestBed.inject(StorageService);
+        guard = TestBed.inject(UserResolver);
+    });
+
+    it('userService', () => {
+        expect(userService).toBeTruthy();
+    });
+
+    it('guard', () => {
+        expect(guard).toBeTruthy();
     });
 
     it('should create component', () => {
@@ -149,4 +173,8 @@ describe('UserPage', () => {
     it('should create stateComponent', () => {
         expect(stateComponent).toBeTruthy();
     });
+
+    it('deleteComponent', () => {
+        expect(deleteComponent).toBeTruthy();
+      });
 });

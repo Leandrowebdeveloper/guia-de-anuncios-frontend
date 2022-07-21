@@ -9,7 +9,7 @@ import { AttrButton } from './interface';
 })
 export class ButtonsAccessComponent implements OnInit {
     @Input() dataButtons!: AttrButton[];
-    @Input() route: string;
+    @Input() route!: string;
     constructor() {}
 
     ngOnInit() {

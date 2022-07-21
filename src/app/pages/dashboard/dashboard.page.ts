@@ -9,9 +9,9 @@ import { Component, OnInit } from '@angular/core';
 export class DashboardPage implements OnInit {
   public readonly nav = [
     {
-      name: 'Usuários',
+      name: 'Usuário',
       title: 'Manutenção do usuário.',
-      router: ['/painel-de-controle', 'usuarios'],
+      router: ['/painel-de-controle', 'usuario'],
       icon: 'person',
     },
     {

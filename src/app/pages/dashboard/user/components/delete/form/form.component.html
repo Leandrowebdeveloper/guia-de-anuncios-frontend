@@ -1,0 +1,24 @@
+<app-header-component-modal></app-header-component-modal>
+
+<ion-content [fullscreen]="true">
+    <ion-grid fixed>
+
+        <ion-card>
+            <ion-card-header color="warning">
+                <ion-card-title>Atenção!</ion-card-title>
+            </ion-card-header>
+            <ion-card-content class="ion-margin-top">
+                <p>Você está prestes a excluir sua conta do app.</p>
+                <p>Após excluir sua conta todos os dados que estão vinculados a este usuário não estarão mais visiveis.
+                </p>
+                <p>Esta ação tera um prazo de 90 dias para ser desfeita após está data todos os dados serão
+                    permanentemente
+                    excluido do sistema.</p>
+            </ion-card-content>
+        </ion-card>
+
+        <app-form (submitDataForm)="onSubmit($event)" (exportForm)="importForm($event)" [inputConfig]="config"
+            [attrButton]="attrButton"></app-form>
+
+    </ion-grid>
+</ion-content>

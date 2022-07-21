@@ -11,11 +11,11 @@ export class LoginService extends HttpService<User> {
     private $stayConnected: boolean;
     constructor(
         public http: HttpClient,
-        private storageService: StorageService,
+        public storageService: StorageService,
         private userService: UserService,
         private authService: AuthService
     ) {
-        super(http);
+        super(http, storageService);
         this.api = `login`;
     }
 
@@ -51,10 +51,12 @@ export class LoginService extends HttpService<User> {
     private setUserAndTokenInSession(user: User): void {
         this.setAuthUser(user);
         this.setTokenSession(user);
+        this.storageService.setAuthToken = user?.token;
     }
 
     private setUserAndTokenInDatabase(user: User): void {
         this.setAuthUser(user);
         this.setTokenDatabase(user);
+        this.storageService.setAuthToken = user?.token;
     }
 }

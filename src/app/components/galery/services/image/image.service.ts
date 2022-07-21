@@ -5,13 +5,14 @@ import { Injectable } from '@angular/core';
 import { Image } from 'src/app/interface';
 import { HttpService } from 'src/app/services/http/http.service';
 import { UserService } from 'src/app/pages/dashboard/user/services/user.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class ImageService extends HttpService<Image> {
-    constructor(public http: HttpClient, private userService: UserService) {
-        super(http);
+    constructor(public http: HttpClient, public storageService: StorageService, private userService: UserService) {
+        super(http, storageService);
         this.api = `images`;
     }
 

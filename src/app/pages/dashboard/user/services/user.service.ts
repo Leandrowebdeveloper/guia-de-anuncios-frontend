@@ -1,31 +1,38 @@
-import { StorageService } from './../../../../services/storage/storage.service';
 import { LoadingService } from 'src/app/utilities/loading/loading.service';
 import { MessageService } from 'src/app/utilities/message/message.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from 'src/app/services/http/http.service';
-import { BehaviorSubject, EMPTY, Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Image, User } from 'src/app/interface';
 import { Observable } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { BreadcrumbsService } from 'src/app/header/breadcrumbs/service/breadcrumbs.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { HelpsService } from 'src/app/services/helps/helps.service';
+import { NavController } from '@ionic/angular';
 
 @Injectable({
     providedIn: 'root',
 })
 export class UserService extends HttpService<User> {
     private $authUser = new BehaviorSubject<User>(undefined);
+    private api$: Subscription;
     constructor(
         http: HttpClient,
+        public storageService: StorageService,
         private messageService: MessageService,
-        private storageService: StorageService,
         private location: Location,
         private breadcrumbsService: BreadcrumbsService,
-        private loadingService: LoadingService
+        private loadingService: LoadingService,
+        private authService: AuthService,
+        private helpsService: HelpsService,
+        private navCtrl: NavController
     ) {
-        super(http);
-        this.api = `users`;
+        super(http, storageService);
+        this.setApi();
     }
 
     public getUserAvatar(): Image {
@@ -47,12 +54,8 @@ export class UserService extends HttpService<User> {
         return this.$authUser.value?.authState;
     }
 
-    public getAuthToken(): string {
-        return this.$authUser.value?.token;
-    }
-
     public setAuthSlug(user: User) {
-        this.$authUser.value.slug = user.slug;
+        this.$authUser.value.slug = user?.slug;
         this.setAuthUser(this.$authUser.value);
     }
 
@@ -61,7 +64,7 @@ export class UserService extends HttpService<User> {
     }
 
     public setAuthUserLastName(user: User) {
-        this.$authUser.value.lastName = user.lastName;
+        this.$authUser.value.lastName = user?.lastName;
         this.setAuthUser(this.$authUser.value);
     }
 
@@ -70,8 +73,12 @@ export class UserService extends HttpService<User> {
     }
 
     public setAuthUserFirstName(user: User) {
-        this.$authUser.value.firstName = user.firstName;
+        this.$authUser.value.firstName = user?.firstName;
         this.setAuthUser(this.$authUser.value);
+    }
+
+    public getAuthUserLevel() {
+        return this.$authUser.value?.level;
     }
 
     public getAuthUserEmail() {
@@ -79,12 +86,12 @@ export class UserService extends HttpService<User> {
     }
 
     public setAuthUserEmail(user: User) {
-        this.$authUser.value.email = user.email;
+        this.$authUser.value.email = user?.email;
         this.setAuthUser(this.$authUser.value);
     }
 
     public setAuthUserState(user: User) {
-        this.$authUser.value.authState = user.authState;
+        this.$authUser.value.authState = user?.authState;
         this.setAuthUser(this.$authUser.value);
     }
 
@@ -101,10 +108,6 @@ export class UserService extends HttpService<User> {
         this.setAuthUser(this.$authUser.value);
     }
 
-    public setAuthToken(token: string) {
-        this.token = token;
-    }
-
     public setAuthCsrf(csrf: string) {
         this.csrf = csrf;
     }
@@ -115,7 +118,6 @@ export class UserService extends HttpService<User> {
         subscribe?: Subscription,
         time?: number
     ): Promise<number> {
-        this.setAuthToken(user.token);
         return await this.messageService.success(
             user.message,
             loading,
@@ -133,7 +135,6 @@ export class UserService extends HttpService<User> {
     }
 
     public updateAuthName(user: User): Observable<User> {
-        this.setAuthorization(user);
         return this.patch(user, 'name').pipe(
             tap((user_: User) => {
                 this.setAuthUserFirstName(user_);
@@ -160,6 +161,17 @@ export class UserService extends HttpService<User> {
         return this.patch(user, 'password');
     }
 
+    public destroyAuthUser(user: User): Observable<User> {
+        return this.destroy(user).pipe(
+            tap((user_: User) => {
+                this.authService.setUserAndAuthentication = user_;
+                this.setAuthUser(user_);
+                this.clearsSessionAndDatabaseStorage();
+                return this.goToLoginPage();
+            })
+        );
+    }
+
     public authState(user: User): Observable<User | number[]> {
         return this.patch(user, 'state').pipe(
             tap((user_: User) => this.setAuthUserState(user_))
@@ -170,13 +182,40 @@ export class UserService extends HttpService<User> {
         return await this.loadingService.show(message);
     }
 
-    private setAuthorization(user: User) {
-        this.token = user?.token;
-    }
-
     private updateAuthUserUrl(): void {
-        const url = `/painel-de-controle/usuarios/${this.getAuthUserSlug()}`;
+        const isAdmin = this.getAuthUserLevel() === '2' ? '' : `/admin`;
+        const url = `/painel-de-controle${isAdmin}/usuario/${this.getAuthUserSlug()}`;
         this.breadcrumbsService.setEvent(url);
         this.location.replaceState(url);
     }
+
+    private setApi(): Subscription {
+       return this.api$ = this.authUserObservable().subscribe((user: User) => {
+            if (!/[user|users]/g.test(this.api) && user?.level) {
+                this.api = user?.level === '2' ? `user` : `users`;
+                setTimeout(() => this.api$.unsubscribe(), 2000);
+            }
+        });
+    }
+
+    private clearsSessionAndDatabaseStorage(): void {
+        this.removeTokenStorageSession();
+        this.removeTokenStorageDatabase();
+    }
+
+    private removeTokenStorageSession(): void {
+        return sessionStorage.removeItem('token');
+    }
+
+    private removeTokenStorageDatabase(): Promise<void> {
+        return this.storageService.clean();
+    }
+
+    private async goToLoginPage(): Promise<number> {
+        return this.helpsService.delay(
+            async () => await this.navCtrl.navigateForward('/entrar'),
+            2500
+        );
+    }
+
 }

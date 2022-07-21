@@ -18,6 +18,9 @@ import { FormPasswordComponent } from './components/password/form/form.component
 import { FormEmailComponent } from './components/email/form/form.component';
 import { EmailComponent } from './components/email/email.component';
 import { HttpClientModule } from '@angular/common/http';
+import { UserResolver } from './guard/resolve.guard';
+import { DeleteComponent } from './components/delete/delete.component';
+import { FormDeleteComponent } from './components/delete/form/form.component';
 
 @NgModule({
     imports: [
@@ -40,6 +43,9 @@ import { HttpClientModule } from '@angular/common/http';
         FormPasswordComponent,
         EmailComponent,
         FormEmailComponent,
+        DeleteComponent,
+        FormDeleteComponent
     ],
+    providers: [UserResolver],
 })
 export class UserPageModule {}

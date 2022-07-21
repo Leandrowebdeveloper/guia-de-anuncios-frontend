@@ -44,6 +44,6 @@ export class StateComponent implements OnInit {
     }
 
     private updateState(user: User): void {
-        this.state = user.state;
+        this.state = user?.state;
     }
 }

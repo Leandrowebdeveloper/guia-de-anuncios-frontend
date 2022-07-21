@@ -24,7 +24,7 @@ export class PhotoService {
     private readonly configPhoto = {
         quality: 90,
         webUseInput: true,
-        allowEditing: true,
+        allowEditing: false,
         resultType: CameraResultType.Uri,
         source: CameraSource.Prompt,
         promptLabelHeader: 'Foto',
@@ -67,7 +67,7 @@ export class PhotoService {
     }
 
     public isPageUser() {
-        return /usuarios/g.test(this.router.url);
+        return /usuario/g.test(this.router.url);
     }
     public async deleteFile(file: LocalFile) {
         await Filesystem.deleteFile(this.deleteFileOptions(file));
@@ -124,6 +124,7 @@ export class PhotoService {
                 path: `${this.imageDir}/${fileName}`,
                 data: base64Data,
                 directory: Directory.Data,
+                recursive: true
             });
             this.loadFiles();
             return true;

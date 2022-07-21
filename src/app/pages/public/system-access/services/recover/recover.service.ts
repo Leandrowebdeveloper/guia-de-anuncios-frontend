@@ -5,16 +5,18 @@ import { HttpClient } from '@angular/common/http';
 import { User } from 'src/app/interface';
 import { HelpsService } from 'src/app/services/helps/helps.service';
 import { Router } from '@angular/router';
+import { StorageService } from 'src/app/services/storage/storage.service';
 
 @Injectable()
 
 export class RecoverService extends HttpService<User> {
     constructor(
         public http: HttpClient,
+        public storageService: StorageService,
         private router: Router,
         private helpsService: HelpsService
     ) {
-        super(http);
+        super(http, storageService);
         this.api = `recover`;
     }
 

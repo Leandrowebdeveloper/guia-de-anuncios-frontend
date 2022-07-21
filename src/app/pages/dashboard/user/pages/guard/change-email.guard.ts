@@ -14,6 +14,8 @@ export class ChangeEmailResolver implements Resolve<User | UrlTree> {
     resolve(route: ActivatedRouteSnapshot): any | UrlTree {
         const { token, id } = route.params;
         if (token && id) {
+            console.log(token, id);
+
             return { token, slug: id };
         }
         return this.router.parseUrl('/');

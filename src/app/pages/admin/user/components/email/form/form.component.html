@@ -1,0 +1,21 @@
+<app-header-component-modal label="Editar"></app-header-component-modal>
+
+<ion-content [fullscreen]="true">
+    <ion-grid fixed>
+
+        <ion-card>
+            <ion-card-header color="warning">
+                <ion-card-subtitle color="light">
+                    &#9679; Insira um email válido.<br>
+                    &#9679; Será enviado uma menssagem com um prazo de 10 minutos a partir do seu recebimento.<br>
+                    &#9679; Verifique em sua caixa de entrada de emails.<br>
+                    &#9679; Clique no botão alterar email.
+                </ion-card-subtitle>
+            </ion-card-header>
+        </ion-card>
+
+        <app-form (submitDataForm)="onSubmit($event)" (exportForm)="importForm($event)" [inputConfig]="config"
+            [attrButton]="attrButton"></app-form>
+
+    </ion-grid>
+</ion-content>

@@ -52,7 +52,7 @@ const routes: Routes = [
                 loadChildren: () =>
                     import(
                         '../pages/public/system-access/system-access.module'
-                    ).then((m) => m.LoginPageModule),
+                    ).then((m) => m.SystemAccessPageModule),
             },
             {
                 path: 'entrar',
@@ -60,7 +60,15 @@ const routes: Routes = [
                 loadChildren: () =>
                     import(
                         '../pages/public/system-access/system-access.module'
-                    ).then((m) => m.LoginPageModule),
+                    ).then((m) => m.SystemAccessPageModule),
+            },
+            {
+                path: 'entrar/admin',
+                canActivate: [AuthGuard],
+                loadChildren: () =>
+                    import(
+                        '../pages/public/system-access-admin/system-access-admin.module'
+                    ).then((m) => m.SystemAccessAdminPageModule),
             },
             {
                 path: 'recuperar-senha',
@@ -68,7 +76,7 @@ const routes: Routes = [
                 loadChildren: () =>
                     import(
                         '../pages/public/system-access/system-access.module'
-                    ).then((m) => m.LoginPageModule),
+                    ).then((m) => m.SystemAccessPageModule),
             },
             {
                 path: 'redefinir-senha/:token',
@@ -83,6 +91,14 @@ const routes: Routes = [
                 loadChildren: () =>
                     import('../pages/dashboard/dashboard.module').then(
                         (m) => m.DashboardPageModule
+                    ),
+            },
+            {
+                path: 'painel-de-controle/admin',
+                canActivate: [AuthGuard],
+                loadChildren: () =>
+                    import('../pages/admin/dashboard-admin.module').then(
+                        (m) => m.DashboardAdminPageModule
                     ),
             },
             {

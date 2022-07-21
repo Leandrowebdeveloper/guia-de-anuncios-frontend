@@ -4,6 +4,7 @@ import { HttpService } from 'src/app/services/http/http.service';
 import { Observable } from 'rxjs';
 
 import { User } from 'src/app/interface';
+import { StorageService } from '../storage/storage.service';
 
 @Injectable({
     providedIn: 'root',
@@ -13,13 +14,9 @@ import { User } from 'src/app/interface';
  * @extends HttpService<User[]>
  */
 export class InitService extends HttpService<User> {
-    constructor(public http: HttpClient) {
-        super(http);
+    constructor(public http: HttpClient, public storageService: StorageService) {
+        super(http, storageService);
         this.api = `init`;
-    }
-
-    public set setAuthToken(token: string) {
-        this.token = token;
     }
 
     public boot(): Observable<User> {

@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 export class StorageService implements LocalStorage {
     private $storage: Storage | null = null;
     private $token = new BehaviorSubject<string>(undefined);
-    constructor(private storage: Storage) { }
+    constructor(private storage: Storage) {}
 
     public get getAsObservableToken(): Observable<string> {
         return this.$token.asObservable();
@@ -58,7 +58,6 @@ export class StorageService implements LocalStorage {
     public clean(): Promise<void> {
         return this.$storage?.clear();
     }
-
 
     public async isToken(): Promise<string> {
         const session = await this.getSessionStorage();

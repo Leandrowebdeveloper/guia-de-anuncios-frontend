@@ -1,3 +1,5 @@
+import { User } from 'src/app/interface';
+import { UserService } from 'src/app/pages/dashboard/user/services/user.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Platform, PopoverController } from '@ionic/angular';
 import { MenuComponent } from './menu/menu.component';
@@ -14,27 +16,27 @@ import { Subscription } from 'rxjs';
  * @class HeaderComponent
  * @implements OnInit
  */
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit {
     public auth: boolean;
     public hasIos: boolean;
     public avatar: string;
     public name: string;
+    public url: string;
 
     private $auth: Subscription;
+    private $url: Subscription;
 
     constructor(
         private plt: Platform,
         private popoverController: PopoverController,
-        private authService: AuthService
+        private authService: AuthService,
+        private userService: UserService
     ) {}
 
     ngOnInit() {
         this.init();
         this.isPlatformIos();
-    }
-
-    ngOnDestroy(): void {
-        this.$auth.unsubscribe();
+        this.getUrl();
     }
 
     public async menuShow(ev: any) {
@@ -47,6 +49,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
         await popover.present();
 
         const { role } = await popover.onDidDismiss();
+    }
+
+    private getUrl(){
+       this.$url = this.userService.authUserObservable().subscribe((user: User)=>
+          this.url =  user?.level === '1' ? '/painel-de-controle/admin' : '/painel-de-controle'
+        );
     }
 
     private init() {
